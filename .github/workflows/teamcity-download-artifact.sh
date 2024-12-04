@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 默认使用名为artifacts的token, 权限较小
-# @see https://xn.transcodegroup.cn:8590/profile.html?item=accessTokens
+# @see http://th-ci.transcodegroup.cn:9080/profile.html?item=accessTokens
 TOKEN="${TEAMCITY_TOKEN:-eyJ0eXAiOiAiVENWMiJ9.TS1Fb3BjZlR5US02UHdkam90dUNYaUgwaWl3.OWY2MDBiYjktZTQxMC00NTM5LTg4MGYtODkwY2Q5NTUwYTk0}"
-HOST="https://xn.transcodegroup.cn:8590"
+HOST="http://th-ci.transcodegroup.cn:9080"
 
 print_help() {
   bin_name=$(basename "$0")
