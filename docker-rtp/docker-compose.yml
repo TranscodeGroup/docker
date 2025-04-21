@@ -5,7 +5,7 @@ services:
     restart: always
     ports:
       # rtmp端口(rtp和app使用)
-      - 9005:1935
+      - ${VIDEO_PORT_RTMP}:1935
       # api端口,建议nginx代理, 内部别名访问
       #- 1985:1985
       # http-flv/hls端口,建议nginx代理, 内部别名访问
@@ -30,41 +30,41 @@ services:
     restart: always
     ports:
       # 终端-实时直播端口
-      - 9000:9000
+      - ${VIDEO_PORT_LIVE}:${VIDEO_PORT_LIVE}
       # 终端-录像回放端口
-      - 9001:9001
+      - ${VIDEO_PORT_RECORD}:${VIDEO_PORT_RECORD}
       # 终端-对讲
-      - 9002:9002
+      - ${VIDEO_PORT_TALK}:${VIDEO_PORT_TALK}
       # 终端-终端监听
-      - 9003:9003
+      - ${VIDEO_PORT_MONITOR}:${VIDEO_PORT_MONITOR}
       # 客户端-对讲和api服务接口,建议nginx代理, 内部别名访问
-      - 9006:9006     
+      # - 9006:9006
     volumes:
       - "/data/logs/rtp:/logs"
     environment:
       # 服务节点名称
-      - gateway_zone=live-58_82_168_181
+      - gateway_zone=live-${VIDEO_IP}
       # 外网地址, 注册到网关
-      - gateway_host=58.82.168.181
+      - gateway_host=${VIDEO_IP}
       # 客户端通过 ws://localhost:8080/ws/talk对讲, monitor监听, nginx代理端口
-      - gateway_wss=wss://livedvr.tripsdd.com/ws
+      - gateway_wss=wss://${VIDEO_HOSTNAME}/ws
       # 网关服务注册地址, 建议使用域名
       - gateway_media_enabled=true
-      - gateway_media_api=http://103.20.204.149:9012
+      - gateway_media_api=http://${GATEWAY_HOSTNAME}:${GATEWAY_PORT}
       # 终端连接端口, 建议使用默认值
-      - gateway_port_live=9000
-      - gateway_port_record=9001
-      - gateway_port_talk=9002
-      - gateway_port_monitor=9003
+      - gateway_port_live=${VIDEO_PORT_LIVE}
+      - gateway_port_record=${VIDEO_PORT_RECORD}
+      - gateway_port_talk=${VIDEO_PORT_TALK}
+      - gateway_port_monitor=${VIDEO_PORT_MONITOR}
       # rtp连接srs, 建议使用默认值
       - gateway_srs_rtmp=rtmp://srs:1935
       - gateway_srs_api=http://srs:1985
       # 是否启用redis支持 默认禁用, Bus平台建议开启， V2建议关闭
       - spring_data_redis_repositories_enabled=false
       # APP的RTMP连接
-      - gateway_srs_wan_rtmp=rtmp://58.82.168.181:9005
+      - gateway_srs_wan_rtmp=rtmp://${VIDEO_IP}:${VIDEO_PORT_RTMP}
       # 前端http-flv地址, 支持多个用逗号分隔
-      - gateway_srs_wan_http=https://livedvr.tripsdd.com:9085/mdvr,https://livedvr.tripsdd.com:9086/mdvr,https://livedvr.tripsdd.com:9087/mdvr,https://livedvr.tripsdd.com:9088/mdvr,https://livedvr.tripsdd.com:9089/mdvr
+      - gateway_srs_wan_http=https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_1}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_2}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_3}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_4}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_5}/mdvr
     depends_on:
       - srs
     ulimits:
