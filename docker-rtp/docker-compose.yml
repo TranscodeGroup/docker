@@ -1,19 +1,21 @@
 services:
   # 直播与录像的srs服务名 不要使用下划线 不然link会出错
-  srs9005:
+  srs:
     image: ossrs/srs:v6.0-a1
-    container_name: srs_9005
+    container_name: srs
     restart: always
     ports:
       # rtmp 端口
       - 9005:1935
       # srs api 端口
-      - 1985:1985
+      #- 1985:1985
       # srs http-flv/hls 端口
-      - 9008:8080
+      #- 8080:8080
     volumes:
       - "/home/docker/docker-rtp/srs/conf:/usr/local/srs/conf"
       - "/data/srs/html:/usr/local/srs/objs/nginx/html"
+    networks:
+      - my-shared-network
     ulimits:
       nproc: 65535
       nofile:
@@ -27,9 +29,9 @@ services:
 
       
   # rtp推流服务
-  gateway_rtpserver:
+  rtp:
     image: transcodegroup/gateway-rtpserver:23.8.3
-    container_name: gateway_rtpserver
+    container_name: rtp
     restart: always
     ports:
       # 实时流端口
@@ -44,15 +46,17 @@ services:
       - 9006:9006     
     volumes:
       - "/data/logs/rtpserver-live:/logs"
+    networks:
+      - my-shared-network
     environment:
       - gateway_zone=NODE-183
       # 从网关获取上报状态的api地址
-      - gateway_wss=wss://58.82.168.181:9085/ws
+      - gateway_wss=wss://livedvr.tripsdd.com/ws
       - gateway_media_api=http://103.20.204.149:9012
       - gateway_media_enabled=true
 
-      - gateway_srs_rtmp=rtmp://srs9005:1935
-      - gateway_srs_api=http://srs9005:1985
+      - gateway_srs_rtmp=rtmp://srs:1935
+      - gateway_srs_api=http://srs:1985
       # 启用redis时需要host信息写入到redis中
       - gateway_host=58.82.168.181
       # 启用redis时，修改默认端口一下要配置端口信息
@@ -68,7 +72,7 @@ services:
       - gateway_srs_wan_http=https://livedvr.tripsdd.com:9085/mdvr,https://livedvr.tripsdd.com:9086/mdvr,https://livedvr.tripsdd.com:9087/mdvr,https://livedvr.tripsdd.com:9088/mdvr,https://livedvr.tripsdd.com:9089/mdvr
     links:
       # 这里用的是service名称
-      - srs9005
+      - srs
     ulimits:
       nproc: 65535
       nofile:
@@ -79,4 +83,8 @@ services:
       options:
         # 限制日志文件大小
         max-size: "100m"
+networks:
+  # docker network create my-shared-network
+  my-shared-network:
+    external: true
 

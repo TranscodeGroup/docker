@@ -8,6 +8,8 @@ services:
       # 视频直播,映射srs端口
       - 9085-9089:9085-9089
     privileged: true
+    networks:
+      - my-shared-network
     volumes:
       - "/home/docker/docker-nginx/ssl:/etc/nginx/ssl"
       - "/home/docker/docker-nginx/nginx.conf:/etc/nginx/nginx.conf"
@@ -16,3 +18,7 @@ services:
       - "/data/nginx/html:/usr/share/nginx/html"
       - "/data/files:/etc/nginx/files"
       - "/data/jtt808:/etc/nginx/jtt808"
+networks:
+  # docker network create my-shared-network
+  my-shared-network:
+    external: true
