@@ -1,0 +1,82 @@
+services:
+  # 直播与录像的srs服务名 不要使用下划线 不然link会出错
+  srs9005:
+    image: ossrs/srs:v6.0-a1
+    container_name: srs_9005
+    restart: always
+    ports:
+      # rtmp 端口
+      - 9005:1935
+      # srs api 端口
+      - 1985:1985
+      # srs http-flv/hls 端口
+      - 9008:8080
+    volumes:
+      - "/home/docker/docker-rtp/srs/conf:/usr/local/srs/conf"
+      - "/data/srs/html:/usr/local/srs/objs/nginx/html"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+
+      
+  # rtp推流服务
+  gateway_rtpserver:
+    image: transcodegroup/gateway-rtpserver:23.8.3
+    container_name: gateway_rtpserver
+    restart: always
+    ports:
+      # 实时流端口
+      - 9000:9000
+      # 录像流上传端口
+      - 9001:9001
+      # 对讲
+      - 9002:9002
+      # 终端监听（TCP终端连接）
+      - 9003:9003
+      # 推流服务器状态 api 服务接口
+      - 9006:9006     
+    volumes:
+      - "/data/logs/rtpserver-live:/logs"
+    environment:
+      - gateway_zone=NODE-183
+      # 从网关获取上报状态的api地址
+      - gateway_wss=wss://58.82.168.181:9085/ws
+      - gateway_media_api=http://103.20.204.149:9012
+      - gateway_media_enabled=true
+
+      - gateway_srs_rtmp=rtmp://srs9005:1935
+      - gateway_srs_api=http://srs9005:1985
+      # 启用redis时需要host信息写入到redis中
+      - gateway_host=58.82.168.181
+      # 启用redis时，修改默认端口一下要配置端口信息
+      - gateway_port_live=9000
+      - gateway_port_record=9001
+      - gateway_port_talk=9002
+      - gateway_port_monitor=9003
+      # 是否启用redis支持 默认禁用
+      - spring_data_redis_repositories_enabled=false
+      # 启用redis时需要配置外网地址写入到redis中 rtmp用于app连接 http用于记录播放列表
+      - gateway_srs_wan_rtmp=rtmp://58.82.168.181:9005
+      # http地址支持多个, 用逗号分隔, 优先使用redis指令下发的地址
+      - gateway_srs_wan_http=https://livedvr.tripsdd.com:9085/mdvr,https://livedvr.tripsdd.com:9086/mdvr,https://livedvr.tripsdd.com:9087/mdvr,https://livedvr.tripsdd.com:9088/mdvr,https://livedvr.tripsdd.com:9089/mdvr
+    links:
+      # 这里用的是service名称
+      - srs9005
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+
