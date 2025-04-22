@@ -1,0 +1,5 @@
+
+*.crt
+*.key
+/compose.yaml
+/.env.local
