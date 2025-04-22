@@ -15,8 +15,10 @@ services:
     depends_on:
       - srs
       - rtp
+    secrets:
+      - video-ssl-certificate
+      - video-ssl-certificate-key
     volumes:
-      - "/home/docker/video-nginx/ssl:/etc/nginx/ssl"
       - "/home/docker/video-nginx/conf/nginx.conf:/etc/nginx/nginx.conf"
       # 使用配置文件模板, 后缀需要是.conf.tempalte
       # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
@@ -29,5 +31,9 @@ services:
       - VIDEO_PORT_HTTPS_3=${VIDEO_PORT_HTTPS_3}
       - VIDEO_PORT_HTTPS_4=${VIDEO_PORT_HTTPS_4}
       - VIDEO_PORT_HTTPS_5=${VIDEO_PORT_HTTPS_5}
-      - VIDEO_SSL_CERTIFICATE=${VIDEO_SSL_CERTIFICATE}
 
+secrets:
+  video-ssl-certificate:
+    file: ${VIDEO_SSL_CERTIFICATE}.crt
+  video-ssl-certificate-key:
+    file: ${VIDEO_SSL_CERTIFICATE}.key

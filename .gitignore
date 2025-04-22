@@ -3,3 +3,4 @@
 *.key
 /compose.yaml
 /.env.local
+/tmp
