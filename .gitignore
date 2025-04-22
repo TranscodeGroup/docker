@@ -2,5 +2,6 @@
 *.crt
 *.key
 /compose.yaml
+/.env
 /.env.local
 /tmp
