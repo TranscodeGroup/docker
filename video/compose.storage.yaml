@@ -5,7 +5,7 @@ services:
       - gateway_dvr_enabled=true
       # 启用mini 录像将存放minio中do
       - spring_minio_enabled=true
-      - spring_minio_domain=https://${VIDEO_HOSTNAME}/minio
+      - spring_minio_domain=https://${VIDEO_HOSTNAME:?required}/minio
       - spring_minio_endpoint=http://minio:9000
       - spring_minio_accessKey=${SPRING_MINIO_ACCESSKEY:?required}
       - spring_minio_secretKey=${SPRING_MINIO_SECRETKEY:?required}
@@ -13,7 +13,7 @@ services:
       # 启用mq通道 存储成功后通知mp并删除文件
       - spring_rabbitmq_enabled=true
       - spring_rabbitmq_host=${SRPING_RABBITMQ_HOST:?required}
-      - spring_rabbitmq_port=${SRPING_RABBITMQ_PORT:?required}
+      - spring_rabbitmq_port=${SRPING_RABBITMQ_PORT}
       - spring_rabbitmq_username=${SRPING_RABBITMQ_USERNAME:?required}
       - spring_rabbitmq_password=${SRPING_RABBITMQ_PASSWORD:?required}
       - spring_rabbitmq_virtual-host=/track
