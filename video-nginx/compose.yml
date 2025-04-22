@@ -34,6 +34,6 @@ services:
 
 secrets:
   video-ssl-certificate:
-    file: ${VIDEO_SSL_CERTIFICATE}.crt
+    file: ${VIDEO_SSL_CERTIFICATE:?required}.crt
   video-ssl-certificate-key:
-    file: ${VIDEO_SSL_CERTIFICATE}.key
+    file: ${VIDEO_SSL_CERTIFICATE:?required}.key
