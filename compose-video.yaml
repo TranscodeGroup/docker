@@ -5,4 +5,7 @@
 # Nginx代理9085-9089: http-flv(srs:8080端口), wss(rtp:9006端口), 拦截mdvr和ws关键字
 include:
   - video-nginx/compose.yml
-  - video/compose.yml
+  - path:
+    - video/compose.yml
+    # 视频存储模式, 开启覆写
+    #- video/compose.storage.yaml
