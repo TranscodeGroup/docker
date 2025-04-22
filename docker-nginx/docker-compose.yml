@@ -23,3 +23,11 @@ services:
       - "/home/docker/docker-nginx/conf/conf.d:/etc/nginx/templates"
       - "/home/docker/docker-nginx/html:/usr/share/nginx/html"
       - "/data/nginx/logs:/var/log/nginx"
+    environment:
+      - VIDEO_PORT_HTTPS_1=${VIDEO_PORT_HTTPS_1}
+      - VIDEO_PORT_HTTPS_2=${VIDEO_PORT_HTTPS_2}
+      - VIDEO_PORT_HTTPS_3=${VIDEO_PORT_HTTPS_3}
+      - VIDEO_PORT_HTTPS_4=${VIDEO_PORT_HTTPS_4}
+      - VIDEO_PORT_HTTPS_5=${VIDEO_PORT_HTTPS_5}
+      - VIDEO_SSL_CERTIFICATE=${VIDEO_SSL_CERTIFICATE}
+
