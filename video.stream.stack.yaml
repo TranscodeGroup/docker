@@ -7,5 +7,3 @@ include:
   - video-nginx/compose.yml
   - path:
     - video/compose.yml
-    # 视频存储模式, 开启覆写
-    #- video/compose.storage.yaml

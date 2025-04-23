@@ -1,0 +1,20 @@
+services:
+  minio:
+    image: minio/minio:RELEASE.2024-08-03T04-33-23Z
+    container_name: minio
+    restart: always
+    ports:
+      # 不需要对外
+      - 8000:9000
+      - 8001:9001
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:?required}
+      - MINIO_BROWSER_REDIRECT_URL=https://${VIDEO_HOSTNAME}
+    volumes:
+      - "/data/minio-data:/data"
+    command: server /data --console-address ":9001"
+    logging: 
+      driver: "json-file"
+      options:
+         max-size: "100m"

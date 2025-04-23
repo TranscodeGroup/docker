@@ -14,9 +14,10 @@ mkdir /docker-compose
 
 ### 2. 配置compse.yaml
 
-创建`/home/docker-compose/compose.yaml`文件, 参考如下示例, 组合需要的服务成为一个compose文件:
+创建`/home/docker-compose/compose.yaml`文件, 参考如下示例:
 
-- [compose-video.yaml](./compose-video.yaml)
+- [RTP存储 - video.storage.stack.yaml](./video.storage.stack.yaml)
+- [RTP视频 - video.stream.stack.yaml](./video.stream.stack.yaml)
 
 ### 3. 配置.env
 

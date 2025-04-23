@@ -1,5 +1,12 @@
 services:
+  srs:
+    volumes:
+      - "/home/docker/video/srs-storage/conf:/usr/local/srs/conf"
+      - "/data/srs-storage/html:/usr/local/srs/objs/nginx/html"
   rtp:
+    volumes:
+      - "/data/logs/rtp-storage:/logs"
+      - "/data/srs-storage/html/dvr/live:/data/record"
     environment:
       # 启用存储 true=推流不判断超时
       - gateway_dvr_enabled=true
@@ -7,8 +14,8 @@ services:
       - spring_minio_enabled=true
       - spring_minio_domain=https://${VIDEO_HOSTNAME:?required}/minio
       - spring_minio_endpoint=http://minio:9000
-      - spring_minio_accessKey=${SPRING_MINIO_ACCESSKEY:?required}
-      - spring_minio_secretKey=${SPRING_MINIO_SECRETKEY:?required}
+      - spring_minio_accessKey=${MINIO_ACCESSKEY:?required}
+      - spring_minio_secretKey=${MINIO_SECRETKEY:?required}
       - spring_minio_bucketName=storage
       # 启用mq通道 存储成功后通知mp并删除文件
       - spring_rabbitmq_enabled=true
