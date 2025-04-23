@@ -1,6 +1,5 @@
 services:
   video-nginx:
-    volumes:
-      # 使用配置文件模板, 后缀需要是.conf.tempalte
-      # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
-      - "/home/docker/video-nginx/conf/conf.d/443.conf.template:/etc/nginx/templates/443.conf.template"
+    configs:
+      - source: 443.conf.template
+        target: /etc/nginx/templates/443.conf.template

@@ -19,13 +19,18 @@ services:
       - video-ssl-certificate
       - video-ssl-certificate-key
     volumes:
-      - "/home/docker/video-nginx/conf/nginx.conf:/etc/nginx/nginx.conf"
+      #- "/home/docker/video-nginx/conf/nginx.conf:/etc/nginx/nginx.conf"
       # 使用配置文件模板, 后缀需要是.conf.tempalte
       # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
       #- "/home/docker/video-nginx/conf/conf.d:/etc/nginx/templates"
-      - "/home/docker/video-nginx/conf/conf.d/mdvr-live.conf.template:/etc/nginx/templates/mdvr-live.conf.template"
+      #- "/home/docker/video-nginx/conf/conf.d/mdvr-live.conf.template:/etc/nginx/templates/mdvr-live.conf.template"
       - "/home/docker/video-nginx/html:/usr/share/nginx/html"
       - "/data/nginx/logs:/var/log/nginx"
+    configs:
+      - source: nginx.conf
+        target: /etc/nginx/nginx.conf
+      - source: mdvr-live.conf.template
+        target: /etc/nginx/templates/mdvr-live.conf.template
     environment:
       - VIDEO_PORT_HTTPS_0=${VIDEO_PORT_HTTPS_0}
       - VIDEO_PORT_HTTPS_1=${VIDEO_PORT_HTTPS_1}
@@ -39,3 +44,11 @@ secrets:
     file: ${VIDEO_SSL_CERTIFICATE:?required}.crt
   video-ssl-certificate-key:
     file: ${VIDEO_SSL_CERTIFICATE:?required}.key
+
+configs:
+  nginx.conf:
+    file: ./conf/nginx.conf
+  443.conf.template:
+    file: ./conf/conf.d/443.conf.template
+  mdvr-live.conf.template:
+    file: ./conf/conf.d/mdvr-live.conf.template
