@@ -7,6 +7,8 @@ services:
     volumes:
       - "/data/logs/rtp-storage:/logs"
       - "/data/srs-storage/html/dvr/live:/data/record"
+    depends_on:
+      - minio
     environment:
       # 启用存储 true=推流不判断超时
       - gateway_dvr_enabled=true
