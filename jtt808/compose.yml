@@ -33,14 +33,14 @@ services:
       - gateway_http_url=${WEB_BASE_URL}/jtt808
 
       # MongoDB
-      - spring_data_mongodb_host=${MONGODB_HOST:?required}
-      - spring_data_mongodb_port=${MONGODB_PORT}
+      - spring_data_mongodb_host=${MONGODB_HOST:-mongodb}
+      - spring_data_mongodb_port=${MONGODB_PORT:-27017}
       - spring_data_mongodb_username=${MONGODB_USERNAME:?required}
       - spring_data_mongodb_password=${MONGODB_PASSWORD:?required}
 
       # RabbitMq
-      - spring_rabbitmq_host=${RABBITMQ_HOST:?required}
-      - spring_rabbitmq_port=${RABBITMQ_PORT}
+      - spring_rabbitmq_host=${RABBITMQ_HOST:-rabbitmq}
+      - spring_rabbitmq_port=${RABBITMQ_PORT:-5672}
       - spring_rabbitmq_username=${RABBITMQ_USERNAME:?required}
       - spring_rabbitmq_password=${RABBITMQ_PASSWORD:?required}
       - spring_rabbitmq_virtual-host=/track

@@ -21,8 +21,8 @@ services:
       - spring_minio_bucketName=storage
       # 启用mq通道 存储成功后通知mp并删除文件
       - spring_rabbitmq_enabled=true
-      - spring_rabbitmq_host=${RABBITMQ_HOST:?required}
-      - spring_rabbitmq_port=${RABBITMQ_PORT}
+      - spring_rabbitmq_host=${RABBITMQ_HOST:-rabbitmq}
+      - spring_rabbitmq_port=${RABBITMQ_PORT:-5672}
       - spring_rabbitmq_username=${RABBITMQ_USERNAME:?required}
       - spring_rabbitmq_password=${RABBITMQ_PASSWORD:?required}
       - spring_rabbitmq_virtual-host=/track
