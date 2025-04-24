@@ -7,10 +7,9 @@ services:
     volumes:
       - /home/token:/home/token
       - /data/logs/maintain:/logs
+      - /etc/localtime:/etc/localtime
     ports:
       - 8080:8080
-    volumes:
-     - /etc/localtime:/etc/localtime
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql8}:${MYSQL_PORT:-3306}/maintain?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&rewriteBatchedStatements=true
       - SPRING_DATASOURCE_USERNAME={MYSQL_USERNAME:-root}

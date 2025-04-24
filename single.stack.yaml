@@ -1,0 +1,10 @@
+## V2单机部署方案
+include:
+  - mysql8/compose.yml
+  - redis/compose.yml
+  - mongodb/compose.yml
+  - rabbitmq/compose.yml
+  - minio/compose.yml
+  - maintain/compose.yml
+  - jtt808/compose.yml
+  - nginx/compose.yml
