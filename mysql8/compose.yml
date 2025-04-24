@@ -19,7 +19,7 @@ services:
       - "/data/mysql8/tmp:/tmp"
     environment:
       # 设置密码
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:?required}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:?required}
     logging: 
       driver: "json-file"
       options:
