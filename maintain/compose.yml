@@ -21,7 +21,7 @@ services:
       - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
 
       # 网关指令
-      - spring_my_gateway_jtt808_url=http://${GATEWAY_HOSTNAME:?required}:${GATEWAY_PORT}
+      - spring_my_gateway_jtt808_url=http://${JTT808_HOSTNAME:?required}:${JTT808_PORT_HTTP:-9012}
 
       # MINIO数据端口
       - spring_my_minio_url=http://${MINIO_HOST:?required}:${MINIO_PORT}

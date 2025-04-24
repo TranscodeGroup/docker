@@ -50,7 +50,7 @@ services:
       - gateway_wss=wss://${VIDEO_HOSTNAME:?required}/ws
       # 网关服务注册地址, 建议使用域名
       - gateway_media_enabled=true
-      - gateway_media_api=http://${GATEWAY_HOSTNAME:?required}:${GATEWAY_PORT}
+      - gateway_media_api=http://${JTT808_HOSTNAME:?required}:${JTT808_PORT_HTTP:-9012}
       # 终端连接端口, 建议使用默认值
       - gateway_port_live=${VIDEO_PORT_LIVE}
       - gateway_port_record=${VIDEO_PORT_RECORD}
