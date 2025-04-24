@@ -1,0 +1,27 @@
+services:
+  rabbitmq:
+    image: transcodegroup/rabbitmq:latest
+    container_name: rabbitmq
+    restart: always
+    ports:
+      # 加密的 AMQP 协议端口
+      - 5671:5671
+      # RabbitMQ 管理插件的 HTTPS 端口
+      - 15671:15671
+      # AMQP 默认端口（非加密）
+      - ${RABBITMQ_PORT:-5672}:${RABBITMQ_PORT:-5672}
+      # RabbitMQ 管理插件的 HTTP 端口
+      - ${MONGODB_PORT_HTTP:-15672}:${MONGODB_PORT_HTTP:-15672}
+      # STOMP 协议端口
+      - 61613:61613
+    privileged: true
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME:?required}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:?required}
+      - RABBITMQ_DEFAULT_VHOST=/track
+    volumes:
+      - "/data/rabbitmq:/var/lib/rabbitmq"
+    logging: 
+      driver: "json-file"
+      options:
+        max-size: "100m"
