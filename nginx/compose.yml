@@ -1,0 +1,45 @@
+services:
+  video-nginx:
+    image: nginx:1.22.1
+    container_name: video-nginx
+    restart: always
+    ports:
+      # 默认443和80
+      - ${WEB_PORT_HTTPS}:${WEB_PORT_HTTPS}
+      - ${WEB_PORT_HTTP}:${WEB_PORT_HTTP}
+    privileged: true
+    secrets:
+      - ssl-certificate
+      - ssl-certificate-key
+    volumes:
+      #- "/home/docker/video-nginx/conf/nginx.conf:/etc/nginx/nginx.conf"
+      # 使用配置文件模板, 后缀需要是.conf.tempalte
+      # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
+      #- "/home/docker/video-nginx/conf/conf.d:/etc/nginx/templates"
+      #- "/home/docker/video-nginx/conf/conf.d/mdvr-live.conf.template:/etc/nginx/templates/mdvr-live.conf.template"
+      - "/data/nginx/html:/usr/share/nginx/html"
+      - "/data/nginx/logs:/var/log/nginx"
+    configs:
+      - source: nginx.conf
+        target: /etc/nginx/nginx.conf
+      - source: http.conf.template
+        target: /etc/nginx/templates/http.conf.template
+      - source: https.conf.template
+        target: /etc/nginx/templates/https.conf.template
+    environment:
+      - WEB_PORT_HTTPS=${WEB_PORT_HTTPS}
+      - WEB_PORT_HTTP=${WEB_PORT_HTTP}
+
+secrets:
+  ssl-certificate:
+    file: ${SSL_CERTIFICATE:?required}.crt
+  ssl-certificate-key:
+    file: ${SSL_CERTIFICATE:?required}.key
+
+configs:
+  nginx.conf:
+    file: ./conf/nginx.conf
+  http.conf.template:
+    file: ./conf/conf.d/http.conf.template
+  https.conf.template:
+    file: ./conf/conf.d/https.conf.template
