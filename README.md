@@ -8,8 +8,8 @@ docker配置文件仓库
 
 ```sh
 git clone https://github.com/TranscodeGroup/docker.git /home/docker
+mkdir /home/docker-compose
 mkdir /data
-mkdir /docker-compose
 ```
 
 ### 2. 配置compse.yaml
