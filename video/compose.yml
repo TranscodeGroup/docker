@@ -25,7 +25,7 @@ services:
         max-size: "100m"
   # rtp推流服务
   rtp:
-    image: transcodegroup/gateway-rtpserver:23.8.3
+    image: transcodegroup/gateway-rtpserver:23.8.5
     container_name: rtp
     restart: always
     ports:
