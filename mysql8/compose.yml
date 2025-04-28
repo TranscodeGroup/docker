@@ -6,7 +6,7 @@ services:
     container_name: mysql8
     restart: always
     ports:
-      - 3306:3306
+      - ${MYSQL_PORT:-3306}:3306
     configs:
       - source: mysql8.conf
         target: /etc/mysql/conf.d

@@ -9,9 +9,9 @@ services:
       # RabbitMQ 管理插件的 HTTPS 端口
       #- 15671:15671
       # AMQP 默认端口（非加密）
-      - ${RABBITMQ_PORT:-5672}:${RABBITMQ_PORT:-5672}
+      - ${RABBITMQ_PORT:-5672}:5672
       # RabbitMQ 管理插件的 HTTP 端口
-      - ${MONGODB_PORT_HTTP:-15672}:${MONGODB_PORT_HTTP:-15672}
+      - ${MONGODB_PORT_HTTP:-15672}:15672
       # STOMP 协议端口
       #- 61613:61613
     privileged: true

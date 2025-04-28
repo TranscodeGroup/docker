@@ -5,7 +5,7 @@ services:
     restart: always
     privileged: true
     ports:
-      - ${MONGODB_PORT:-27017}:${MONGODB_PORT:-27017}
+      - ${MONGODB_PORT:-27017}:27017
     volumes:
      - /etc/localtime:/etc/localtime
      - /data/mongo/data/db:/data/db

@@ -17,7 +17,7 @@ services:
 
       # REDIS
       - SPRING_DATA_REDIS_HOST=${REDIS_HOST:-redis}
-      - SPRING_DATA_REDIS_PORT=${REDIS_PORT:-3306}
+      - SPRING_DATA_REDIS_PORT=${REDIS_PORT:-6379}
       - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
 
       # 网关指令
