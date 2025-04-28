@@ -30,7 +30,7 @@ services:
       - spring_my_minio_secretKey=${MINIO_SECRETKEY:?required}
 
       # MONGODB
-      - spring_data_mongodb_username={MONGODB_USERNAME:-root}
+      - spring_data_mongodb_username=${MONGODB_USERNAME:-root}
       - spring_data_mongodb_password=${MONGODB_PASSWORD:?required}
 
       # - tencent_sms_secret_id=AKID74lBKCoAF2YomUv60e06vTkkSt3wYtxk

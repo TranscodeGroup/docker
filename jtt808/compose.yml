@@ -16,15 +16,15 @@ services:
       - "/data/logs/jtt808:/logs"
     environment:
       # 监听端口
-      - gateway_ip=${JTT808_IP}
+      - gateway_ip=${JTT808_IP:?required}
       - gateway_port=${JTT808_PORT}
       - gateway_api-port=${JTT808_PORT_HTTP}
       - gateway_file-port=${JTT808_PORT_FILE}
       # FTP服务
-      - gateway_ftp_ip=${JTT808_IP}
+      - gateway_ftp_ip=${JTT808_IP:?required}
       - gateway_ftp_port=${JTT808_PORT_FTP}
       - gateway_ftp_active_port=${JTT808_PORT_FTP_ACTIVE}
-      - gateway_ftp_passive_ip=${JTT808_IP}
+      - gateway_ftp_passive_ip=${JTT808_IP:?required}
       - gateway_ftp_passive_ports=${JTT808_PORT_FTP_PASSIVE}
 
       # 终端注册服务
