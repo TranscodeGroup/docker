@@ -10,7 +10,7 @@ services:
     environment:
       - MINIO_ROOT_USER=minioadmin
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:?required}
-      - MINIO_BROWSER_REDIRECT_URL=https://${VIDEO_HOSTNAME}
+      - MINIO_BROWSER_REDIRECT_URL=https://${VIDEO_HOSTNAME:?required}
     volumes:
       - "/data/minio-data:/data"
     command: server /data --console-address ":9001"

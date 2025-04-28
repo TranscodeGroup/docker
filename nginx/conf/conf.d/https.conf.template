@@ -4,8 +4,8 @@ server {
     #server_name  _;
     root         /usr/share/nginx/html;
     
-    ssl_certificate      /run/secrets/video-ssl-certificate;
-    ssl_certificate_key  /run/secrets/video-ssl-certificate-key;
+    ssl_certificate      /run/secrets/ssl-certificate;
+    ssl_certificate_key  /run/secrets/ssl-certificate-key;
  
     ssl_session_cache    shared:SSL:1m;
     ssl_session_timeout  5m;
