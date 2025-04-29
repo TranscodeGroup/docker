@@ -10,6 +10,8 @@ services:
     configs:
       - source: mysql8.conf
         target: /etc/mysql/conf.d
+      - source: mysql8.initdb
+        target: /docker-entrypoint-initdb.d
     volumes:
       - "/data/mysql8/data:/var/lib/mysql"
       - "/data/mysql8/logs:/var/log/mysql"
@@ -26,3 +28,5 @@ services:
 configs:
   mysql8.conf:
     file: ./conf
+  mysql8.initdb:
+    file: ./initdb
