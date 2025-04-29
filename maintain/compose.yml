@@ -30,8 +30,8 @@ services:
       # RABBITMQ
       - spring.rabbitmq.host=${RABBITMQ_HOST:-rabbitmq}
       - spring.rabbitmq.port=${RABBITMQ_PORT:-5672}
-      - spring.rabbitmq.username=${RABBITMQ_USERNAME:-track}
-      - spring.rabbitmq.password=${RABBITMQ_PASSWORD:-track@123}
+      - spring.rabbitmq.username=${RABBITMQ_USERNAME:-admin}
+      - spring.rabbitmq.password=${RABBITMQ_PASSWORD:?required}
       - spring.rabbitmq.virtual-host=/track
 
       # MINIO数据端口

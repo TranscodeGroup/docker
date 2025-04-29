@@ -8,7 +8,7 @@ services:
       - ${MINIO_PORT:-8000}:${MINIO_PORT:-8000}
       - ${MINIO_PORT_HTTP:-8001}:${MINIO_PORT_HTTP:-8001}
     environment:
-      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_USER=${MINIO_USER:-minioadmin}
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:?required}
       - MINIO_BROWSER_REDIRECT_URL=https://${VIDEO_HOSTNAME:?required}
     volumes:
