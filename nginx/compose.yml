@@ -4,9 +4,8 @@ services:
     container_name: nginx
     restart: always
     ports:
-      # 默认443和80
-      - ${WEB_PORT_HTTPS}:443
-      - ${WEB_PORT_HTTP}:80
+      - ${WEB_PORT_HTTPS:-443}:443
+      - ${WEB_PORT_HTTP:-80}:80
     privileged: true
     secrets:
       - ssl-certificate
@@ -17,8 +16,6 @@ services:
     configs:
       - source: nginx.conf
         target: /etc/nginx/nginx.conf
-    environment:
-      - JTT808_PORT_HTTP=${JTT808_PORT_HTTP}
 
 secrets:
   ssl-certificate:
@@ -29,7 +26,3 @@ secrets:
 configs:
   nginx.conf:
     file: ./conf/nginx.conf
-  bus.conf.template:
-    file: ./conf/conf.d/bus.conf.template
-  track.conf.template:
-    file: ./conf/conf.d/track.conf.template

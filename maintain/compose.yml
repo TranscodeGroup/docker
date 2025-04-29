@@ -6,10 +6,10 @@ services:
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime
-      - /home/token:/home/token
+      - ${MAINTAIN_TOKEN_DIR:?required}:/home/token
       - /data/logs/maintain:/logs
     ports:
-      - 8080:8080
+      - ${MAINTAIN_PORT:-8080}:8080
     environment:
       # DB
       - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql8}:${MYSQL_PORT:-3306}/maintain?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
@@ -41,7 +41,7 @@ services:
       - spring_my_minio_secretKey=${MINIO_SECRETKEY:?required}
 
       # 网关指令
-      - spring_my_gateway_jtt808_url=http://${JTT808_HOSTNAME:-jtt808}:${JTT808_PORT_HTTP:-9012}
+      - spring_my_gateway_jtt808_url=http://${JTT808_HOST:-jtt808}:${JTT808_PORT_HTTP:-9012}
 
       # 短信服务
       # - tencent_sms_secret_id=AKID74lBKCoAF2YomUv60e06vTkkSt3wYtxk
@@ -55,10 +55,10 @@ services:
       - spring_my_push_group_key=98b94f0f85808bfa0ac9cb5b
       - spring_my_push_group_secret=63b4ff15d550ba1675b1dceb
 
-     # 跨域 逗号分割
-      - spring_my_cors_origin-patterns=https://*.tgtrack.com,https://*.tripsdd.com,https://tripsdd.com      
+      # 跨域 逗号分割
+      - spring_my_cors_origin-patterns=https://*.tgtrack.com,https://*.tripsdd.com,https://tripsdd.com
 
-     #Mail-预设了bus的邮箱
+      # Mail-预设了bus的邮箱
       - spring_mail_host=${MAIL_HOST:-smtp.transcodegroup.com}
       - spring_mail_username=${MAIL_USERNAME:-smtp.transcodegroup.com}
       - spring_mail_password=${MAIL_PASSWORD:?required}

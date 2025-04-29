@@ -2,28 +2,19 @@
 upstream track_api_server {
     zone upstream_zone 64k;
     # 动态解析上游域名
-    server maintain:8080 resolve;
+    server ${MAINTAIN_HOST}:${MAINTAIN_PORT} resolve;
 }
 
 # track前端
 server {
     listen 80;
     listen [::]:80;
-    # listen       443 ssl;
-    # listen  [::]:443 ssl;
-    server_name th-track.transcodegroup.cn tg-th-track.ipcjs.top localhost;
-    
-    # 启用跨域
-    #add_header Access-Control-Allow-Origin *;
-    # 允许跨域的方法
-    #add_header Access-Control-Allow-Methods 'GET,POST,PUT,DELETE';
-    # 允许跨域的头标识
-    #add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
-    
-    # 证书文件 *.crt *.cer
-    #ssl_certificate      /etc/nginx/ssl/xn.transcodegroup.cn.crt;
-    # 证书key文件
-    #ssl_certificate_key  /etc/nginx/ssl/xn.transcodegroup.cn.key;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${TRACK_HOSTNAME};
+
+    ssl_certificate      /run/secrets/track-ssl-certificate;
+    ssl_certificate_key  /run/secrets/track-ssl-certificate-key;
 
     # 平台前端
     location / {
@@ -59,14 +50,12 @@ server {
     }
 
     location /minio/ {
-        # 动态解析域名
-        set $dynamic "minio";
-        proxy_pass   http://$dynamic:9000/;
+        proxy_pass   http://${MINIO_HOST}:${MINIO_PORT}/;
     }
 
     location /jtt808/ {
         # 网关的数据代理
-        proxy_pass   http://jtt808:${JTT808_PORT_HTTP}/jtt808/;
+        proxy_pass   http://${JTT808_HOST}:${JTT808_PORT_HTTP}/jtt808/;
     }
 
     location /api/ {
@@ -77,36 +66,9 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
     }
-    
-    location /pass {
-        proxy_pass http://track_api_server/pass;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-    }
-    
-    location /file {
-        proxy_pass http://track_api_server/file;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-    }
-    
-    location /datamotor {
-        proxy_pass http://track_api_server/datamotor;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-    }
-    
-    location /video {
-        proxy_pass http://track_api_server/video;
+
+    location ~ ^/(pass|file|datamotor|video)/ {
+        proxy_pass http://track_api_server;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

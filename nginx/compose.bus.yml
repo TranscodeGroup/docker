@@ -3,3 +3,18 @@ services:
     configs:
       - source: bus.conf.template
         target: /etc/nginx/templates/bus.conf.template
+    secrets:
+      - bus-ssl-certificate
+      - bus-ssl-certificate-key
+    environment:
+      - BUS_HOSTNAME=${BUS_HOSTNAME:?required}
+
+secrets:
+  bus-ssl-certificate:
+    file: ${BUS_SSL_CERTIFICATE:?required}.crt
+  bus-ssl-certificate-key:
+    file: ${BUS_SSL_CERTIFICATE:?required}.key
+
+configs:
+  bus.conf.template:
+    file: ./conf/conf.d/bus.conf.template

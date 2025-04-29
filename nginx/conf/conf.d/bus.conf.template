@@ -14,15 +14,13 @@ upstream dsp_server {
 server {
     listen 80;
     listen [::]:80;
-    # listen 443 ssl;
-    # listen [::]:443 ssl;
-    server_name ${PUBLIC_HOSTNAME_BUS} tg-th-bus.ipcjs.top;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${BUS_HOSTNAME};
 
-    # 证书文件 *.crt *.cer
-    ssl_certificate      /etc/nginx/ssl/xn.transcodegroup.cn.crt;
-    # 证书key文件
-    ssl_certificate_key  /etc/nginx/ssl/xn.transcodegroup.cn.key;
-    
+    ssl_certificate      /run/secrets/bus-ssl-certificate;
+    ssl_certificate_key  /run/secrets/bus-ssl-certificate-key;
+
     location / {
         alias   /usr/share/nginx/html/bus/;
         index  index.html index.htm;
@@ -71,15 +69,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-    }
-
-    location /ws {
-        proxy_redirect off;
-        set $dynamic "shadowsocks";
-        proxy_pass http://$dynamic:8338;
-        proxy_set_header Host $http_host;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
     }

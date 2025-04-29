@@ -3,3 +3,24 @@ services:
     configs:
       - source: track.conf.template
         target: /etc/nginx/templates/track.conf.template
+    secrets:
+      - track-ssl-certificate
+      - track-ssl-certificate-key
+    environment:
+      - MAINTAIN_HOST=${MAINTAIN_HOST}
+      - MAINTAIN_PORT=${MAINTAIN_PORT}
+      - MINIO_HOST=${MINIO_HOST}
+      - MINIO_PORT=${MINIO_PORT}
+      - JTT808_HOST=${JTT808_HOST}
+      - JTT808_PORT_HTTP=${JTT808_PORT_HTTP}
+      - TRACK_HOSTNAME=${TRACK_HOSTNAME:?required}
+
+secrets:
+  track-ssl-certificate:
+    file: ${TRACK_SSL_CERTIFICATE:?required}.crt
+  track-ssl-certificate-key:
+    file: ${TRACK_SSL_CERTIFICATE:?required}.key
+
+configs:
+  track.conf.template:
+    file: ./conf/conf.d/track.conf.template
