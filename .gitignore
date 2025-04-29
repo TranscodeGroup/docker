@@ -1,6 +1,7 @@
 
 *.crt
 *.key
+ip2region.xdb
 /compose.yaml
 /.env
 /.env.local

@@ -5,9 +5,9 @@ services:
     container_name: maintain
     restart: always
     volumes:
+      - /etc/localtime:/etc/localtime
       - /home/token:/home/token
       - /data/logs/maintain:/logs
-      - /etc/localtime:/etc/localtime
     ports:
       - 8080:8080
     environment:

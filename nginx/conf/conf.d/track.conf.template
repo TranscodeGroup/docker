@@ -1,0 +1,118 @@
+# track服务
+upstream track_api_server {
+    zone upstream_zone 64k;
+    # 动态解析上游域名
+    server maintain:8080 resolve;
+}
+
+# track前端
+server {
+    listen 80;
+    listen [::]:80;
+    # listen       443 ssl;
+    # listen  [::]:443 ssl;
+    server_name th-track.transcodegroup.cn tg-th-track.ipcjs.top localhost;
+    
+    # 启用跨域
+    #add_header Access-Control-Allow-Origin *;
+    # 允许跨域的方法
+    #add_header Access-Control-Allow-Methods 'GET,POST,PUT,DELETE';
+    # 允许跨域的头标识
+    #add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+    
+    # 证书文件 *.crt *.cer
+    #ssl_certificate      /etc/nginx/ssl/xn.transcodegroup.cn.crt;
+    # 证书key文件
+    #ssl_certificate_key  /etc/nginx/ssl/xn.transcodegroup.cn.key;
+
+    # 平台前端
+    location / {
+        alias  /usr/share/nginx/html/track/;
+        index  index.html index.htm;
+    }
+    
+    location /track {
+        alias  /usr/share/nginx/html/track/;
+        index  index.html index.htm;
+    }
+
+   location /gongwuyuan {
+        alias  /usr/share/nginx/html/gongwuyuan/;
+        index  index.html index.htm;
+    }
+
+    # 目前没有在用
+    location ~ ^/org/\w+/(.*)$ {
+        alias  /usr/share/nginx/html/track/$1;
+        index  index.html index.htm;
+    }
+
+
+    # 最新版app网页版
+    location /app {
+        alias  /usr/share/nginx/html/app/;
+        index  index.html index.htm;
+    }
+
+    location /files/ {
+        alias /etc/nginx/files/;
+    }
+
+    location /minio/ {
+        # 动态解析域名
+        set $dynamic "minio";
+        proxy_pass   http://$dynamic:9000/;
+    }
+
+    location /jtt808/ {
+        # 网关的数据代理
+        proxy_pass   http://jtt808:${JTT808_PORT_HTTP}/jtt808/;
+    }
+
+    location /api/ {
+        proxy_pass http://track_api_server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+    
+    location /pass {
+        proxy_pass http://track_api_server/pass;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+    
+    location /file {
+        proxy_pass http://track_api_server/file;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+    
+    location /datamotor {
+        proxy_pass http://track_api_server/datamotor;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+    
+    location /video {
+        proxy_pass http://track_api_server/video;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+}

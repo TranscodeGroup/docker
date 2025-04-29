@@ -1,0 +1,5 @@
+services:
+  nginx:
+    configs:
+      - source: track.conf.template
+        target: /etc/nginx/templates/track.conf.template

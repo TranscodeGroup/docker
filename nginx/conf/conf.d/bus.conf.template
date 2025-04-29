@@ -1,0 +1,89 @@
+# bus后台服务
+upstream api_server {
+    zone upstream_zone 64k;
+    server gateway_web:8899 resolve;
+}
+
+# bus调度服务
+upstream dsp_server {
+    zone upstream_zone 64k;
+    server gateway_dispatch:8011 resolve;
+}
+
+# Bus前端
+server {
+    listen 80;
+    listen [::]:80;
+    # listen 443 ssl;
+    # listen [::]:443 ssl;
+    server_name ${PUBLIC_HOSTNAME_BUS} tg-th-bus.ipcjs.top;
+
+    # 证书文件 *.crt *.cer
+    ssl_certificate      /etc/nginx/ssl/xn.transcodegroup.cn.crt;
+    # 证书key文件
+    ssl_certificate_key  /etc/nginx/ssl/xn.transcodegroup.cn.key;
+    
+    location / {
+        alias   /usr/share/nginx/html/bus/;
+        index  index.html index.htm;
+    }
+
+    location /files/ {
+        alias /etc/nginx/files/;
+    }
+
+    location /alarm/ {
+        alias /etc/nginx/files/alarm/;
+    }
+
+    location /upgrade/ {
+        alias /etc/nginx/files/upgrade/;
+    }
+
+    location /config/ {
+        alias /etc/nginx/files/config/;
+    }
+
+    location /minio/ {
+        proxy_pass   http://10.1.1.173:8592/;
+    }
+
+    location /api/ {
+        proxy_pass http://api_server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
+    location /dispatch/ {
+        proxy_pass http://dsp_server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+    
+    location /open/websocket/ {
+        proxy_pass http://open_server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
+    location /ws {
+        proxy_redirect off;
+        set $dynamic "shadowsocks";
+        proxy_pass http://$dynamic:8338;
+        proxy_set_header Host $http_host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+
+}
