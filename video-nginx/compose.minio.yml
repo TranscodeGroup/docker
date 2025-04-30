@@ -1,0 +1,5 @@
+services:
+  video-nginx:
+    configs:
+      - source: 443.conf.template
+        target: /etc/nginx/templates/443.conf.template

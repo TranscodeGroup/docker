@@ -7,8 +7,8 @@ server {
     #server_name  _;
     root         /usr/share/nginx/html;
     
-    ssl_certificate      /etc/nginx/ssl/${VIDEO_SSL_CERTIFICATE}.crt;
-    ssl_certificate_key  /etc/nginx/ssl/${VIDEO_SSL_CERTIFICATE}.key;
+    ssl_certificate      /run/secrets/video-ssl-certificate;
+    ssl_certificate_key  /run/secrets/video-ssl-certificate-key;
  
     ssl_session_cache    shared:SSL:1m;
     ssl_session_timeout  5m;
@@ -37,7 +37,7 @@ server {
         proxy_set_header Connection $connection_upgrade;
     }
 
-        #access_log  /var/log/nginx/host.access.log  main;
+    #access_log  /var/log/nginx/host.access.log  main;
     location / {
         root   /usr/share/nginx/html;
         index  index.html index.htm;

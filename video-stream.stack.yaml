@@ -1,7 +1,9 @@
+## video服务示例
 # 将需要的compose文件全部include进来就行
 # 推荐客户开放连续段端口9000-9100
 # 默认开放端口: 直播9000,录像9001,对接9002, 监听9003,广播9004,RTMP9005:1935(srs)
 # Nginx代理9085-9089: http-flv(srs:8080端口), wss(rtp:9006端口), 拦截mdvr和ws关键字
 include:
-  - docker-nginx/docker-compose.yml
-  - docker-rtp/docker-compose.yml
+  - video-nginx/compose.yml
+  - path:
+    - video/compose.yml

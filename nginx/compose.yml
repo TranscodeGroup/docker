@@ -1,0 +1,28 @@
+services:
+  nginx:
+    image: nginx:1.27.4
+    container_name: nginx
+    restart: always
+    ports:
+      - ${WEB_PORT_HTTPS:-443}:443
+      - ${WEB_PORT_HTTP:-80}:80
+    privileged: true
+    secrets:
+      - ssl-certificate
+      - ssl-certificate-key
+    volumes:
+      - "/data/nginx/html:/usr/share/nginx/html"
+      - "/data/nginx/logs:/var/log/nginx"
+    configs:
+      - source: nginx.conf
+        target: /etc/nginx/nginx.conf
+
+secrets:
+  ssl-certificate:
+    file: ${SSL_CERTIFICATE:?required}.crt
+  ssl-certificate-key:
+    file: ${SSL_CERTIFICATE:?required}.key
+
+configs:
+  nginx.conf:
+    file: ./conf/nginx.conf

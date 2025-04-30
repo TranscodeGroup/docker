@@ -1,0 +1,80 @@
+# track服务
+upstream track_api_server {
+    zone upstream_zone 64k;
+    # 动态解析上游域名
+    server ${MAINTAIN_HOST}:${MAINTAIN_PORT} resolve;
+}
+
+# track前端
+server {
+    listen 80;
+    listen [::]:80;
+    listen 443 ssl;
+    listen [::]:443 ssl;
+    server_name ${TRACK_HOSTNAME};
+
+    ssl_certificate      /run/secrets/track-ssl-certificate;
+    ssl_certificate_key  /run/secrets/track-ssl-certificate-key;
+
+    # 平台前端
+    location / {
+        alias  /usr/share/nginx/html/track/;
+        index  index.html index.htm;
+    }
+    
+    location /track {
+        alias  /usr/share/nginx/html/track/;
+        index  index.html index.htm;
+    }
+
+   location /gongwuyuan {
+        alias  /usr/share/nginx/html/gongwuyuan/;
+        index  index.html index.htm;
+    }
+
+    # 目前没有在用
+    location ~ ^/org/\w+/(.*)$ {
+        alias  /usr/share/nginx/html/track/$1;
+        index  index.html index.htm;
+    }
+
+
+    # 最新版app网页版
+    location /app {
+        alias  /usr/share/nginx/html/app/;
+        index  index.html index.htm;
+    }
+
+    location /files/ {
+        alias /etc/nginx/files/;
+    }
+
+    location /minio/ {
+        proxy_pass   http://${MINIO_HOST}:${MINIO_PORT}/;
+    }
+
+    location /jtt808/ {
+        # 网关的数据代理
+        proxy_pass   http://${JTT808_HOST}:${JTT808_PORT_HTTP}/jtt808/;
+    }
+
+    location /api/ {
+        proxy_pass http://track_api_server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
+    location ~ ^/(pass|file|datamotor|video)/ {
+        proxy_pass http://track_api_server;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+}

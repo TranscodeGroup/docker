@@ -1,0 +1,29 @@
+server {
+    listen       443 ssl;
+
+    #server_name  _;
+    root         /usr/share/nginx/html;
+    
+    ssl_certificate      /run/secrets/ssl-certificate;
+    ssl_certificate_key  /run/secrets/ssl-certificate-key;
+ 
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+ 
+    ssl_ciphers  HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers  on;
+
+    #access_log  /var/log/nginx/host.access.log  main;
+    location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+    }
+
+    error_page 404 /404.html;
+        location = /40x.html {
+    }
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html {
+    }
+}

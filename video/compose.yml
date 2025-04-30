@@ -11,7 +11,7 @@ services:
       # http-flv/hls端口,建议nginx代理, 内部别名访问
       #- 8080:8080
     volumes:
-      - "/home/docker/docker-rtp/srs/conf:/usr/local/srs/conf"
+      - "/home/docker/video/srs/conf:/usr/local/srs/conf"
       - "/data/srs/html:/usr/local/srs/objs/nginx/html"
     ulimits:
       nproc: 65535
@@ -25,7 +25,7 @@ services:
         max-size: "100m"
   # rtp推流服务
   rtp:
-    image: transcodegroup/gateway-rtpserver:23.8.3
+    image: transcodegroup/gateway-rtpserver:23.8.5
     container_name: rtp
     restart: always
     ports:
@@ -43,14 +43,14 @@ services:
       - "/data/logs/rtp:/logs"
     environment:
       # 服务节点名称
-      - gateway_zone=live-${VIDEO_IP}
+      - gateway_zone=live-${VIDEO_IP:?required}
       # 外网地址, 注册到网关
-      - gateway_host=${VIDEO_IP}
+      - gateway_host=${VIDEO_IP:?required}
       # 客户端通过 ws://localhost:8080/ws/talk对讲, monitor监听, nginx代理端口
-      - gateway_wss=wss://${VIDEO_HOSTNAME}/ws
+      - gateway_wss=wss://${VIDEO_HOSTNAME:?required}/ws
       # 网关服务注册地址, 建议使用域名
       - gateway_media_enabled=true
-      - gateway_media_api=http://${GATEWAY_HOSTNAME}:${GATEWAY_PORT}
+      - gateway_media_api=http://${JTT808_HOST:-jtt808}:${JTT808_PORT_HTTP:-9012}
       # 终端连接端口, 建议使用默认值
       - gateway_port_live=${VIDEO_PORT_LIVE}
       - gateway_port_record=${VIDEO_PORT_RECORD}
@@ -62,9 +62,9 @@ services:
       # 是否启用redis支持 默认禁用, Bus平台建议开启， V2建议关闭
       - spring_data_redis_repositories_enabled=false
       # APP的RTMP连接
-      - gateway_srs_wan_rtmp=rtmp://${VIDEO_IP}:${VIDEO_PORT_RTMP}
+      - gateway_srs_wan_rtmp=rtmp://${VIDEO_IP:?required}:${VIDEO_PORT_RTMP}
       # 前端http-flv地址, 支持多个用逗号分隔
-      - gateway_srs_wan_http=https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_1}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_2}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_3}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_4}/mdvr,https://${VIDEO_HOSTNAME}:${VIDEO_PORT_HTTPS_5}/mdvr
+      - gateway_srs_wan_http=https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_1}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_2}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_3}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_4}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_5}/mdvr
     depends_on:
       - srs
     ulimits:

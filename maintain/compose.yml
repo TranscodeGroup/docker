@@ -1,0 +1,73 @@
+version: '3'
+services:
+  maintain:
+    image: transcodegroup/maintain-server
+    container_name: maintain
+    restart: always
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - ${MAINTAIN_TOKEN_DIR:?required}:/home/token
+      - /data/logs/maintain:/logs
+    ports:
+      - ${MAINTAIN_PORT:-8080}:8080
+    environment:
+      # DB
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql8}:${MYSQL_PORT:-3306}/maintain?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
+
+      # REDIS
+      - SPRING_DATA_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_DATA_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_DATA_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+
+      # MONGODB
+      - spring_data_mongodb_host=${MONGODB_HOST:-mongodb}
+      - spring_data_mongodb_port=${MONGODB_PORT:-27017}
+      - spring_data_mongodb_username=${MONGODB_USERNAME:-root}
+      - spring_data_mongodb_password=${MONGODB_PASSWORD:?required}
+
+      # RABBITMQ
+      - spring.rabbitmq.host=${RABBITMQ_HOST:-rabbitmq}
+      - spring.rabbitmq.port=${RABBITMQ_PORT:-5672}
+      - spring.rabbitmq.username=${RABBITMQ_USERNAME:-admin}
+      - spring.rabbitmq.password=${RABBITMQ_PASSWORD:?required}
+      - spring.rabbitmq.virtual-host=/track
+
+      # MINIO数据端口
+      - spring_my_minio_url=http://${MINIO_HOST:-minio}:${MINIO_PORT:-9000}
+      - spring_my_minio_bucket=maintain
+      - spring_my_minio_accessKey=${MINIO_ACCESSKEY:?required}
+      - spring_my_minio_secretKey=${MINIO_SECRETKEY:?required}
+
+      # 网关指令
+      - spring_my_gateway_jtt808_url=http://${JTT808_HOST:-jtt808}:${JTT808_PORT_HTTP:-9012}
+
+      # 短信服务
+      # - tencent_sms_secret_id=AKID74lBKCoAF2YomUv60e06vTkkSt3wYtxk
+      # - tencent_sms_secret_key=Zrsd7LHwKSJuEJ7eutc3D6j5AyWopZ2E
+      # - tencent_sms_sdk_app_id=1400731162
+
+      # 地址解析库地址
+      - spring_my_ip2region_path=/home/token/ip2region.xdb
+
+      # 极光推送, Distar Gps App
+      - spring_my_push_group_key=98b94f0f85808bfa0ac9cb5b
+      - spring_my_push_group_secret=63b4ff15d550ba1675b1dceb
+
+      # 跨域 逗号分割
+      - spring_my_cors_origin-patterns=https://*.tgtrack.com,https://*.tripsdd.com,https://tripsdd.com
+
+      # Mail-预设了bus的邮箱
+      - spring_mail_host=${MAIL_HOST:-smtp.transcodegroup.com}
+      - spring_mail_username=${MAIL_USERNAME:-smtp.transcodegroup.com}
+      - spring_mail_password=${MAIL_PASSWORD:?required}
+      - spring_mail_protocol=smtp
+      - spring_mail_default-encoding=UTF-8
+      - spring_mail_properties_mail_smtp_ssl.enable=true
+      - spring_mail_properties_mail_smtp_socketFactory_port=465
+      - spring_mail_properties_mail_smtp_socketFactory_class=javax.net.ssl.SSLSocketFactory
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"

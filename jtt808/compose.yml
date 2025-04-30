@@ -1,0 +1,61 @@
+services:
+  jtt808:
+    image: transcodegroup/jtt808-server:latest
+    container_name: jtt808_server
+    restart: always
+    ports:
+      - ${JTT808_PORT}:${JTT808_PORT}
+      - ${JTT808_PORT_HTTP}:${JTT808_PORT_HTTP}
+      - ${JTT808_PORT_FILE}:${JTT808_PORT_FILE}
+      - ${JTT808_PORT_FTP}:${JTT808_PORT_FTP}
+      - ${JTT808_PORT_FTP_ACTIVE}:${JTT808_PORT_FTP_ACTIVE}
+      - ${JTT808_PORT_FTP_PASSIVE}:${JTT808_PORT_FTP_PASSIVE}
+    volumes:
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/data/jtt808:/data/jtt808"
+      - "/data/logs/jtt808:/logs"
+    environment:
+      # 监听端口
+      - gateway_ip=${JTT808_IP:?required}
+      - gateway_port=${JTT808_PORT}
+      - gateway_api-port=${JTT808_PORT_HTTP}
+      - gateway_file-port=${JTT808_PORT_FILE}
+      # FTP服务
+      - gateway_ftp_ip=${JTT808_IP:?required}
+      - gateway_ftp_port=${JTT808_PORT_FTP}
+      - gateway_ftp_active_port=${JTT808_PORT_FTP_ACTIVE}
+      - gateway_ftp_passive_ip=${JTT808_IP:?required}
+      - gateway_ftp_passive_ports=${JTT808_PORT_FTP_PASSIVE}
+
+      # 终端注册服务
+      - gateway_device-register-url=${WEB_BASE_URL}
+      # 网关Http服务, 需要代理？
+      - gateway_http_url=${WEB_BASE_URL}/jtt808
+
+      # MongoDB
+      - spring_data_mongodb_host=${MONGODB_HOST:-mongodb}
+      - spring_data_mongodb_port=${MONGODB_PORT:-27017}
+      - spring_data_mongodb_username=${MONGODB_USERNAME:?required}
+      - spring_data_mongodb_password=${MONGODB_PASSWORD:?required}
+
+      # RabbitMq
+      - spring_rabbitmq_host=${RABBITMQ_HOST:-rabbitmq}
+      - spring_rabbitmq_port=${RABBITMQ_PORT:-5672}
+      - spring_rabbitmq_username=${RABBITMQ_USERNAME:-admin}
+      - spring_rabbitmq_password=${RABBITMQ_PASSWORD:?required}
+      - spring_rabbitmq_virtual-host=/track
+
+      # 网关日志写法1
+      - logging_level_root=INFO
+      - logging.level.io.netty.handler.logging.LoggingHandler=INFO
+      # 网关日志写法2
+      # - SPRING_APPLICATION_JSON={"logging.level.io.netty.handler.logging.LoggingHandler":"DEBUG"}
+    logging: 
+      driver: "json-file"
+      options:
+        max-size: "100m"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
