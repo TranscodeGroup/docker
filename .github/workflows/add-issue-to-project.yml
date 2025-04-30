@@ -1,0 +1,19 @@
+name: Add Issues and PR to project
+
+on:
+  issues:
+    types:
+      - opened
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    name: Add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@v0.5.0
+        with:
+          project-url: https://github.com/orgs/TranscodeGroup/projects/20
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
