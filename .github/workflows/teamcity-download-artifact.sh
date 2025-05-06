@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# 默认使用名为artifacts的token, 权限较小
+# 默认使用名为artifacts的token, 权限较小(被设置为: `<Root project>: View build runtime parameters and data`)
 # @see http://th-ci.transcodegroup.cn:9080/profile.html?item=accessTokens
-TOKEN="${TEAMCITY_TOKEN:-eyJ0eXAiOiAiVENWMiJ9.TS1Fb3BjZlR5US02UHdkam90dUNYaUgwaWl3.OWY2MDBiYjktZTQxMC00NTM5LTg4MGYtODkwY2Q5NTUwYTk0}"
+TOKEN="${TEAMCITY_TOKEN:-eyJ0eXAiOiAiVENWMiJ9.bnBsa01KRlZPMlQ3WHZpM2hDZnJVN3p3dFAw.NzNjYTA4NTctMWE5Ny00MWRkLTg2ZDktOWI2NDYxMGZiZjll}"
 HOST="http://th-ci.transcodegroup.cn:9080"
 
 print_help() {
