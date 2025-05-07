@@ -4,6 +4,10 @@
 # 默认开放端口: 直播9000,录像9001,对接9002, 监听9003,广播9004,RTMP9005:1935(srs)
 # Nginx代理9085-9089: http-flv(srs:8080端口), wss(rtp:9006端口), 拦截mdvr和ws关键字
 include:
-  - video-nginx/compose.yml
+  - ../docker/minio/compose.yml
   - path:
-    - video/compose.yml
+    - ../docker/video/compose.yml
+    - ../docker/video/compose.storage.yaml
+  - path:
+    - ../docker/video-nginx/compose.yml
+    - ../docker/video-nginx/compose.minio.yml
