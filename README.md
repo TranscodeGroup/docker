@@ -16,9 +16,9 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 
 创建`/home/docker-compose/compose.yaml`文件, 参考如下示例:
 
-- [video.storage.stack.yaml](./video.storage.stack.yaml): RTP存储
-- [video.stream.stack.yaml](./video.stream.stack.yaml): RTP视频
-- [single.stack.yaml](./single.stack.yaml): V2单机部署
+- [video-storage](./examples/video-storage/compose.yaml): RTP存储
+- [video-stream](./examples/video-stream/compose.yaml): RTP视频
+- [track](./examples/track/compose.yaml): Tracker V2单机部署
 
 ### 3. 配置`.env`
 
