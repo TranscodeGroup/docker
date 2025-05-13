@@ -2,8 +2,6 @@ services:
   # rtp推流服务
   rtp:
     environment:
-      # 服务节点名称    
-      - gateway_zone=gc-850
       # 网关服务注册地址, 建议使用域名
       - gateway_media_enabled=false
       # redis
