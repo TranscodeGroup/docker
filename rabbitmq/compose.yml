@@ -15,6 +15,9 @@ services:
       # STOMP 协议端口
       #- 61613:61613
     privileged: true
+    configs:
+      - source: rabbitmq_plugins
+        target: /etc/rabbitmq/enabled_plugins
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME:-admin}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:?required}
@@ -25,3 +28,6 @@ services:
       driver: "json-file"
       options:
         max-size: "100m"
+configs:
+  rabbitmq_plugins:
+    file: ./rabbitmq_plugins
