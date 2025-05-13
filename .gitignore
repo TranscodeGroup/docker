@@ -6,3 +6,4 @@ ip2region.xdb
 /.env
 /.env.local
 /tmp
+/scripts/*.zip
