@@ -27,24 +27,13 @@ server {
     }
 
     location /files/ {
-        alias /etc/nginx/files/;
-    }
+             alias /data/files/;
+        }
 
     location /alarm/ {
-        alias /etc/nginx/files/alarm/;
-    }
+            alias /data/files/alarm/;
+        }
 
-    location /upgrade/ {
-        alias /etc/nginx/files/upgrade/;
-    }
-
-    location /config/ {
-        alias /etc/nginx/files/config/;
-    }
-
-    location /minio/ {
-        proxy_pass   http://10.1.1.173:8592/;
-    }
 
     location /api/ {
         proxy_pass http://api_server;
@@ -57,15 +46,6 @@ server {
 
     location /dispatch/ {
         proxy_pass http://dsp_server;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header Host $http_host;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $connection_upgrade;
-    }
-    
-    location /open/websocket/ {
-        proxy_pass http://open_server;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
