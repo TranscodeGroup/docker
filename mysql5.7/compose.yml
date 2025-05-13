@@ -1,0 +1,20 @@
+services:
+  mysql:
+    image: transcodegroup/mysql
+    container_name: mysql
+    restart: always
+    ports:
+      - ${MYSQL_PORT:-3306}:3306
+    volumes:
+      - /data/mysql5.7/data:/var/lib/mysql
+      - /data/mysql5.7/logs:/var/log/mysql
+      - /data/mysql5.7/backup/database:/mysql/backup/database
+      - /data/mysql5.7/backup/log:/mysql/backup/log
+    environment:
+      # 设置密码
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:?required}
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
