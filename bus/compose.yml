@@ -36,7 +36,6 @@ services:
       - logging.level.org.apache.ftpserver=WARN
     ports:
       - ${JTT808_PORT}:${JTT808_PORT}
-      - ${JTT808_PORT_FILE}:${JTT808_PORT_FILE}
       - ${JTT808_PORT_FTP}:${JTT808_PORT_FTP}
       - ${JTT808_PORT_FTP_ACTIVE}:${JTT808_PORT_FTP_ACTIVE}
       - ${JTT808_PORT_FTP_PASSIVE}:${JTT808_PORT_FTP_PASSIVE}
@@ -135,6 +134,62 @@ services:
       - rabbit.mq.login=${RABBITMQ_USERNAME:-admin}
       - rabbit.mq.passcode=${RABBITMQ_PASSWORD:?required}
       - rabbit.mq.virtual=/track
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+  # 主动安全
+  gateway_jsatl12:
+    image: transcodegroup/gateway-jsatl12
+    container_name: gateway_jsatl12
+    restart: always
+    ports:
+      - ${JTT808_PORT_FILE}:${JTT808_PORT_FILE}
+    volumes:
+      - "/data/logs/jsatl12:/logs"
+      - "/data/files/alarm:/data/files/alarm"
+    environment:
+      - gateway_expire_days=16
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    logging:
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+  gateway_calculation:
+    image: transcodegroup/gateway-calculation
+    container_name: gateway_calculation
+    restart: always
+    volumes:
+      - /data/logs/gateway_calculation:/logs
+      - /data/files:/data/files
+    environment:
+      # 默认开启分区存储
+      - DYNAMIC_TABLE=TRUE
+      - STORAGE_ACTIVE=FALSE
+      # DB
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
+
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
     logging: 
       driver: "json-file"
       options:
