@@ -12,7 +12,7 @@ services:
       - ssl-certificate-key
     volumes:
       - "/data/nginx/html:/usr/share/nginx/html"
-      - "/data/nginx/logs:/var/log/nginx"
+      - "/data/logs/nginx:/var/log/nginx"
     configs:
       - source: nginx-nginx.conf
         target: /etc/nginx/nginx.conf

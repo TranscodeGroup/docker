@@ -25,7 +25,7 @@ services:
       #- "/home/docker/video-nginx/conf/conf.d:/etc/nginx/templates"
       #- "/home/docker/video-nginx/conf/conf.d/mdvr-live.conf.template:/etc/nginx/templates/mdvr-live.conf.template"
       - "/home/docker/video-nginx/html:/usr/share/nginx/html"
-      - "/data/nginx/logs:/var/log/nginx"
+      - "/data/logs/video-nginx:/var/log/nginx"
     configs:
       - source: nginx.conf
         target: /etc/nginx/nginx.conf
