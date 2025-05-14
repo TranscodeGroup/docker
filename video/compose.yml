@@ -47,7 +47,7 @@ services:
       # 外网地址, 注册到网关
       - gateway_host=${VIDEO_IP:?required}
       # 客户端通过 ws://localhost:8080/ws/talk对讲, monitor监听, nginx代理端口
-      - gateway_wss=wss://${VIDEO_HOSTNAME:?required}/ws
+      - gateway_wss=wss://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_1}/ws
       # 网关服务注册地址, 建议使用域名
       - gateway_media_enabled=true
       - gateway_media_api=http://${JTT808_HOST:-jtt808}:${JTT808_PORT_HTTP:-9012}
