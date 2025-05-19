@@ -14,6 +14,7 @@
  Date: 29/04/2025 17:54:11
 */
 
+-- 创建maintain数据库
 CREATE DATABASE IF NOT EXISTS maintain DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE maintain;
 

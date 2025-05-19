@@ -14,6 +14,7 @@
  Date: 13/05/2025 19:57:49
 */
 
+-- 创建gps数据库
 CREATE DATABASE IF NOT EXISTS gps DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE gps;
 
