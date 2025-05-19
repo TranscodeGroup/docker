@@ -10,6 +10,7 @@ include:
   - path:  
     - ../docker/video/compose.yml
     - ../docker/video/compose.bus.yml
+    - ../docker/video/compose.bus.http.yml
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.bus.yml

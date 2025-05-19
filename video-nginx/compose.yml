@@ -23,7 +23,6 @@ services:
       # 使用配置文件模板, 后缀需要是.conf.tempalte
       # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
       #- "/home/docker/video-nginx/conf/conf.d:/etc/nginx/templates"
-      #- "/home/docker/video-nginx/conf/conf.d/mdvr-live.conf.template:/etc/nginx/templates/mdvr-live.conf.template"
       - "/home/docker/video-nginx/html:/usr/share/nginx/html"
       - "/data/logs/video-nginx:/var/log/nginx"
     configs:
@@ -53,5 +52,3 @@ configs:
     file: ./conf/conf.d/443.conf.template
   mdvr-live-https.conf.template:
     file: ./conf/conf.d/mdvr-live-https.conf.template
-  mdvr-live-http.conf.template:
-    file: ./conf/conf.d/mdvr-live-http.conf.template
