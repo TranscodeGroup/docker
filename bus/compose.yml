@@ -59,6 +59,9 @@ services:
     volumes:
       - /data/files:/data/files
       - /usr/share/fonts:/usr/share/fonts
+    ports:
+      # 内部端口, 不暴露
+      # - 8899:8899
     environment:
       - DYNAMIC_TABLE=TRUE
       - STORAGE_ACTIVE=TRUE
@@ -102,6 +105,9 @@ services:
     restart: always
     volumes:
       - /data/files:/data/files
+    ports:
+      # 内部端口, 不暴露
+      # - 8011:8011
     depends_on:
       - mysql
       - redis
