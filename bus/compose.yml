@@ -7,7 +7,7 @@ services:
       - /data/files:/data/files
       - /data/logs/gateway_808_2019:/logs
     environment:
-      - gateway_host=0.0.0.0
+      - gateway_ip=${JTT808_IP}
       - gateway_port=${JTT808_PORT}
       - gateway_type=bus-gps
       # 主动安全文件服务器
@@ -59,8 +59,6 @@ services:
     volumes:
       - /data/files:/data/files
       - /usr/share/fonts:/usr/share/fonts
-    ports:
-      - 8899:8899
     environment:
       - DYNAMIC_TABLE=TRUE
       - STORAGE_ACTIVE=TRUE
@@ -104,8 +102,6 @@ services:
     restart: always
     volumes:
       - /data/files:/data/files
-    ports:
-      - 8011:8011
     depends_on:
       - mysql
       - redis
