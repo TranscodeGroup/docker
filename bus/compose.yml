@@ -59,7 +59,7 @@ services:
     volumes:
       - /data/files:/data/files
       - /usr/share/fonts:/usr/share/fonts
-    ports:
+    # ports:
       # 内部端口, 不暴露
       # - 8899:8899
     environment:
@@ -89,7 +89,6 @@ services:
       - rabbit.mq.passcode=${RABBITMQ_PASSWORD:?required}
       - rabbit.mq.virtual=/track
     depends_on:
-      - mysql
       - redis
       - rabbitmq
     logging: 
@@ -105,11 +104,10 @@ services:
     restart: always
     volumes:
       - /data/files:/data/files
-    ports:
+    # ports:
       # 内部端口, 不暴露
       # - 8011:8011
     depends_on:
-      - mysql
       - redis
       - rabbitmq
     environment:
