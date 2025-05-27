@@ -96,6 +96,11 @@ services:
       options:
         # 限制日志文件大小
         max-size: "100m"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
 
   # spring-boot调度
   gateway_dispatch:
