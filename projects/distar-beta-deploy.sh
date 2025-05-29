@@ -1,3 +1,14 @@
+#!/bin/bash
+set -e
+__dirname__=$(dirname "$0")
+
+CONFIG_DIR="$__dirname__/distar"
+WORK_DIR="/data/nginx/html/track/beta"
+
+# 创建并切换到工作目录
+[ -d "$WORK_DIR" ] || mkdir -p "$WORK_DIR" || echo "创建工作目录失败" && exit 1
+cd "$WORK_DIR"
+
 # 检查参数是否提供
 if [ -z "$1" ]; then
   echo "使用方式: $0 --tag=版本号"
@@ -34,7 +45,7 @@ zip_file="MaintainVbenAdmin_Release-${version}.zip"
 # 检查压缩文件是否存在，如果不存在则执行下载
 if [ ! -f "$zip_file" ]; then
   echo "压缩文件 $zip_file 不存在，开始下载..."
-  bash teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release --tag="$version"
+  "$__dirname__"/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release --tag="$version"
   
   # 再次检查压缩文件是否存在
   if [ ! -f "$zip_file" ]; then
@@ -77,18 +88,11 @@ fi
 unzip -o -q "$temp_zip"
 
 # 删除临时zip文件
-#rm "$temp_zip"
+rm "$temp_zip"
 
-# 复制配置文件
 cd ..
-cp -f _app.config.js "$target_dir"
-
-# 复制泰国要求的文件
-cp -f Privacy-Policy.html "$target_dir"
-cp -f google183c314c7b974b78.html "$target_dir"
-cp -f favicon.ico "$target_dir" 
-cp -f logo.png "$target_dir" 
-cp -f favicon.png "$target_dir" 
+# 复制配置文件
+cp -Rf "$CONFIG_DIR/" "$target_dir"
 
 # 指定要处理的HTML文件
 cd "$target_dir"
