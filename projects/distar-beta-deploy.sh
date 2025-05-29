@@ -2,11 +2,12 @@
 set -e
 __dirname__=$(dirname "$0")
 
+BUILD_NAME="MaintainVbenAdmin_Release"
 CONFIG_DIR="$__dirname__/distar"
 WORK_DIR="/data/nginx/html/track/beta"
 
 # 创建并切换到工作目录
-[ -d "$WORK_DIR" ] || mkdir -p "$WORK_DIR" || echo "创建工作目录失败" && exit 1
+[ -d "$WORK_DIR" ] || mkdir -p "$WORK_DIR" || (echo "创建工作目录失败" && exit 1)
 cd "$WORK_DIR"
 
 # 检查参数是否提供
@@ -40,13 +41,23 @@ fi
 target_dir="${version//./}"
 
 # 定义文件名
-zip_file="MaintainVbenAdmin_Release-${version}.zip"
+zip_file="$BUILD_NAME-${version}.zip"
 
 # 检查压缩文件是否存在，如果不存在则执行下载
-if [ ! -f "$zip_file" ]; then
-  echo "压缩文件 $zip_file 不存在，开始下载..."
-  "$__dirname__"/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release --tag="$version"
-  
+if [ -f "$zip_file" ]; then
+  read -p "压缩文件 $zip_file 已存在，是否重新下载？(y/n): " confirm
+else
+  confirm=y
+fi
+
+if [ "$confirm" == "y" ]; then
+  echo "开始下载压缩文件 $zip_file ..."
+  if [ "$version" == "latest" ]; then
+    "$__dirname__"/teamcity-download-artifact.sh --build=$BUILD_NAME
+  else
+    "$__dirname__"/teamcity-download-artifact.sh --build=$BUILD_NAME --tag="$version"
+  fi
+
   # 再次检查压缩文件是否存在
   if [ ! -f "$zip_file" ]; then
     echo "下载失败或文件仍然不存在！"
@@ -92,7 +103,7 @@ rm "$temp_zip"
 
 cd ..
 # 复制配置文件
-cp -Rf "$CONFIG_DIR/" "$target_dir"
+cp -Rfv "$CONFIG_DIR"/* "$target_dir"
 
 # 指定要处理的HTML文件
 cd "$target_dir"
