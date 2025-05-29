@@ -23,13 +23,13 @@ services:
       # 使用配置文件模板, 后缀需要是.conf.tempalte
       # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
       #- "/home/docker/video-nginx/conf/conf.d:/etc/nginx/templates"
-      #- "/home/docker/video-nginx/conf/conf.d/mdvr-live.conf.template:/etc/nginx/templates/mdvr-live.conf.template"
       - "/home/docker/video-nginx/html:/usr/share/nginx/html"
-      - "/data/nginx/logs:/var/log/nginx"
+      - "/data/logs/video-nginx:/var/log/nginx"
     configs:
       - source: nginx.conf
         target: /etc/nginx/nginx.conf
-      - source: mdvr-live.conf.template
+      # 默认启动https的配置
+      - source: mdvr-live-https.conf.template
         target: /etc/nginx/templates/mdvr-live.conf.template
     environment:
       - VIDEO_PORT_HTTPS_0=${VIDEO_PORT_HTTPS_0}
@@ -50,5 +50,5 @@ configs:
     file: ./conf/nginx.conf
   443.conf.template:
     file: ./conf/conf.d/443.conf.template
-  mdvr-live.conf.template:
-    file: ./conf/conf.d/mdvr-live.conf.template
+  mdvr-live-https.conf.template:
+    file: ./conf/conf.d/mdvr-live-https.conf.template

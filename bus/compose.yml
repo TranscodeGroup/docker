@@ -1,0 +1,202 @@
+services:
+  gateway_808_2019:
+    image: transcodegroup/gateway-808-2019:latest
+    container_name: gateway_808_2019
+    restart: always
+    volumes:
+      - /data/files:/data/files
+      - /data/logs/gateway_808_2019:/logs
+    environment:
+      - gateway_ip=${JTT808_IP}
+      - gateway_port=${JTT808_PORT}
+      - gateway_type=bus-gps
+      # 主动安全文件服务器
+      - gateway_file-host=${JTT808_IP:?required}
+      - gateway_file-port=${JTT808_PORT_FILE}
+      # FTP
+      - gateway_ftp_ip=${JTT808_IP:?required}
+      - gateway_ftp_port=${JTT808_PORT_FTP}
+      - gateway_ftp_active-port=${JTT808_PORT_FTP_ACTIVE}
+      - gateway_ftp_passive-ip=${JTT808_IP:?required}
+      - gateway_ftp_passive-ports=${JTT808_PORT_FTP_PASSIVE}
+      - gateway_ftp_file-save-days=30
+
+      # DB
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
+
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+
+      # 日志
+      - logging_level_io_netty_handler_logging_LoggingHandler=WARN
+      - logging.level.org.apache.ftpserver=WARN
+    ports:
+      - ${JTT808_PORT}:${JTT808_PORT}
+      - ${JTT808_PORT_FTP}:${JTT808_PORT_FTP}
+      - ${JTT808_PORT_FTP_ACTIVE}:${JTT808_PORT_FTP_ACTIVE}
+      - ${JTT808_PORT_FTP_PASSIVE}:${JTT808_PORT_FTP_PASSIVE}
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    # json-file
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50M"
+        max-file: "1"
+        
+  # spring-boot后端
+  gateway_web:
+    image: transcodegroup/gateway-web
+    container_name: gateway_web
+    restart: always
+    volumes:
+      - /data/files:/data/files
+      - /usr/share/fonts:/usr/share/fonts
+    # ports:
+      # 内部端口, 不暴露
+      # - 8899:8899
+    environment:
+      - DYNAMIC_TABLE=TRUE
+      - STORAGE_ACTIVE=TRUE
+      - SPRING_SERVLET_MULTIPART_MAX-FILE-SIZE=100MB
+      # DB
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
+
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+
+      # RABBITMQ
+      - spring.rabbitmq.host=${RABBITMQ_HOST:-rabbitmq}
+      - spring.rabbitmq.port=${RABBITMQ_PORT:-5672}
+      - spring.rabbitmq.username=${RABBITMQ_USERNAME:-admin}
+      - spring.rabbitmq.password=${RABBITMQ_PASSWORD:?required}
+      - spring.rabbitmq.virtual-host=/track
+      # RABBITMQ-STOMP
+      - rabbit.mq.host=${RABBITMQ_HOST:-rabbitmq}
+      - rabbit.mq.port=${RABBITMQ_PORT_STOMP:-61613}
+      - rabbit.mq.login=${RABBITMQ_USERNAME:-admin}
+      - rabbit.mq.passcode=${RABBITMQ_PASSWORD:?required}
+      - rabbit.mq.virtual=/track
+    depends_on:
+      - redis
+      - rabbitmq
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+
+  # spring-boot调度
+  gateway_dispatch:
+    image: transcodegroup/gateway-dispatch
+    container_name: gateway_dispatch
+    restart: always
+    volumes:
+      - /data/files:/data/files
+    # ports:
+      # 内部端口, 不暴露
+      # - 8011:8011
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      - DYNAMIC_TABLE=TRUE
+      # DB
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
+
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+
+      # RABBITMQ
+      - spring.rabbitmq.host=${RABBITMQ_HOST:-rabbitmq}
+      - spring.rabbitmq.port=${RABBITMQ_PORT:-5672}
+      - spring.rabbitmq.username=${RABBITMQ_USERNAME:-admin}
+      - spring.rabbitmq.password=${RABBITMQ_PASSWORD:?required}
+      - spring.rabbitmq.virtual-host=/track
+      # RABBITMQ-STOMP
+      - rabbit.mq.host=${RABBITMQ_HOST:-rabbitmq}
+      - rabbit.mq.port=${RABBITMQ_PORT_STOMP:-61613}
+      - rabbit.mq.login=${RABBITMQ_USERNAME:-admin}
+      - rabbit.mq.passcode=${RABBITMQ_PASSWORD:?required}
+      - rabbit.mq.virtual=/track
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+  # 主动安全
+  gateway_jsatl12:
+    image: transcodegroup/gateway-jsatl12
+    container_name: gateway_jsatl12
+    restart: always
+    ports:
+      - ${JTT808_PORT_FILE}:${JTT808_PORT_FILE}
+    volumes:
+      - "/data/logs/jsatl12:/logs"
+      - "/data/files/alarm:/data/files/alarm"
+    environment:
+      - gateway_expire_days=16
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    logging:
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
+  gateway_calculation:
+    image: transcodegroup/gateway-calculation
+    container_name: gateway_calculation
+    restart: always
+    volumes:
+      - /data/logs/gateway_calculation:/logs
+      - /data/files:/data/files
+    environment:
+      # 默认开启分区存储
+      - DYNAMIC_TABLE=TRUE
+      - STORAGE_ACTIVE=FALSE
+      # DB
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
+      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
+
+      # REDIS
+      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
+      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
+      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"

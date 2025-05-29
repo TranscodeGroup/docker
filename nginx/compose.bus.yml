@@ -8,7 +8,8 @@ services:
       - bus-ssl-certificate-key
     environment:
       - BUS_HOSTNAME=${BUS_HOSTNAME:?required}
-
+    volumes:
+      - "/data/files:/data/files"
 secrets:
   bus-ssl-certificate:
     file: ${BUS_SSL_CERTIFICATE:?required}.crt

@@ -30,7 +30,27 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 docker compose config
 ```
 
-### 4. 启动
+### 4. 下载前端文件
+
+下载并提取最新的`bus`前端:
+
+```sh
+cd /data/nginx/html
+/home/docker/scripts/teamcity-download-artifact.sh --build=CityBusVueAdmin_Release
+unzip CityBusVueAdmin_Release-latest.zip
+unzip bus.zip -d bus
+```
+
+下载并提取最新的`track`前端:
+
+```sh
+cd /data/nginx/html
+/home/docker/scripts/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release
+unzip MaintainVbenAdmin_Release-latest.zip
+unzip maintain.zip -d track
+```
+
+### 5. 启动
 
 在`/home/docker-compose`中执行如下命令, 启动docker:
 

@@ -67,7 +67,7 @@ server {
         proxy_set_header Connection $connection_upgrade;
     }
 
-    location ~ ^/(pass|file|datamotor|video)/ {
+    location ~ ^/(pass|file|datamotor|video|health)/ {
         proxy_pass http://track_api_server;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;

@@ -1,0 +1,6 @@
+services:
+  # rtp推流服务
+  rtp:
+    environment:
+      # 复写url成http协议
+      - gateway_srs_wan_http=http://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_1}/mdvr,http://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_2}/mdvr,http://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_3}/mdvr,http://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_4}/mdvr,http://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_5}/mdvr

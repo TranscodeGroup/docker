@@ -1,0 +1,17 @@
+# BUS单机部署模版
+include:
+  - ../docker/mysql5.7/compose.yml
+  - ../docker/rabbitmq/compose.yml
+  - ../docker/redis/compose.yml  
+  - ../docker/bus/compose.yml
+  - path:  
+    - ../docker/video-nginx/compose.yml
+    - ../docker/video-nginx/compose.http.yml
+  - path:  
+    - ../docker/video/compose.yml
+    - ../docker/video/compose.bus.yml
+    - ../docker/video/compose.bus.http.yml
+  - path:
+    - ../docker/nginx/compose.yml
+    - ../docker/nginx/compose.bus.yml
+
