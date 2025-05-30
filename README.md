@@ -32,11 +32,14 @@ docker compose config
 
 ### 4. 下载前端文件
 
+部署distar等项目的前端:  
+[说明文件](projects/README.md)
+
 下载并提取最新的`bus`前端:
 
 ```sh
 cd /data/nginx/html
-/home/docker/scripts/teamcity-download-artifact.sh --build=CityBusVueAdmin_Release
+/home/docker/projects/teamcity-download-artifact.sh --build=CityBusVueAdmin_Release
 unzip CityBusVueAdmin_Release-latest.zip
 unzip bus.zip -d bus
 ```
@@ -45,7 +48,7 @@ unzip bus.zip -d bus
 
 ```sh
 cd /data/nginx/html
-/home/docker/scripts/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release
+/home/docker/projects/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release
 unzip MaintainVbenAdmin_Release-latest.zip
 unzip maintain.zip -d track
 ```
