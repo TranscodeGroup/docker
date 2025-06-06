@@ -1,14 +1,15 @@
 #!/bin/bash
 set -e
-__dirname__=$(dirname "$0")
+__dirname__=$(realpath "$(dirname "$0")")
 
 BUILD_NAME="MaintainVbenAdmin_Release"
 CONFIG_DIR="$__dirname__/distar"
-WORK_DIR="/data/nginx/html/track/beta"
+DOWNLOAD_SCRIPT="$__dirname__"/teamcity-download-artifact.sh
+DEPLOY_DIR="${DEPLOY_DIR:-/data/nginx/html/track/beta}"
 
-# 创建并切换到工作目录
-[ -d "$WORK_DIR" ] || mkdir -p "$WORK_DIR" || (echo "创建工作目录失败" && exit 1)
-cd "$WORK_DIR"
+# 创建并切换到部署目录
+[ -d "$DEPLOY_DIR" ] || mkdir -p "$DEPLOY_DIR" || (echo "创建部署目录失败" && exit 1)
+cd "$DEPLOY_DIR"
 
 # 检查参数是否提供
 if [ -z "$1" ]; then
@@ -53,9 +54,9 @@ fi
 if [ "$confirm" == "y" ]; then
   echo "开始下载压缩文件 $zip_file ..."
   if [ "$version" == "latest" ]; then
-    "$__dirname__"/teamcity-download-artifact.sh --build=$BUILD_NAME
+    "$DOWNLOAD_SCRIPT" --build=$BUILD_NAME
   else
-    "$__dirname__"/teamcity-download-artifact.sh --build=$BUILD_NAME --tag="$version"
+    "$DOWNLOAD_SCRIPT" --build=$BUILD_NAME --tag="$version"
   fi
 
   # 再次检查压缩文件是否存在
@@ -116,8 +117,9 @@ OLD_DIV='数字交通云平台'
 NEW_DIV='ดูแลการเดินรถของคุ'
 
 # 使用sed命令进行文本替换
-sed -i "s|$OLD_TITLE|$NEW_TITLE|g" "$html_file"
-sed -i "s|$OLD_DIV|$NEW_DIV|g" "$html_file"
+sed -i.bak "s|$OLD_TITLE|$NEW_TITLE|g" "$html_file"
+sed -i.bak "s|$OLD_DIV|$NEW_DIV|g" "$html_file"
+rm "$html_file".bak
 
 echo "替换完成：$html_file 中的 '工物员' 已被替换为 'DiStarGPS ดูแลการเดินรถของคุณ'"
 
