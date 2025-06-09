@@ -7,36 +7,50 @@ CONFIG_DIR="$__dirname__/distar"
 DOWNLOAD_SCRIPT="$__dirname__"/teamcity-download-artifact.sh
 DEPLOY_DIR="${DEPLOY_DIR:-/data/nginx/html/track/beta}"
 
-# 创建并切换到部署目录
-[ -d "$DEPLOY_DIR" ] || mkdir -p "$DEPLOY_DIR" || (echo "创建部署目录失败" && exit 1)
-cd "$DEPLOY_DIR"
+print_help() {
+  local bin_name=$(basename "$0")
+  echo
+  echo "部署 distar beta版"
+  echo
+  echo "Usage: $bin_name --tag=<tag> [--dir=<dir>]"
+  echo
+  echo "--tag: 标签名, 必填"
+  echo "--deploy-dir: 部署目录, 默认为 /data/nginx/html/track/beta"
+  echo
+  echo "示例:"
+  echo
+  echo "$bin_name --tag=v1.14.0"
+  echo
+  echo "$bin_name --tag=v1.14.0 --dir=/data/nginx/html/track/test"
+  echo
+}
 
-# 检查参数是否提供
-if [ -z "$1" ]; then
-  echo "使用方式: $0 --tag=版本号"
-  exit 1
-fi
-
-# 解析参数
-for arg in "$@"
-do
-  case $arg in
+while [ $# -gt 0 ]; do
+  case "$1" in
     --tag=*)
-    version="${arg#*=}"
-    shift # 移除已处理的参数
-    ;;
+      version="${1#*=}"
+      ;;
+    --dir=*)
+      DEPLOY_DIR="${1#*=}"
+      ;;
     *)
-    echo "未知参数: $arg"
-    exit 1
-    ;;
+      print_help
+      exit 1
+      ;;
   esac
+  shift
 done
 
 # 检查版本号是否为空
 if [ -z "$version" ]; then
   echo "版本号不能为空"
+  print_help
   exit 1
 fi
+
+# 创建并切换到部署目录
+[ -d "$DEPLOY_DIR" ] || mkdir -p "$DEPLOY_DIR" || (echo "创建部署目录失败" && exit 1)
+cd "$DEPLOY_DIR"
 
 # 替换点号并生成目标目录
 target_dir="${version//./}"

@@ -10,8 +10,8 @@
 /home/docker/projects/distar-beta-depoly.sh --tag=v1.15.1
 
 # 下载tag版本到当前目录
-DEPLOY_DIR=. /home/docker/projects/distar-beta-depoly.sh --tag=v1.15.1
+/home/docker/projects/distar-beta-depoly.sh --tag=v1.15.1 --dir=.
 
 # 下载tag版本到/data/nginx/html目录
-DEPLOY_DIR=/data/nginx/html /home/docker/projects/distar-beta-depoly.sh --tag=v1.15.1
+/home/docker/projects/distar-beta-depoly.sh --tag=v1.15.1 --dir=/data/nginx/html
 ```
