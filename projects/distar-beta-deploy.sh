@@ -1,41 +1,56 @@
 #!/bin/bash
 set -e
-__dirname__=$(dirname "$0")
+__dirname__=$(realpath "$(dirname "$0")")
 
 BUILD_NAME="MaintainVbenAdmin_Release"
 CONFIG_DIR="$__dirname__/distar"
-WORK_DIR="/data/nginx/html/track/beta"
+DOWNLOAD_SCRIPT="$__dirname__"/teamcity-download-artifact.sh
+DEPLOY_DIR="${DEPLOY_DIR:-/data/nginx/html/track/beta}"
 
-# 创建并切换到工作目录
-[ -d "$WORK_DIR" ] || mkdir -p "$WORK_DIR" || (echo "创建工作目录失败" && exit 1)
-cd "$WORK_DIR"
+print_help() {
+  local bin_name=$(basename "$0")
+  echo
+  echo "部署 distar beta版"
+  echo
+  echo "Usage: $bin_name --tag=<tag> [--dir=<dir>]"
+  echo
+  echo "--tag: 标签名, 必填"
+  echo "--deploy-dir: 部署目录, 默认为 /data/nginx/html/track/beta"
+  echo
+  echo "示例:"
+  echo
+  echo "$bin_name --tag=v1.14.0"
+  echo
+  echo "$bin_name --tag=v1.14.0 --dir=/data/nginx/html/track/test"
+  echo
+}
 
-# 检查参数是否提供
-if [ -z "$1" ]; then
-  echo "使用方式: $0 --tag=版本号"
-  exit 1
-fi
-
-# 解析参数
-for arg in "$@"
-do
-  case $arg in
+while [ $# -gt 0 ]; do
+  case "$1" in
     --tag=*)
-    version="${arg#*=}"
-    shift # 移除已处理的参数
-    ;;
+      version="${1#*=}"
+      ;;
+    --dir=*)
+      DEPLOY_DIR="${1#*=}"
+      ;;
     *)
-    echo "未知参数: $arg"
-    exit 1
-    ;;
+      print_help
+      exit 1
+      ;;
   esac
+  shift
 done
 
 # 检查版本号是否为空
 if [ -z "$version" ]; then
   echo "版本号不能为空"
+  print_help
   exit 1
 fi
+
+# 创建并切换到部署目录
+[ -d "$DEPLOY_DIR" ] || mkdir -p "$DEPLOY_DIR" || (echo "创建部署目录失败" && exit 1)
+cd "$DEPLOY_DIR"
 
 # 替换点号并生成目标目录
 target_dir="${version//./}"
@@ -53,9 +68,9 @@ fi
 if [ "$confirm" == "y" ]; then
   echo "开始下载压缩文件 $zip_file ..."
   if [ "$version" == "latest" ]; then
-    "$__dirname__"/teamcity-download-artifact.sh --build=$BUILD_NAME
+    "$DOWNLOAD_SCRIPT" --build=$BUILD_NAME
   else
-    "$__dirname__"/teamcity-download-artifact.sh --build=$BUILD_NAME --tag="$version"
+    "$DOWNLOAD_SCRIPT" --build=$BUILD_NAME --tag="$version"
   fi
 
   # 再次检查压缩文件是否存在
@@ -116,8 +131,9 @@ OLD_DIV='数字交通云平台'
 NEW_DIV='ดูแลการเดินรถของคุ'
 
 # 使用sed命令进行文本替换
-sed -i "s|$OLD_TITLE|$NEW_TITLE|g" "$html_file"
-sed -i "s|$OLD_DIV|$NEW_DIV|g" "$html_file"
+sed -i.bak "s|$OLD_TITLE|$NEW_TITLE|g" "$html_file"
+sed -i.bak "s|$OLD_DIV|$NEW_DIV|g" "$html_file"
+rm "$html_file".bak
 
 echo "替换完成：$html_file 中的 '工物员' 已被替换为 'DiStarGPS ดูแลการเดินรถของคุณ'"
 
