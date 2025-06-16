@@ -139,6 +139,12 @@ services:
       - rabbit.mq.login=${RABBITMQ_USERNAME:-admin}
       - rabbit.mq.passcode=${RABBITMQ_PASSWORD:?required}
       - rabbit.mq.virtual=/track
+    ulimits:
+      nproc: 65535
+      nofile:
+        soft: 20000
+        hard: 40000
+    # json-file
     logging: 
       driver: "json-file"
       options:
