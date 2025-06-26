@@ -38,6 +38,12 @@ services:
       - CATALOG_ELEMENTS_LIMIT=1000
     depends_on:
       - registry
+  services:
+    ### linux命令工具，访问http://127.0.0.1:3000
+    linux_command:
+      image: wcjiang/linux-command:latest
+      ports:
+        - "3000:3000"
 secrets:
   ssl-certificate-crt:
     file: ${SSL_CERTIFICATE:?required}.crt
