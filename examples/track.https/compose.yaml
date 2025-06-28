@@ -1,0 +1,25 @@
+#---------------------------------
+#         V2单机部署方案
+# -------------------------------
+# 1. 准备服务器内网IP, 外网IP, SSL
+# 2. 修改.env文件
+# 3. docker compose config 检查配置
+# 4. docker compose up -d 启动服务
+#================================
+
+include:
+  - ../docker/mysql8/compose.yml
+  - ../docker/redis/compose.yml
+  - ../docker/mongodb/compose.yml
+  - ../docker/rabbitmq/compose.yml
+  - ../docker/minio/compose.yml
+  - ../docker/maintain/compose.yml
+  - ../docker/jtt808/compose.yml
+  # 反向代理(http-80和https-443)
+  - path:
+    - ../docker/nginx/compose.yml
+    - ../docker/nginx/compose.track.yml
+  # 视频服务(rtp, rtmp, http-flv)
+  - ../docker/video/compose.yml
+  # 视频服务https(http-flv多端口支持, 对讲)
+  - ../docker/video-nginx/compose.yml
