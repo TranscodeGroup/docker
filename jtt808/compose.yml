@@ -28,7 +28,7 @@ services:
       - gateway_ftp_passive_ports=${JTT808_PORT_FTP_PASSIVE}
 
       # 终端注册服务
-      - gateway_device-register-url=${WEB_BASE_URL}
+      - gateway_device-register-url=http://${MAINTAIN_HOST:-maintain}:${MAINTAIN_PORT:-8080}
       # 网关Http服务, 需要代理？
       - gateway_http_url=${WEB_BASE_URL}/jtt808
 
@@ -50,7 +50,7 @@ services:
       - logging.level.io.netty.handler.logging.LoggingHandler=INFO
       # 网关日志写法2
       # - SPRING_APPLICATION_JSON={"logging.level.io.netty.handler.logging.LoggingHandler":"DEBUG"}
-    logging: 
+    logging:
       driver: "json-file"
       options:
         max-size: "100m"
