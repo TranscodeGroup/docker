@@ -10,7 +10,7 @@ services:
     environment:
       - MINIO_ROOT_USER=${MINIO_USER:-minioadmin}
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:?required}
-      - MINIO_BROWSER_REDIRECT_URL=https://${SERVER_HOSTNAME:-tripsdd.com}
+      - MINIO_BROWSER_REDIRECT_URL=${WEB_BASE_URL:?required}
     volumes:
       - "/data/minio-data:/data"
     command: server /data --console-address ":${MINIO_PORT_HTTP:-8001}" --address ":${MINIO_PORT:-8000}"
