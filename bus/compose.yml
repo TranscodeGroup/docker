@@ -162,6 +162,7 @@ services:
       - "/data/files/alarm:/data/files/alarm"
     environment:
       - gateway_expire_days=16
+      - gateway_port=${JTT808_PORT_FILE}
       # REDIS
       - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
       - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
