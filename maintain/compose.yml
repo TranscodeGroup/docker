@@ -10,6 +10,7 @@ services:
     ports:
       - ${MAINTAIN_PORT:-8080}:8080
     environment:
+      - JAVA_TOOL_OPTIONS=-Xms1024m -Xmx2048m
       # DB
       - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql8}:${MYSQL_PORT:-3306}/maintain?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
