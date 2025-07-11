@@ -15,6 +15,7 @@ services:
       - "/data/jtt808:/data/jtt808"
       - "/data/logs/jtt808:/logs"
     environment:
+      - JAVA_TOOL_OPTIONS=-Xms1024m -Xmx2048m
       # 监听端口
       - gateway_ip=${JTT808_IP:?required}
       - gateway_port=${JTT808_PORT}
