@@ -5,7 +5,7 @@ services:
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime
-      - ${MAINTAIN_TOKEN_DIR:?required}:/home/token
+      - ${MAINTAIN_TOKEN_DIR:-/home/docker-compose/token}:/home/token
       - /data/logs/maintain:/logs
     ports:
       - ${MAINTAIN_PORT:-8080}:8080
