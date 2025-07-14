@@ -32,6 +32,8 @@ services:
       - source: mdvr-live-https.conf.template
         target: /etc/nginx/templates/mdvr-live.conf.template
     environment:
+      - MINIO_HOST=${MINIO_HOST}
+      - MINIO_PORT=${MINIO_PORT}
       - VIDEO_PORT_HTTPS_0=${VIDEO_PORT_HTTPS_0}
       - VIDEO_PORT_HTTPS_1=${VIDEO_PORT_HTTPS_1}
       - VIDEO_PORT_HTTPS_2=${VIDEO_PORT_HTTPS_2}
