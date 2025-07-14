@@ -15,7 +15,7 @@ services:
       # 启用mini 录像将存放minio中do
       - spring_minio_enabled=true
       - spring_minio_domain=https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_0}/minio
-      - spring_minio_endpoint=http://minio:8000
+      - spring_minio_endpoint=http://${MINIO_HOST:-minio}:${MINIO_PORT:-8000}
       - spring_minio_accessKey=${MINIO_ACCESSKEY:?required}
       - spring_minio_secretKey=${MINIO_SECRETKEY:?required}
       - spring_minio_bucketName=storage
