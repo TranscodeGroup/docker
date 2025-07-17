@@ -3894,8 +3894,8 @@ CREATE TABLE `user_info`  (
 -- ----------------------------
 -- Records of user_info
 -- ----------------------------
-INSERT INTO `user_info` VALUES (15865, 'dca0f9e348384d23958e151bb4adb98f', '系统管理员', 'sysadmin', '{bcrypt-md5}$2a$10$dsfVEzh5NlfrgkcLFbrPLOuSsm5zJMJJwYqlQfTSWs3qKzwhQx5Ku', '/minio/maintain/avatar/202504/3e9b5f914ff105ea2d32c4a4c53b10121a16aac4.png', NULL, NULL, '+08:00', NULL, 0, 0, 100, 0, '', '系统账号', '2025-04-29 09:27:50', NULL, NULL, '2025-04-29 03:46:24', 0, NULL, '', 0, '2025-04-29 03:46:24', '2025-04-29 09:28:57');
-INSERT INTO `user_info` VALUES (15866, '25d19d8c917747ea', 'tgadmin', '组织管理员', '{bcrypt-md5}$2a$10$x7PPR5QH/2yooQmv4szk5O4.l1AujbzMbosaO4SaYL9UxXTsOKKey', '/minio/maintain/avatar/202504/db1c192ad620acdff541de0125ae887bf2366a2b.png', NULL, NULL, '+08:00', NULL, 0, 0, 1, 0, '', NULL, '2025-04-30 08:04:22', NULL, NULL, '2025-04-30 07:35:32', 0, 110, '', 0, '2025-04-30 07:35:32', '2025-04-30 08:22:00');
+INSERT INTO `user_info` VALUES (1, 'dca0f9e348384d23958e151bb4adb98f', '系统管理员', 'sysadmin', '{bcrypt-md5}$2a$10$dsfVEzh5NlfrgkcLFbrPLOuSsm5zJMJJwYqlQfTSWs3qKzwhQx5Ku', '', NULL, NULL, '+08:00', NULL, 0, 0, 100, 0, '', '系统账号', '2025-04-29 09:27:50', NULL, NULL, '2025-04-29 03:46:24', 0, NULL, '', 0, '2025-04-29 03:46:24', '2025-04-29 09:28:57');
+INSERT INTO `user_info` VALUES (2, '25d19d8c917747ea', '组织管理员', 'tgadmin', '{bcrypt-md5}$2a$10$x7PPR5QH/2yooQmv4szk5O4.l1AujbzMbosaO4SaYL9UxXTsOKKey', '', NULL, NULL, '+08:00', NULL, 0, 0, 1, 0, '', NULL, '2025-04-30 08:04:22', NULL, NULL, '2025-04-30 07:35:32', 0, 110, '', 0, '2025-04-30 07:35:32', '2025-04-30 08:22:00');
 -- ----------------------------
 -- Table structure for user_issue
 -- ----------------------------
