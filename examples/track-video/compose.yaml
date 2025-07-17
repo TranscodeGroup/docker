@@ -1,0 +1,19 @@
+## V2单机部署方案
+# 1. 修改.env文件. 初始化各种密码
+# 2. 生成/home/token秘钥, SSL证书文件
+# 3. docker compose up -d启动服务
+include:
+  - ../docker/mysql8/compose.yml
+  - ../docker/redis/compose.yml
+  - ../docker/mongodb/compose.yml
+  - ../docker/rabbitmq/compose.yml
+  - ../docker/minio/compose.yml
+  - ../docker/maintain/compose.yml
+  - ../docker/jtt808/compose.yml
+  - ../docker/video/compose.yml
+  - path:
+    - ../docker/nginx/compose.yml
+    - ../docker/nginx/compose.track.yml
+  - path:
+    - ../docker/video-nginx/compose.yml
+    - ../docker/video-nginx/compose.minio.yml
