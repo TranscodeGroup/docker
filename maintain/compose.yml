@@ -5,8 +5,9 @@ services:
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime
-      - ${MAINTAIN_TOKEN_DIR:?required}:/home/token
+      - ${MAINTAIN_TOKEN_DIR:-/home/token}:/home/token
       - /data/logs/maintain:/logs
+      - /data/fonts:/data/fonts
     ports:
       - ${MAINTAIN_PORT:-8080}:8080
     environment:
