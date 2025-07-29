@@ -59,6 +59,7 @@ services:
     volumes:
       - /data/files:/data/files
       - /usr/share/fonts:/usr/share/fonts
+      - /home/token:/home/token
     # ports:
       # 内部端口, 不暴露
       # - 8899:8899
