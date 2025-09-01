@@ -4,4 +4,5 @@ services:
        # 原生端口是9000和9001, 规避RTP服务端口冲突, 所以-1000
       - ${MINIO_FTP_PORT:-8021}:${MINIO_FTP_PORT:-8021}
       - ${MINIO_FTP_PASSIVE_PORT:-8523-8529}:${MINIO_FTP_PASSIVE_PORT:-8523-8529}
-    command: server /data --console-address ":${MINIO_PORT_HTTP:-8001}" --address ":${MINIO_PORT:-8000}" --ftp="address=:${MINIO_FTP_PORT:-8021}" --ftp="passive-port-range=${MINIO_FTP_PASSIVE_PORT:-8523-8529}"
+    # 被动模式外网IP问题, https://github.com/minio/minio/issues/17457
+    command: server /data --console-address ":${MINIO_PORT_HTTP:-8001}" --address ":${MINIO_PORT:-8000}" --ftp="address=${SERVER_IP_PUBLIC}:${MINIO_FTP_PORT:-8021}" --ftp="passive-port-range=${MINIO_FTP_PASSIVE_PORT:-8523-8529}"
