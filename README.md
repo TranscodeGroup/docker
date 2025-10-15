@@ -24,10 +24,16 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 
 创建`/home/docker-compose/.env`文件, 参考[.env.default](./.env.default)复写需要改写的配置项.
 
-在`/home/docker-compose`中执行如下命令, 验证所有使用到的必填的值, 是否已经设置:
+在`/home/docker-compose`中执行如下命令, 校验所有使用到的必填的值, 是否已经设置:
 
 ```sh
 docker compose config
+```
+
+校验通过之后, 执行如下命令, 将compose配置导出成一个文件, 方便在更新compose文件后对比差异:
+
+```sh
+docker compose config > compose-stack.yaml
 ```
 
 ### 4. 下载前端文件
@@ -59,12 +65,4 @@ unzip maintain.zip -d track
 
 ```sh
 docker compose up
-```
-
-### 6. 导出compose配置
-
-执行如下命令, 将compose配置导出成一个文件, 方便在更新compose文件后对比差异:
-
-```sh
-docker compose config > compose-stack.yaml
 ```
