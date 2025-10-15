@@ -11,8 +11,8 @@ services:
       - ssl-certificate
       - ssl-certificate-key
     volumes:
-      - "${DATA_DIR}/nginx/html:/usr/share/nginx/html"
-      - "${DATA_DIR}/logs/nginx:/var/log/nginx"
+      - "${DATA_DIR:-/data}/nginx/html:/usr/share/nginx/html"
+      - "${DATA_DIR:-/data}/logs/nginx:/var/log/nginx"
     configs:
       - source: nginx-nginx.conf
         target: /etc/nginx/nginx.conf

@@ -24,7 +24,7 @@ services:
       # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
       #- "/home/docker/video-nginx/conf/conf.d:/etc/nginx/templates"
       - "/home/docker/video-nginx/html:/usr/share/nginx/html"
-      - "${DATA_DIR}/logs/video-nginx:/var/log/nginx"
+      - "${DATA_DIR:-/data}/logs/video-nginx:/var/log/nginx"
     configs:
       - source: nginx.conf
         target: /etc/nginx/nginx.conf

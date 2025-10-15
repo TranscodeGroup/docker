@@ -12,7 +12,7 @@ services:
       #- 8080:8080
     volumes:
       - "/home/docker/video/srs/conf:/usr/local/srs/conf"
-      - "${DATA_DIR}/srs/html:/usr/local/srs/objs/nginx/html"
+      - "${DATA_DIR:-/data}/srs/html:/usr/local/srs/objs/nginx/html"
     ulimits:
       nproc: 65535
       nofile:
@@ -40,7 +40,7 @@ services:
       # 客户端-对讲和api服务接口,建议nginx代理, 内部别名访问
       # - 9006:9006
     volumes:
-      - "${DATA_DIR}/logs/rtp:/logs"
+      - "${DATA_DIR:-/data}/logs/rtp:/logs"
     environment:
       # 服务节点名称
       - gateway_zone=live-${VIDEO_IP:?required}

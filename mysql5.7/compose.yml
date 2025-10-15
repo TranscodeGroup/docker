@@ -6,10 +6,10 @@ services:
     ports:
       - ${MYSQL_PORT:-3306}:3306
     volumes:
-      - ${DATA_DIR}/mysql5.7/data:/var/lib/mysql
-      - ${DATA_DIR}/mysql5.7/logs:/var/log/mysql
-      - ${DATA_DIR}/mysql5.7/backup/database:/mysql/backup/database
-      - ${DATA_DIR}/mysql5.7/backup/log:/mysql/backup/log
+      - ${DATA_DIR:-/data}/mysql5.7/data:/var/lib/mysql
+      - ${DATA_DIR:-/data}/mysql5.7/logs:/var/log/mysql
+      - ${DATA_DIR:-/data}/mysql5.7/backup/database:/mysql/backup/database
+      - ${DATA_DIR:-/data}/mysql5.7/backup/log:/mysql/backup/log
     environment:
       # 设置密码
       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:?required}
