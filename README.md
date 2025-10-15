@@ -60,3 +60,11 @@ unzip maintain.zip -d track
 ```sh
 docker compose up
 ```
+
+### 6. 导出compose配置
+
+将compose配置导出成一个文件, 方便对比差异:
+
+```sh
+docker compose config > compose-stack.yaml
+```
