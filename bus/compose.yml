@@ -4,8 +4,8 @@ services:
     container_name: gateway_808_2019
     restart: always
     volumes:
-      - /data/files:/data/files
-      - /data/logs/gateway_808_2019:/logs
+      - ${DATA_DIR:-/data}/files:/data/files
+      - ${DATA_DIR:-/data}/logs/gateway_808_2019:/logs
     environment:
       - gateway_ip=${JTT808_IP}
       - gateway_port=${JTT808_PORT}
@@ -57,7 +57,7 @@ services:
     container_name: gateway_web
     restart: always
     volumes:
-      - /data/files:/data/files
+      - ${DATA_DIR:-/data}/files:/data/files
       - /usr/share/fonts:/usr/share/fonts
     # ports:
       # 内部端口, 不暴露
@@ -108,7 +108,7 @@ services:
     container_name: gateway_dispatch
     restart: always
     volumes:
-      - /data/files:/data/files
+      - ${DATA_DIR:-/data}/files:/data/files
     # ports:
       # 内部端口, 不暴露
       # - 8011:8011
@@ -158,8 +158,8 @@ services:
     ports:
       - ${JTT808_PORT_FILE}:${JTT808_PORT_FILE}
     volumes:
-      - "/data/logs/jsatl12:/logs"
-      - "/data/files/alarm:/data/files/alarm"
+      - "${DATA_DIR:-/data}/logs/jsatl12:/logs"
+      - "${DATA_DIR:-/data}/files/alarm:/data/files/alarm"
     environment:
       - gateway_expire_days=16
       - gateway_port=${JTT808_PORT_FILE}
@@ -182,8 +182,8 @@ services:
     container_name: gateway_calculation
     restart: always
     volumes:
-      - /data/logs/gateway_calculation:/logs
-      - /data/files:/data/files
+      - ${DATA_DIR:-/data}/logs/gateway_calculation:/logs
+      - ${DATA_DIR:-/data}/files:/data/files
     environment:
       # 默认开启分区存储
       - DYNAMIC_TABLE=TRUE

@@ -8,9 +8,9 @@ services:
       - ${MONGODB_PORT:-27017}:27017
     volumes:
      - /etc/localtime:/etc/localtime
-     - /data/mongo/data/db:/data/db
-     - /data/mongo/data/log:/var/log/mongodb
-     - /data/mongo/data/config:/etc/mongo
+     - ${DATA_DIR:-/data}/mongo/data/db:/data/db
+     - ${DATA_DIR:-/data}/mongo/data/log:/var/log/mongodb
+     - ${DATA_DIR:-/data}/mongo/data/config:/etc/mongo
     environment:
     - MONGO_INITDB_ROOT_USERNAME=root
     - MONGO_INITDB_ROOT_PASSWORD=${MONGODB_PASSWORD:?required}

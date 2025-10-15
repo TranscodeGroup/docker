@@ -23,7 +23,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD:?required}
       - RABBITMQ_DEFAULT_VHOST=/track
     volumes:
-      - "/data/rabbitmq:/var/lib/rabbitmq"
+      - "${DATA_DIR:-/data}/rabbitmq:/var/lib/rabbitmq"
     logging: 
       driver: "json-file"
       options:
