@@ -12,7 +12,7 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_PASSWORD:?required}
       - MINIO_BROWSER_REDIRECT_URL=https://${VIDEO_HOSTNAME:?required}
     volumes:
-      - "${DATA_DIR:-/data}/minio-data:/data"
+      - "${DATA_DIR}/minio-data:/data"
     command: server /data --console-address ":${MINIO_PORT_HTTP:-8001}" --address ":${MINIO_PORT:-8000}"
     logging: 
       driver: "json-file"

@@ -9,7 +9,7 @@ services:
     environment:
       - BUS_HOSTNAME=${BUS_HOSTNAME:?required}
     volumes:
-      - "${DATA_DIR:-/data}/files:/data/files"
+      - "${DATA_DIR}/files:/data/files"
 secrets:
   bus-ssl-certificate:
     file: ${BUS_SSL_CERTIFICATE:?required}.crt

@@ -6,8 +6,8 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime
       - ${MAINTAIN_TOKEN_DIR:-/home/docker-compose/token}:/home/token
-      - ${DATA_DIR:-/data}/logs/maintain:/logs
-      - ${DATA_DIR:-/data}/fonts:/data/fonts
+      - ${DATA_DIR}/logs/maintain:/logs
+      - ${DATA_DIR}/fonts:/data/fonts
     ports:
       - ${MAINTAIN_PORT:-8080}:8080
     environment:
