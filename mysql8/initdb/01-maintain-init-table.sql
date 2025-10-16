@@ -4,20 +4,19 @@
  Source Server         : 58.82.168.197-泰国CI服务器
  Source Server Type    : MySQL
  Source Server Version : 80405 (8.4.5)
- Source Host           : 127.0.0.1:3306
+ Source Host           : 127.0.0.1:9063
  Source Schema         : maintain
 
  Target Server Type    : MySQL
  Target Server Version : 80405 (8.4.5)
  File Encoding         : 65001
 
- Date: 29/04/2025 17:54:11
+ Date: 16/10/2025 10:15:03
 */
 
 -- 创建maintain数据库
 CREATE DATABASE IF NOT EXISTS maintain DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 USE maintain;
-
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
@@ -42,10 +41,6 @@ CREATE TABLE `batch_job_execution`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '处理批量作业' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of batch_job_execution
--- ----------------------------
-
--- ----------------------------
 -- Table structure for batch_job_execution_context
 -- ----------------------------
 DROP TABLE IF EXISTS `batch_job_execution_context`;
@@ -56,10 +51,6 @@ CREATE TABLE `batch_job_execution_context`  (
   PRIMARY KEY (`JOB_EXECUTION_ID`) USING BTREE,
   CONSTRAINT `JOB_EXEC_CTX_FK` FOREIGN KEY (`JOB_EXECUTION_ID`) REFERENCES `batch_job_execution` (`JOB_EXECUTION_ID`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批处理要执行的内容' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of batch_job_execution_context
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for batch_job_execution_params
@@ -76,10 +67,6 @@ CREATE TABLE `batch_job_execution_params`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批量作业执行的参数' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of batch_job_execution_params
--- ----------------------------
-
--- ----------------------------
 -- Table structure for batch_job_execution_seq
 -- ----------------------------
 DROP TABLE IF EXISTS `batch_job_execution_seq`;
@@ -88,10 +75,6 @@ CREATE TABLE `batch_job_execution_seq`  (
   `UNIQUE_KEY` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   UNIQUE INDEX `UNIQUE_KEY_UN`(`UNIQUE_KEY` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批处理作业的执行顺序' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of batch_job_execution_seq
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for batch_job_instance
@@ -107,10 +90,6 @@ CREATE TABLE `batch_job_instance`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '实例化批处理作业' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of batch_job_instance
--- ----------------------------
-
--- ----------------------------
 -- Table structure for batch_job_seq
 -- ----------------------------
 DROP TABLE IF EXISTS `batch_job_seq`;
@@ -119,10 +98,6 @@ CREATE TABLE `batch_job_seq`  (
   `UNIQUE_KEY` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   UNIQUE INDEX `UNIQUE_KEY_UN`(`UNIQUE_KEY` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批处理作业顺序' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of batch_job_seq
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for batch_step_execution
@@ -154,10 +129,6 @@ CREATE TABLE `batch_step_execution`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批量处理所执行的步骤' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of batch_step_execution
--- ----------------------------
-
--- ----------------------------
 -- Table structure for batch_step_execution_context
 -- ----------------------------
 DROP TABLE IF EXISTS `batch_step_execution_context`;
@@ -170,10 +141,6 @@ CREATE TABLE `batch_step_execution_context`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批量处理每步所执行的内容' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of batch_step_execution_context
--- ----------------------------
-
--- ----------------------------
 -- Table structure for batch_step_execution_seq
 -- ----------------------------
 DROP TABLE IF EXISTS `batch_step_execution_seq`;
@@ -182,10 +149,6 @@ CREATE TABLE `batch_step_execution_seq`  (
   `UNIQUE_KEY` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   UNIQUE INDEX `UNIQUE_KEY_UN`(`UNIQUE_KEY` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '批量处理步骤顺序' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of batch_step_execution_seq
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for device_category
@@ -198,7 +161,9 @@ CREATE TABLE `device_category`  (
   `category_name_zh` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类别名称',
   `category_name_en` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类别名称',
   `category_name_th` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '类别名称',
-  `category_name_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '印尼语言',
+  `category_name_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '印尼语言',
+  `category_name_es` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '西班牙语',
+  `category_name_pt` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '葡萄牙语',
   `parent_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '上级类别',
   `product_type` int NOT NULL DEFAULT 0 COMMENT '设备分类类别  0其他 100 定位设备 200视频设备 300主动安全设备 400公交报站设备',
   `order_id` int NOT NULL DEFAULT 0 COMMENT '排序字段',
@@ -207,11 +172,7 @@ CREATE TABLE `device_category`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_category_id`(`category_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_category_name`(`category_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 76 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备分类' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of device_category
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 77 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备分类' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for device_manufacturer
@@ -233,10 +194,6 @@ CREATE TABLE `device_manufacturer`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备厂家' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of device_manufacturer
--- ----------------------------
-
--- ----------------------------
 -- Table structure for device_product
 -- ----------------------------
 DROP TABLE IF EXISTS `device_product`;
@@ -248,31 +205,26 @@ CREATE TABLE `device_product`  (
   `category_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '设备类别',
   `protocol` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '通讯协议类型',
   `firmware_tags` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '固件过滤标签',
-  `notice_type` smallint NULL DEFAULT 0 COMMENT '1: 808控制指令升级 2: bus通过远程升级通知升级',
+  `ota_protocol` smallint NULL DEFAULT 0 COMMENT '1: 808控制指令升级 2: bus通过远程升级通知升级',
   `support` int NULL DEFAULT 0 COMMENT '支持功能 低位 第1位在线 2定位 3ACC 4外接电源',
-  `accessories_ids` varchar(5120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '配件列表',
-  `accessories_items` varchar(5120) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '配件列表',
   `manufacturer_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生产厂家',
   `manufacturer_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '生产厂家',
   `product_describe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '产品描述',
   `product_image` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `platform_certified` smallint NOT NULL DEFAULT 0 COMMENT '通过平台认证 0=未通过 1=通过',
   `alarm_mapping` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '主动安全报警映射',
-  `order_id` int NOT NULL DEFAULT 0 COMMENT '排序字段',
+  `cmd_text_mapping` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文本指令映射控制指令',
   `wired_type` int NULL DEFAULT 0 COMMENT '接线类型 1有线 2无线',
   `fix_zone` varchar(6) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '一些设备不能不支持使用本地时区, 容易引起台账错误, 所以网关按设备类型兼容',
-  `device_model_compose` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组合设备，设备型号数组',
+  `terminal_models` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '一车多设备终端注册型号集合, 数据来源808终端注册，最大5',
+  `order_id` int NOT NULL DEFAULT 0 COMMENT '排序字段',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_organize_id`(`product_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_product_name`(`product_name` ASC) USING BTREE,
   UNIQUE INDEX `uk_device_model`(`device_model` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 800 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备列表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of device_product
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 804 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备列表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_alarm
@@ -288,15 +240,15 @@ CREATE TABLE `jtt808_alarm`  (
   `lpn` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '车牌',
   `imei` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '终端唯一码',
   `event_time` datetime NOT NULL COMMENT '事件时间',
-  `platform_alarm_id` int NULL DEFAULT 0 COMMENT '平台统一报警id',
+  `platform_alarm_id` int NOT NULL DEFAULT 0 COMMENT '平台统一报警id',
   `alarm_class` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT 'alarm_normal' COMMENT '报警类别 - 实时报警|主动安全',
   `device_type` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '外设类型',
   `additional` varchar(2048) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '附加数据',
   `lng` decimal(11, 6) NOT NULL COMMENT '经度',
   `lat` decimal(11, 6) NOT NULL COMMENT '纬度',
   `duration` int NOT NULL DEFAULT 0 COMMENT '报警持续时长, 用于结束统计',
-  `work_date` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '归属日期',
-  `time_zone` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '开始时间对应的时区',
+  `work_date` char(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '归属日期',
+  `time_zone` char(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '' COMMENT '开始时间对应的时区',
   `period_time` varchar(13) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '落在的分时段区间 例如：08:00 ~ 08:30',
   `reduce_score` decimal(11, 1) NULL DEFAULT 0.0 COMMENT '一次违规扣分多少',
   `handle_flag` int NOT NULL DEFAULT 0 COMMENT '处理方式',
@@ -305,15 +257,59 @@ CREATE TABLE `jtt808_alarm`  (
   `handler_id` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '附加数据',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`, `event_time`) USING BTREE,
+  PRIMARY KEY (`id`, `event_time`, `platform_alarm_id`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_date`(`organize_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 643399660 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备报警记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_alarm
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 1180830 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备报警记录' ROW_FORMAT = DYNAMIC PARTITION BY RANGE (to_days(`event_time`))
+PARTITIONS 11
+SUBPARTITION BY HASH (`platform_alarm_id`)
+SUBPARTITIONS 4
+(PARTITION `p_202501` VALUES LESS THAN (739648) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202501sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202501sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202501sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202501sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202502` VALUES LESS THAN (739676) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202502sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202502sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202502sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202502sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202503` VALUES LESS THAN (739707) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202503sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202503sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202503sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202503sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202504` VALUES LESS THAN (739737) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202504sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202504sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202504sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202504sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202505` VALUES LESS THAN (739768) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202505sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202505sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202505sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202505sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202506` VALUES LESS THAN (739798) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202506sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202506sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202506sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202506sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202507` VALUES LESS THAN (739829) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202507sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202507sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202507sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202507sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202508` VALUES LESS THAN (739860) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202508sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202508sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202508sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202508sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202509` VALUES LESS THAN (739890) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202509sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202509sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202509sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202509sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202510` VALUES LESS THAN (739921) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202510sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202510sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202510sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202510sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ),
+PARTITION `p_202511` VALUES LESS THAN (739951) MAX_ROWS = 0 MIN_ROWS = 0 (SUBPARTITION `p_202511sp0` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202511sp1` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202511sp2` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+SUBPARTITION `p_202511sp3` ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ))
+;
 
 -- ----------------------------
 -- Table structure for jtt808_alarm_count
@@ -335,11 +331,7 @@ CREATE TABLE `jtt808_alarm_count`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_alarm_count`(`organize_id` ASC, `vehicle_id` ASC, `work_date` ASC) USING BTREE,
   INDEX `idx_date`(`organize_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 607654 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '报警日小计' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_alarm_count
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 2026029 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '报警日小计' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_alarm_file
@@ -361,11 +353,7 @@ CREATE TABLE `jtt808_alarm_file`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_file_name`(`organize_id` ASC, `imei` ASC, `file_name` ASC) USING BTREE,
   INDEX `idx_alarm_key`(`organize_id` ASC, `alarm_key` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1347639 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备报警的文件上传记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_alarm_file
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 1448344 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备报警的文件上传记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_alarm_safety
@@ -416,10 +404,6 @@ CREATE TABLE `jtt808_alarm_safety`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'ADAS+DSM报警记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of jtt808_alarm_safety
--- ----------------------------
-
--- ----------------------------
 -- Table structure for jtt808_card
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_card`;
@@ -448,11 +432,7 @@ CREATE TABLE `jtt808_card`  (
   PRIMARY KEY (`id`, `event_time`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 187761 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备刷卡记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_card
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 649778 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备刷卡记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_cmd
@@ -483,12 +463,9 @@ CREATE TABLE `jtt808_cmd`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_batch`(`organize_id` ASC, `batch_id` ASC) USING BTREE,
   INDEX `idx_message_id`(`message_id` ASC) USING BTREE,
-  INDEX `idx_time`(`organize_id` ASC, `request_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2645 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '发送文本的日志' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_cmd
--- ----------------------------
+  INDEX `idx_time`(`organize_id` ASC, `request_time` ASC) USING BTREE,
+  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC, `request_state` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2856 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '发送文本的日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_cmd_face
@@ -508,10 +485,6 @@ CREATE TABLE `jtt808_cmd_face`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_face`(`organize_id` ASC, `face_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_cmd_face
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for jtt808_connect
@@ -540,11 +513,7 @@ CREATE TABLE `jtt808_connect`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `connect_time` ASC) USING BTREE,
   INDEX `idx_imei_time`(`organize_id` ASC, `imei` ASC, `connect_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22827259 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备连接记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_connect
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 26374127 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备连接记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_face
@@ -578,10 +547,6 @@ CREATE TABLE `jtt808_face`  (
   INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '驾驶员身份识别上报' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_face
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for jtt808_fence
@@ -619,11 +584,7 @@ CREATE TABLE `jtt808_fence`  (
   INDEX `idx_event_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_date`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_previous_time`(`organize_id` ASC, `previous_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 455670 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '车辆进出区域记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_fence
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 1439340 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '车辆进出区域记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_file_upload
@@ -666,10 +627,6 @@ CREATE TABLE `jtt808_file_upload`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 229 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '终端文件上传记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of jtt808_file_upload
--- ----------------------------
-
--- ----------------------------
 -- Table structure for jtt808_health
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_health`;
@@ -696,10 +653,6 @@ CREATE TABLE `jtt808_health`  (
   INDEX `idx_time`(`organize_id` ASC) USING BTREE,
   INDEX `idx_car_time`(`organize_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '驾驶员身份识别上报' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_health
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for jtt808_io
@@ -735,11 +688,7 @@ CREATE TABLE `jtt808_io`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_previous_time`(`organize_id` ASC, `previous_time` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_event_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1689538 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'IO变化' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_io
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 6882805 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'IO变化' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_media_file
@@ -776,10 +725,6 @@ CREATE TABLE `jtt808_media_file`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 7381 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '多媒体文件上传记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of jtt808_media_file
--- ----------------------------
-
--- ----------------------------
 -- Table structure for jtt808_media_photograph
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_media_photograph`;
@@ -808,10 +753,6 @@ CREATE TABLE `jtt808_media_photograph`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '多媒体抓拍数据上传记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of jtt808_media_photograph
--- ----------------------------
-
--- ----------------------------
 -- Table structure for jtt808_obd
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_obd`;
@@ -836,11 +777,7 @@ CREATE TABLE `jtt808_obd`  (
   PRIMARY KEY (`id`, `event_time`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 187219 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'OBD透传信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_obd
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 187221 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'OBD透传信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_passenger
@@ -888,10 +825,6 @@ CREATE TABLE `jtt808_passenger`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of jtt808_passenger
--- ----------------------------
-
--- ----------------------------
 -- Table structure for jtt808_position
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_position`;
@@ -921,11 +854,20 @@ CREATE TABLE `jtt808_position`  (
   PRIMARY KEY (`id`, `event_time`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1124544139 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '终端设备的GPS数据' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_position
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 55821918 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '终端设备的GPS数据' ROW_FORMAT = DYNAMIC PARTITION BY RANGE (to_days(`event_time`))
+PARTITIONS 11
+(PARTITION `p_202501` VALUES LESS THAN (739648) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202502` VALUES LESS THAN (739676) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202503` VALUES LESS THAN (739707) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202504` VALUES LESS THAN (739737) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202505` VALUES LESS THAN (739768) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202506` VALUES LESS THAN (739798) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202507` VALUES LESS THAN (739829) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202508` VALUES LESS THAN (739860) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202509` VALUES LESS THAN (739890) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202510` VALUES LESS THAN (739921) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 ,
+PARTITION `p_202511` VALUES LESS THAN (739951) ENGINE = InnoDB MAX_ROWS = 0 MIN_ROWS = 0 )
+;
 
 -- ----------------------------
 -- Table structure for jtt808_position_last
@@ -955,10 +897,6 @@ CREATE TABLE `jtt808_position_last`  (
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_lpn`(`organize_id` ASC, `lpn` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '车辆最后位置' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_position_last
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for jtt808_register
@@ -991,11 +929,7 @@ CREATE TABLE `jtt808_register`  (
   PRIMARY KEY (`id`, `event_time`) USING BTREE,
   UNIQUE INDEX `uk_imei_model`(`imei` ASC, `terminal_model` ASC) USING BTREE,
   INDEX `idx_organize`(`organize_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 22132 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_register
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 22143 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_tpms
@@ -1025,10 +959,6 @@ CREATE TABLE `jtt808_tpms`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 75820 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '设备胎压记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of jtt808_tpms
--- ----------------------------
-
--- ----------------------------
 -- Table structure for jtt808_video_storage
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_video_storage`;
@@ -1054,10 +984,6 @@ CREATE TABLE `jtt808_video_storage`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC, `start_time` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 681903 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '车辆最后位置' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of jtt808_video_storage
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for ledger_daily_mileage
@@ -1095,11 +1021,7 @@ CREATE TABLE `ledger_daily_mileage`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_date_car`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC, `imei` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2404423 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆每日里程' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ledger_daily_mileage
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 4041332 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆每日里程' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_parking
@@ -1135,11 +1057,7 @@ CREATE TABLE `ledger_parking`  (
   INDEX `idx_date`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `start_time` ASC) USING BTREE,
   INDEX `idx_vehicle_time`(`organize_id` ASC, `vehicle_id` ASC, `start_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4555131 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '每日行程记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ledger_parking
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 7638666 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '每日行程记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_timeline
@@ -1168,11 +1086,7 @@ CREATE TABLE `ledger_timeline`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `vehicle_id` ASC, `start_time` ASC) USING BTREE,
   INDEX `idx_date`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4467957 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备时间线' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ledger_timeline
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 4512375 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备时间线' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_trip_index
@@ -1197,11 +1111,7 @@ CREATE TABLE `ledger_trip_index`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_imei`(`imei` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24682 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '时间点的行程分析' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ledger_trip_index
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 35368 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '时间点的行程分析' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_trip_vehicle
@@ -1239,11 +1149,7 @@ CREATE TABLE `ledger_trip_vehicle`  (
   INDEX `idx_date`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `start_time` ASC) USING BTREE,
   INDEX `idx_vehicle_time`(`organize_id` ASC, `vehicle_id` ASC, `start_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2375697 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆行程统计' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of ledger_trip_vehicle
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 3978879 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆行程统计' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_error
@@ -1261,11 +1167,7 @@ CREATE TABLE `log_error`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_user`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18054 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '错误日志' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of log_error
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 55366 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '错误日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_geocoder
@@ -1292,11 +1194,7 @@ CREATE TABLE `log_geocoder`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `created_unix` ASC) USING BTREE,
   INDEX `idx_month`(`organize_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2257603 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '地理编码日志' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of log_geocoder
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 2322260 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '地理编码日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_login
@@ -1323,7 +1221,7 @@ CREATE TABLE `log_login`  (
   INDEX `idx_user`(`user_id` ASC, `login_unix` ASC) USING BTREE,
   INDEX `idx_login`(`login_unix` ASC) USING BTREE,
   INDEX `idx_session`(`session_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12150 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 12451 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_mail
@@ -1344,11 +1242,7 @@ CREATE TABLE `log_mail`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `created_unix` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20493 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of log_mail
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 20500 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '邮件发送日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_message
@@ -1369,10 +1263,6 @@ CREATE TABLE `log_message`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1290 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息发送日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of log_message
--- ----------------------------
-
--- ----------------------------
 -- Table structure for log_system
 -- ----------------------------
 DROP TABLE IF EXISTS `log_system`;
@@ -1391,7 +1281,7 @@ CREATE TABLE `log_system`  (
   `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`created_unix` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1379551 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1409479 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_text
@@ -1420,11 +1310,7 @@ CREATE TABLE `log_text`  (
   INDEX `idx_batch`(`organize_id` ASC, `batch_id` ASC) USING BTREE,
   INDEX `idx_message_id`(`message_id` ASC) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `send_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 839 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '发送文本的日志' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of log_text
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 842 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '发送文本的日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for order_contact_address
@@ -1452,31 +1338,14 @@ CREATE TABLE `order_contact_address`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 2090 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单联系地址' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_contact_address
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_daily_duration
 -- ----------------------------
 DROP TABLE IF EXISTS `order_daily_duration`;
 CREATE TABLE `order_daily_duration`  (
-  `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '工单归档。计算当天归档工单的耗时分析',
-  `work_month` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '月份 yyyy-mm',
-  `work_date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '预约日期 yyyy-mm-dd',
-  `order_type` int NOT NULL DEFAULT 0 COMMENT '1安装单 2维修单',
-  `num_order` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '当天审核完成单',
-  `duration_order` int NOT NULL DEFAULT 0 COMMENT '工单持续时长',
-  `duration_assign` int NOT NULL DEFAULT 0 COMMENT '配单耗时, 分钟',
-  `duration_accept` int NOT NULL DEFAULT 0 COMMENT '接单耗时, 分钟',
-  `duration_done` int NOT NULL DEFAULT 0 COMMENT '服务耗时, 分钟',
-  `duration_confirm` int NOT NULL DEFAULT 0 COMMENT '签单耗时, 分钟',
-  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除位',
-  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
-  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_date`(`work_date` ASC) USING BTREE,
-  INDEX `idx_month`(`work_month` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45621 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '每日交单工单耗时分析' ROW_FORMAT = DYNAMIC;
+  PRIMARY KEY ((id)) USING BTREE,
+  INDEX `idx_date`((work_date) ASC) USING BTREE,
+  INDEX `idx_month`((work_month) ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 53199 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '每日交单工单耗时分析' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for order_daily_engineer
@@ -1504,10 +1373,6 @@ CREATE TABLE `order_daily_engineer`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工程师日交单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_daily_engineer
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_daily_organize
 -- ----------------------------
 DROP TABLE IF EXISTS `order_daily_organize`;
@@ -1525,10 +1390,6 @@ CREATE TABLE `order_daily_organize`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_month`(`work_month` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业日交单' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of order_daily_organize
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for order_master
@@ -1595,10 +1456,6 @@ CREATE TABLE `order_master`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单主表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_master
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_monthly_engineer
 -- ----------------------------
 DROP TABLE IF EXISTS `order_monthly_engineer`;
@@ -1616,10 +1473,6 @@ CREATE TABLE `order_monthly_engineer`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_month`(`organize_id` ASC, `user_id` ASC, `work_month` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工程师月交单' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of order_monthly_engineer
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for order_monthly_organize
@@ -1640,10 +1493,6 @@ CREATE TABLE `order_monthly_organize`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业月交单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_monthly_organize
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_optional_info
 -- ----------------------------
 DROP TABLE IF EXISTS `order_optional_info`;
@@ -1661,10 +1510,6 @@ CREATE TABLE `order_optional_info`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_order_no`(`order_no` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '可选工单信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of order_optional_info
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for order_quoted_price
@@ -1696,10 +1541,6 @@ CREATE TABLE `order_quoted_price`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1144 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单报价单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_quoted_price
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_record_install
 -- ----------------------------
 DROP TABLE IF EXISTS `order_record_install`;
@@ -1726,10 +1567,6 @@ CREATE TABLE `order_record_install`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 84 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '安装单记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_record_install
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_record_install_item
 -- ----------------------------
 DROP TABLE IF EXISTS `order_record_install_item`;
@@ -1754,10 +1591,6 @@ CREATE TABLE `order_record_install_item`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 256 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '安装单记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_record_install_item
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_record_install_main
 -- ----------------------------
 DROP TABLE IF EXISTS `order_record_install_main`;
@@ -1773,10 +1606,6 @@ CREATE TABLE `order_record_install_main`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_order_no`(`order_no` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 170 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '维护保养单记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of order_record_install_main
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for order_record_maintenance
@@ -1807,10 +1636,6 @@ CREATE TABLE `order_record_maintenance`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_order_no`(`order_no` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 120 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '维修单记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of order_record_maintenance
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for order_third_main
@@ -1860,10 +1685,6 @@ CREATE TABLE `order_third_main`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '提供给第三方对接用，创建工单的中间表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_third_main
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_third_party
 -- ----------------------------
 DROP TABLE IF EXISTS `order_third_party`;
@@ -1895,10 +1716,6 @@ CREATE TABLE `order_third_party`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单描述追加' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_third_party
--- ----------------------------
-
--- ----------------------------
 -- Table structure for order_timeline
 -- ----------------------------
 DROP TABLE IF EXISTS `order_timeline`;
@@ -1919,10 +1736,6 @@ CREATE TABLE `order_timeline`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 3010 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单时间线' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of order_timeline
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_accessories_device
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_accessories_device`;
@@ -1933,17 +1746,14 @@ CREATE TABLE `organize_accessories_device`  (
   `accessories_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '配件名称',
   `accessories_number` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '配件编号',
   `accessories_type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '外设类型, 枚举 ADAS DSM TPMS OIL TEMP CARD PASSENGER',
+  `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建者ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `organize_accessories_number`(`organize_id` ASC, `accessories_number` ASC) USING BTREE,
   UNIQUE INDEX `organize_accessories_name`(`organize_id` ASC, `accessories_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_accessories_device
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_accessories_vehicle
@@ -1966,11 +1776,7 @@ CREATE TABLE `organize_accessories_vehicle`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3380 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_accessories_vehicle
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 6593 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_audio
@@ -1985,11 +1791,7 @@ CREATE TABLE `organize_audio`  (
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '音频管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_audio
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '音频管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_bus_stop
@@ -2021,8 +1823,24 @@ CREATE TABLE `organize_bus_stop`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_bus_stop
+-- Table structure for organize_config_ftp
 -- ----------------------------
+DROP TABLE IF EXISTS `organize_config_ftp`;
+CREATE TABLE `organize_config_ftp`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `ftp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'ftp描述',
+  `ftp_ip` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ftp_port` int NULL DEFAULT NULL,
+  `ftp_domain` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ftp_user` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `ftp_password` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `created_unix` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '企业ID',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者ID',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_name`(`ftp_name` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_config_video
@@ -2044,10 +1862,6 @@ CREATE TABLE `organize_config_video`  (
   UNIQUE INDEX `uk_imei`(`organize_id` ASC, `imei` ASC) USING BTREE,
   UNIQUE INDEX `uk_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 145 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '视频配置管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_config_video
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for organize_device
@@ -2086,18 +1900,14 @@ CREATE TABLE `organize_device`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_imei`(`device_imei` ASC) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 46665 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_device
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 46898 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_device_compose
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_device_compose`;
 CREATE TABLE `organize_device_compose`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '车辆上安装的设备列表',
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '--20250-09-16---废弃, 使用OrganizeDeviceTerminal替代',
   `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
   `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备的唯一标识',
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
@@ -2109,16 +1919,14 @@ CREATE TABLE `organize_device_compose`  (
   `last_connect_time` datetime NULL DEFAULT NULL COMMENT '最后连接时间',
   `last_connect_protocol` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后连接使用的协议',
   `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
+  `last_version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '读取出来的版本号',
+  `last_version_time` datetime NULL DEFAULT NULL COMMENT '最后读取版本时间',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_device_key`(`imei` ASC, `device_key` ASC) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 914 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_device_compose
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 920 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_device_product
@@ -2134,11 +1942,33 @@ CREATE TABLE `organize_device_product`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_organize_product_id`(`organize_id` ASC, `product_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1820 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备产品管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1836 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备产品管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_device_product
+-- Table structure for organize_device_terminal
 -- ----------------------------
+DROP TABLE IF EXISTS `organize_device_terminal`;
+CREATE TABLE `organize_device_terminal`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '车辆上安装的设备列表',
+  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
+  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备的唯一标识',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆ID',
+  `register_producer_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-制造商ID',
+  `register_terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-终端型号',
+  `register_terminal_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-终端ID',
+  `first_connect_time` datetime NULL DEFAULT NULL COMMENT '第一次连接时间',
+  `last_connect_time` datetime NULL DEFAULT NULL COMMENT '最后连接时间',
+  `last_connect_protocol` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后连接使用的协议',
+  `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
+  `last_version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '读取出来的版本号',
+  `last_version_time` datetime NULL DEFAULT NULL COMMENT '最后读取版本时间',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_device_key`(`imei` ASC, `device_key` ASC) USING BTREE,
+  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 926 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_employee
@@ -2175,11 +2005,7 @@ CREATE TABLE `organize_employee`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_emp`(`organize_id` ASC, `emp_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '员工管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_employee
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '员工管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_employee_card
@@ -2200,10 +2026,6 @@ CREATE TABLE `organize_employee_card`  (
   UNIQUE INDEX `uk_physical_number`(`organize_id` ASC, `physical_number` ASC) USING BTREE,
   UNIQUE INDEX `uk_card_label`(`organize_id` ASC, `card_label` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 96 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '员工卡号管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_employee_card
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for organize_fence
@@ -2235,11 +2057,7 @@ CREATE TABLE `organize_fence`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_fence_id`(`fence_id` ASC) USING BTREE,
   INDEX `ix_fence`(`organize_id` ASC, `fence_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21550 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '区域管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_fence
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 43499 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '区域管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_fence_group
@@ -2259,10 +2077,6 @@ CREATE TABLE `organize_fence_group`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '自定义用途分组' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_fence_group
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_firmware
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_firmware`;
@@ -2270,27 +2084,28 @@ CREATE TABLE `organize_firmware`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
   `firmware_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '固件ID',
-  `firmware_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '固件名称',
+  `firmware_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '固件名称',
   `firmware_type` smallint NOT NULL DEFAULT 0 COMMENT '固件类型 1固件 2报站文件 3系统配置',
-  `firmware_version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '版本号',
+  `firmware_version` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '版本号',
   `firmware_tags` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '固件标签，采用;分割',
   `notify_type` int NOT NULL DEFAULT 1 COMMENT '1文件升级  2文本通知',
   `file_dir` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '/files/ota/bus/' COMMENT '文件目录',
   `file_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'FTP文件名称',
   `ota_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文本升级，升级类型=文本的时候生效',
-  `device_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '2合1设备, 同IMEI设备过滤项, ITS MDVR等',
-  `device_models` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '[]' COMMENT '固件支持的设备型号列表',
+  `device_tag` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '----废弃----',
+  `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '产品ID',
+  `device_model` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备型号(来源平台设备类型表)',
+  `terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端型号(来源终端注册)',
+  `ota_protocol` int NOT NULL DEFAULT 0 COMMENT '使用升级协议: 0=0x8300, 1=0x8105, 2=0x8B0A',
+  `ftp_id` int NULL DEFAULT NULL COMMENT '引用的FTP表ID',
+  `ftp_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '引用的FTP表名',
   `remark` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_firmware`(`firmware_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 219 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '固件档案' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_firmware
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 238 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '固件档案' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_firmware_ota
@@ -2305,29 +2120,58 @@ CREATE TABLE `organize_firmware_ota`  (
   `vehicle_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆名称',
   `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌号码 License Plate Number',
   `imei` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '设备ID',
-  `notice_type` smallint NOT NULL DEFAULT 0 COMMENT '对应设备类型 1控制指令升级 2通过远程升级通知升级 50文本升级 100自定义',
+  `task_id` int NOT NULL DEFAULT 0 COMMENT '映射升级任务表主键ID',
+  `device_model` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备型号(来源平台设备型号)',
+  `terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端型号(来源终端注册)',
+  `ota_protocol` int NOT NULL DEFAULT 0 COMMENT '使用升级协议: 0=0x8300, 1=0x8105, 2=0x8B0A',
   `ota_state` smallint NOT NULL DEFAULT 0 COMMENT '-1已取消 0未执行 1执行中 2已完成 3失败',
   `ota_progress` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '当前进度',
+  `device_progress` int NULL DEFAULT NULL COMMENT '设备上报的状态(部分协议设备主动上报)',
   `firmware_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '固件ID',
   `firmware_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '固件名称',
   `firmware_type` smallint NOT NULL DEFAULT 0 COMMENT '固件类型 1固件 2报站文件',
+  `firmware_version` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '版本号',
+  `current_version` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '升级前的版本',
   `file_dir` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '/bus/' COMMENT '文件目录',
   `ota_text` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '文本升级，升级类型=文本的时候生效',
   `remark` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
-  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '2合1设备, 同IMEI设备过滤项, ITS MDVR等',
+  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '--------废弃-------',
   `message_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '消息唯一ID.替换UUID',
   `is_archived` int NOT NULL DEFAULT 0 COMMENT '归档标记 0 默认 1 已归档',
+  `ftp_server_info` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'FTP升级信息',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `creator_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `organize_firmware_ota_organize_id_IDX`(`organize_id` ASC, `is_archived` ASC, `created_unix` ASC) USING BTREE,
-  INDEX `message_id`(`organize_id` ASC, `vehicle_id` ASC, `message_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 567 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '固件升级记录' ROW_FORMAT = DYNAMIC;
+  INDEX `idx_message`(`organize_id` ASC, `vehicle_id` ASC, `message_id` ASC) USING BTREE,
+  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC, `is_archived` ASC) USING BTREE,
+  INDEX `idx_fireware`(`organize_id` ASC, `firmware_id` ASC) USING BTREE,
+  INDEX `idx_task`(`organize_id` ASC, `task_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 594 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '固件升级记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_firmware_ota
+-- Table structure for organize_firmware_task
 -- ----------------------------
+DROP TABLE IF EXISTS `organize_firmware_task`;
+CREATE TABLE `organize_firmware_task`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
+  `task_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '升级任务',
+  `firmware_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '固件ID',
+  `firmware_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '固件名称',
+  `firmware_version` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '版本号',
+  `device_model` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '设备型号',
+  `terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端型号(来源终端注册)',
+  `expire_time` datetime NULL DEFAULT NULL COMMENT '任务过期时间, 超过时间没有完成的强制失败或取消',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `creator_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `organize_firmware_ota_organize_id_IDX`(`organize_id` ASC, `created_unix` ASC) USING BTREE,
+  INDEX `message_id`(`organize_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 574 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '固件升级记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_fleet
@@ -2349,11 +2193,7 @@ CREATE TABLE `organize_fleet`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_fleet`(`organize_id` ASC, `fleet_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20464 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车队管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_fleet
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 20548 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车队管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_info
@@ -2403,11 +2243,7 @@ CREATE TABLE `organize_info`  (
   UNIQUE INDEX `uk_organize_id`(`organize_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_organize_name`(`organize_name` ASC) USING BTREE,
   INDEX `idx_follow_id`(`follow_organize_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 186 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_info
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 187 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_info_authentication
@@ -2447,10 +2283,6 @@ CREATE TABLE `organize_info_authentication`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 106 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织认证' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_info_authentication
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_order_optional
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_order_optional`;
@@ -2472,10 +2304,6 @@ CREATE TABLE `organize_order_optional`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1115 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业可选工单' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_order_optional
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_partner_city
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_partner_city`;
@@ -2493,10 +2321,6 @@ CREATE TABLE `organize_partner_city`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1450 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '城市合伙人服务城市' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_partner_city
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_permission
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_permission`;
@@ -2510,10 +2334,6 @@ CREATE TABLE `organize_permission`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织权限' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_permission
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for organize_quota
@@ -2534,8 +2354,62 @@ CREATE TABLE `organize_quota`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 81 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '配额管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_quota
+-- Table structure for organize_record_strategy
 -- ----------------------------
+DROP TABLE IF EXISTS `organize_record_strategy`;
+CREATE TABLE `organize_record_strategy`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆ID',
+  `vehicle_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆名称',
+  `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车牌号',
+  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '设备号',
+  `strategy_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置文件摘要',
+  `strategy_enable` smallint NOT NULL COMMENT '查询设备策略启用状态',
+  `strategy_config` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置信息json(ftp+通道配置)',
+  `ftp_id` int NULL DEFAULT NULL COMMENT '引用的FTP表ID',
+  `ftp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '引用的FTP表名',
+  `last_strategy_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '查询设备策略ID',
+  `last_strategy_enable` smallint NULL DEFAULT NULL COMMENT '查询设备策略启用状态',
+  `last_strategy_config` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '查询设备策略配置JSON',
+  `last_sync_time` datetime NULL DEFAULT NULL COMMENT '最后查询更新时间',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `created_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+  `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_imei`(`organize_id` ASC, `imei` ASC) USING BTREE,
+  UNIQUE INDEX `uk_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE,
+  INDEX `fk_ftp_id`(`ftp_id` ASC) USING BTREE,
+  CONSTRAINT `fk_ftp_id` FOREIGN KEY (`ftp_id`) REFERENCES `organize_config_ftp` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 43 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '视频配置管理' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for organize_record_strategy_history
+-- ----------------------------
+DROP TABLE IF EXISTS `organize_record_strategy_history`;
+CREATE TABLE `organize_record_strategy_history`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆ID',
+  `vehicle_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆名称',
+  `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车牌号',
+  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '设备号',
+  `strategy_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置文件摘要',
+  `strategy_enable` smallint NOT NULL COMMENT '查询设备策略启用状态',
+  `strategy_config` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '配置信息json(ftp+通道配置)',
+  `ftp_id` int NULL DEFAULT NULL COMMENT '引用的FTP表ID',
+  `ftp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '引用的FTP表名',
+  `last_strategy_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '查询设备策略ID',
+  `last_strategy_enable` smallint NULL DEFAULT NULL COMMENT '查询设备策略启用状态',
+  `last_strategy_config` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '查询设备策略配置JSON',
+  `last_sync_time` datetime NULL DEFAULT NULL COMMENT '最后查询更新时间',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `created_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+  `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_imei`(`organize_id` ASC, `imei` ASC) USING BTREE,
+  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '视频配置管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_renewal
@@ -2562,11 +2436,7 @@ CREATE TABLE `organize_renewal`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_code`(`organize_id` ASC, `renewal_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 244 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业收藏服务' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_renewal
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 247 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业收藏服务' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_renewal_item
@@ -2585,16 +2455,12 @@ CREATE TABLE `organize_renewal_item`  (
   `new_validity` datetime NOT NULL COMMENT '续约之后有效期',
   `owner_account` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '主拥有者账号',
   `sales_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '销售名称',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '工单备注信息',
+  `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '工单备注信息',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 604 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业收藏服务' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_renewal_item
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 612 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业收藏服务' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_role
@@ -2615,11 +2481,8 @@ CREATE TABLE `organize_role`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_organize_role`(`organize_id` ASC, `role_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 223 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织角色管理' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 244 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织角色管理' ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Records of organize_role
--- ----------------------------
 -- ----------------------------
 -- Table structure for organize_route
 -- ----------------------------
@@ -2647,11 +2510,7 @@ CREATE TABLE `organize_route`  (
   `created_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '线路表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_route
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '线路表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_route_direction
@@ -2681,10 +2540,6 @@ CREATE TABLE `organize_route_direction`  (
   `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '线路方向表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_route_direction
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for organize_route_station
@@ -2718,10 +2573,6 @@ CREATE TABLE `organize_route_station`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '线路站点表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_route_station
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_route_way
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_route_way`;
@@ -2743,11 +2594,7 @@ CREATE TABLE `organize_route_way`  (
   `created_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '线路站点' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_route_way
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '线路站点' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_rule
@@ -2776,11 +2623,7 @@ CREATE TABLE `organize_rule`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_rule`(`rule_id` ASC) USING BTREE,
   INDEX `idx_rule`(`organize_id` ASC, `rule_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18637 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '规则管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_rule
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 18639 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '规则管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_rule_vehicle
@@ -2797,11 +2640,7 @@ CREATE TABLE `organize_rule_vehicle`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_vehicle`(`organize_id` ASC, `rule_id` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 135431 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆规则管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_rule_vehicle
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 135600 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆规则管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_safety_config
@@ -2819,10 +2658,6 @@ CREATE TABLE `organize_safety_config`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_organize_id`(`organize_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主动安全配置' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_safety_config
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for organize_sim
@@ -2847,10 +2682,6 @@ CREATE TABLE `organize_sim`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'SIM卡管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_sim
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_star
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_star`;
@@ -2865,10 +2696,6 @@ CREATE TABLE `organize_star`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业收藏服务' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_star
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for organize_vehicle
@@ -2897,7 +2724,7 @@ CREATE TABLE `organize_vehicle`  (
   `temp_config` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '车辆温感相关设置',
   `fuel_config` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '车辆油箱相关配置',
   `io_config` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '车辆io状态对应关系配置',
-  `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
+  `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `dlt` int NOT NULL DEFAULT 0 COMMENT 'DLT，0代表非DLT，1表是DLT',
   `active` int NOT NULL DEFAULT 0 COMMENT '0表活动，1表等待(3 个月)，1表等待(6 个月),  3表过期，4表过期， 5表取消',
   `purchase_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '购买方式设置',
@@ -2912,11 +2739,7 @@ CREATE TABLE `organize_vehicle`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_lpn`(`organize_id` ASC, `lpn` ASC) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 131310 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆档案' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_vehicle
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 131756 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆档案' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_vehicle_employee
@@ -2934,10 +2757,6 @@ CREATE TABLE `organize_vehicle_employee`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆与驾驶员绑定表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of organize_vehicle_employee
--- ----------------------------
-
--- ----------------------------
 -- Table structure for organize_vehicle_fence
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_vehicle_fence`;
@@ -2947,18 +2766,14 @@ CREATE TABLE `organize_vehicle_fence`  (
   `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆ID',
   `fence_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '围栏ID',
   `rule_type` smallint NOT NULL COMMENT '规则类型，0禁入 1禁出',
-  `rule_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '规则编码UUID',
+  `rule_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '规则编码UUID',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者ID',
   `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者名称',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_vehicle_fence`(`organize_id` ASC, `vehicle_id` ASC, `fence_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 131071 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆保养管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_vehicle_fence
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 135311 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆保养管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_vehicle_maintain
@@ -2987,11 +2802,7 @@ CREATE TABLE `organize_vehicle_maintain`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_vehicle_date`(`organize_id` ASC, `vehicle_id` ASC, `maintain_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 215 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆保养管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of organize_vehicle_maintain
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 241 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆保养管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_ad_banner
@@ -3015,10 +2826,6 @@ CREATE TABLE `system_ad_banner`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '广告位' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_ad_banner
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_address
 -- ----------------------------
 DROP TABLE IF EXISTS `system_address`;
@@ -3037,10 +2844,6 @@ CREATE TABLE `system_address`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 40200 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '全国地址码表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_address
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_address_count
@@ -3065,10 +2868,6 @@ CREATE TABLE `system_address_count`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 999901 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '市级统计' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_address_count
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_alarm_platform
 -- ----------------------------
 DROP TABLE IF EXISTS `system_alarm_platform`;
@@ -3083,6 +2882,8 @@ CREATE TABLE `system_alarm_platform`  (
   `push_name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '英',
   `push_name_th` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '泰',
   `push_name_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '印尼',
+  `push_name_es` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '西班牙',
+  `push_name_pt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '葡萄牙',
   `turn_off_push` int NULL DEFAULT 0 COMMENT '是否关闭报警0开启 1关闭',
   `sort_id` int NULL DEFAULT NULL COMMENT '排序字段',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
@@ -3090,10 +2891,6 @@ CREATE TABLE `system_alarm_platform`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ak_aid`(`platform_alarm_id` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 440 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '平台报警名称多语言表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_alarm_platform
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_config
@@ -3111,10 +2908,6 @@ CREATE TABLE `system_config`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `sytem_key`(`conf_key` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '系统配置表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_config
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_database
@@ -3140,7 +2933,7 @@ CREATE TABLE `system_database`  (
   `updated_unix` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_table_name`(`database_name` ASC, `table_name` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1412 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '定时清理/备份表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 1420 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '定时清理/备份表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_dictionary
@@ -3154,6 +2947,8 @@ CREATE TABLE `system_dictionary`  (
   `dictionary_value_en` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '英文',
   `dictionary_value_th` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '泰语',
   `dictionary_value_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '印尼',
+  `dictionary_value_es` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '西班牙',
+  `dictionary_value_pt` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '葡萄牙',
   `dictionary_type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '类型分类',
   `dictionary_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `tag_color` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
@@ -3165,10 +2960,6 @@ CREATE TABLE `system_dictionary`  (
   UNIQUE INDEX `uk_value`(`dictionary_value` ASC, `dictionary_type` ASC) USING BTREE,
   UNIQUE INDEX `uk_key`(`dictionary_key` ASC, `dictionary_type` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 50 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '数据字典' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_dictionary
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_doc
@@ -3194,10 +2985,6 @@ CREATE TABLE `system_doc`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 99 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '知识库文档' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_doc
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_domain
 -- ----------------------------
 DROP TABLE IF EXISTS `system_domain`;
@@ -3221,10 +3008,6 @@ CREATE TABLE `system_domain`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '知识库文档' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_domain
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_image_template
 -- ----------------------------
 DROP TABLE IF EXISTS `system_image_template`;
@@ -3233,18 +3016,17 @@ CREATE TABLE `system_image_template`  (
   `template_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板要求编码,枚举',
   `template_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板的名字',
   `template_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '模板的URL',
+  `template_name_zh` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版名称-中文',
   `template_name_en` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板名称-英文',
   `template_name_th` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板名称-泰语',
   `template_name_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板名称-印尼',
+  `template_name_es` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版名称-西班牙',
+  `template_name_pt` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版名称-葡萄牙',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_template`(`template_code` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 174 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '图片推送模板' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_image_template
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 176 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '图片推送模板' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_mq
@@ -3265,10 +3047,6 @@ CREATE TABLE `system_mq`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'MQ消息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_mq
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_msg_template
 -- ----------------------------
 DROP TABLE IF EXISTS `system_msg_template`;
@@ -3280,10 +3058,14 @@ CREATE TABLE `system_msg_template`  (
   `template_name_en` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板名称-极光推送主标题',
   `template_name_th` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板名称-极光推送主标题',
   `template_name_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板名称-极光推送主标题',
+  `template_name_es` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版名称-极光推送主标题',
+  `template_name_pt` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版名称-极光推送主标题',
   `template_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板内容-极光推送副标题',
   `template_content_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板内容-极光推送副标题',
   `template_content_th` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板内容-极光推送副标题',
   `template_content_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模板内容-极光推送副标题',
+  `template_content_es` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版内容-极光推送副标题',
+  `template_content_pt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '模版内容-极光推送副标题',
   `sign_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '常用于第三方短信签名',
   `third_party_key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方key，常用于短信第三方模板key',
   `third_template_content` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方提供商, 腾讯短信，极光推送等',
@@ -3299,10 +3081,6 @@ CREATE TABLE `system_msg_template`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 53 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '消息推送模板' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_msg_template
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_nationality
 -- ----------------------------
 DROP TABLE IF EXISTS `system_nationality`;
@@ -3312,15 +3090,13 @@ CREATE TABLE `system_nationality`  (
   `nation_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '国家名称-中文',
   `nation_name_en` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '国家名称-英文',
   `nation_name_th` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '国家名称-泰文',
+  `nation_name_es` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '国家名称-西班牙语',
+  `nation_name_pt` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '国家名称-葡萄牙语',
   `created_unix` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_unix` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_nation_code`(`nation_code` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 241 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '国家地区管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_nationality
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_notification
@@ -3343,11 +3119,7 @@ CREATE TABLE `system_notification`  (
   `created_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_notification`(`user_id` ASC, `organize_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1134 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '平台消息推送' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_notification
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 1135 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '平台消息推送' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_open_platform
@@ -3372,11 +3144,7 @@ CREATE TABLE `system_open_platform`  (
   `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_service`(`organize_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '开放平台开发者账号' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_open_platform
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 29 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '开放平台开发者账号' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_repo
@@ -3397,10 +3165,6 @@ CREATE TABLE `system_repo`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `sytem_repo_UN`(`repo_url` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '知识库目录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_repo
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_schema_history
@@ -3425,10 +3189,6 @@ CREATE TABLE `system_schema_history`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_schema_history
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_shedlock
 -- ----------------------------
 DROP TABLE IF EXISTS `system_shedlock`;
@@ -3442,7 +3202,7 @@ CREATE TABLE `system_shedlock`  (
   `updated_unix` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15082 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '定时器分布式锁' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 18743 CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '定时器分布式锁' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_snippet
@@ -3462,10 +3222,6 @@ CREATE TABLE `system_snippet`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 30 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '快照' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_snippet
--- ----------------------------
-
--- ----------------------------
 -- Table structure for system_trouble_knowledge
 -- ----------------------------
 DROP TABLE IF EXISTS `system_trouble_knowledge`;
@@ -3483,10 +3239,6 @@ CREATE TABLE `system_trouble_knowledge`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_trouble_brand`(`trouble_code` ASC, `vehicle_brand` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of system_trouble_knowledge
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for system_version_app
@@ -3514,10 +3266,6 @@ CREATE TABLE `system_version_app`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 74 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = 'App版本管理-iOS版本' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of system_version_app
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_alarm_linkage
 -- ----------------------------
 DROP TABLE IF EXISTS `user_alarm_linkage`;
@@ -3532,11 +3280,7 @@ CREATE TABLE `user_alarm_linkage`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_alarm_linkage`(`organize_id` ASC, `platform_alarm_id` ASC, `user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 137 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户关注的组织或者个人工程师' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_alarm_linkage
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 253 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户关注的组织或者个人工程师' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_cmd
@@ -3552,11 +3296,7 @@ CREATE TABLE `user_cmd`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_cmd`(`organize_id` ASC, `user_id` ASC, `cmd_protocol` ASC, `cmd_key` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 542 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户指令' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_cmd
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 571 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户指令' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_contact_address
@@ -3584,10 +3324,6 @@ CREATE TABLE `user_contact_address`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_name`(`user_id` ASC, `contact_name` ASC) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 183 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户的联系地址' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_contact_address
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for user_engineer
@@ -3634,11 +3370,7 @@ CREATE TABLE `user_engineer`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`user_id` ASC, `is_deleted` ASC) USING BTREE,
   UNIQUE INDEX `uk_card`(`identity_card` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 214 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工程师信息' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_engineer
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 216 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工程师信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_engineer_authentication
@@ -3675,10 +3407,6 @@ CREATE TABLE `user_engineer_authentication`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工程师认证' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of user_engineer_authentication
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_favorite
 -- ----------------------------
 DROP TABLE IF EXISTS `user_favorite`;
@@ -3694,11 +3422,7 @@ CREATE TABLE `user_favorite`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_user_vehicle`(`organize_id` ASC, `user_id` ASC, `favorite_id` ASC) USING BTREE,
   INDEX `idx_favorite`(`organize_id` ASC, `favorite_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12417 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户收藏记录' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_favorite
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 14187 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户收藏记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_info
@@ -3734,11 +3458,7 @@ CREATE TABLE `user_info`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`user_id` ASC, `is_deleted` ASC) USING BTREE,
   UNIQUE INDEX `uk_account`(`account` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 15866 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_info
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 15876 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_issue
@@ -3760,10 +3480,6 @@ CREATE TABLE `user_issue`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 66 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户意见反馈' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of user_issue
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_line_config
 -- ----------------------------
 DROP TABLE IF EXISTS `user_line_config`;
@@ -3782,10 +3498,6 @@ CREATE TABLE `user_line_config`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户LINE平台Token配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of user_line_config
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_notification
 -- ----------------------------
 DROP TABLE IF EXISTS `user_notification`;
@@ -3802,11 +3514,7 @@ CREATE TABLE `user_notification`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_user`(`user_id` ASC, `notification_key` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 307 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '我的通知设置' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_notification
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 317 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '我的通知设置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_organize
@@ -3818,24 +3526,21 @@ CREATE TABLE `user_organize`  (
   `nick_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织内名称',
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织ID',
   `organize_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织全名',
-  `is_owner` tinyint(1) NOT NULL DEFAULT 0 COMMENT '用户是否本组织拥有者 0成员 1管理者',
   `member_role` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'member' COMMENT '成员身份  member默认成员 owner管理员 service客服 engineer工程师 read只读成员',
   `member_role_value` int NOT NULL DEFAULT 1 COMMENT '成员身份值, 方便排序',
   `role_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '自定义角色ID',
   `permission_actions` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限组_废弃, 采用角色的方式',
   `expire_time` datetime NULL DEFAULT NULL COMMENT '到期时间',
   `tree_model` smallint NOT NULL DEFAULT 0 COMMENT '0默认企业-车队-车辆树 1企业-车辆树 2企业-车辆上级车队-车辆树',
+  `fleet_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '账号归属车队ID',
+  `last_time` datetime NULL DEFAULT NULL COMMENT '最近一次在组织内查询车辆树的时间',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_user_organize`(`user_id` ASC, `organize_id` ASC) USING BTREE,
   INDEX `idx_organize_id`(`organize_id` ASC) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18804 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户加入组织表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_organize
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 18818 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户加入组织表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_organize_apply
@@ -3863,10 +3568,6 @@ CREATE TABLE `user_organize_apply`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 127 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户加入组织申请表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of user_organize_apply
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_organize_invite
 -- ----------------------------
 DROP TABLE IF EXISTS `user_organize_invite`;
@@ -3890,10 +3591,6 @@ CREATE TABLE `user_organize_invite`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 130 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '组织邀请用户加入表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of user_organize_invite
--- ----------------------------
-
--- ----------------------------
 -- Table structure for user_subscribe_config
 -- ----------------------------
 DROP TABLE IF EXISTS `user_subscribe_config`;
@@ -3914,11 +3611,7 @@ CREATE TABLE `user_subscribe_config`  (
   UNIQUE INDEX `user_subscribe_config_un`(`organize_id` ASC, `user_id` ASC, `channel_key` ASC, `notify_pipe` ASC) USING BTREE,
   INDEX `user_subscribe_config_organize_id_IDX`(`organize_id` ASC, `channel_key` ASC) USING BTREE,
   INDEX `user_subscribe_config_channel_key_IDX`(`channel_key` ASC, `notify_pipe` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 75 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户订阅配置' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_subscribe_config
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 79 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户订阅配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_third_login
@@ -3938,11 +3631,7 @@ CREATE TABLE `user_third_login`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_unique_acount`(`third_unique_account` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 364 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_third_login
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 367 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_vehicle
@@ -3960,11 +3649,7 @@ CREATE TABLE `user_vehicle`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_user_vehicle`(`organize_id` ASC, `user_id` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `user_vehicle_organize_id_IDX`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 678111 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业车辆管理' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of user_vehicle
--- ----------------------------
+) ENGINE = InnoDB AUTO_INCREMENT = 684217 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业车辆管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- View structure for view_device_gateway
@@ -3976,7 +3661,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_device_gateway` AS 
 -- View structure for view_device_vehicle
 -- ----------------------------
 DROP VIEW IF EXISTS `view_device_vehicle`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_device_vehicle` AS select `organize_device`.`id` AS `id`,`organize_device`.`created_unix` AS `created_unix`,`organize_device`.`updated_unix` AS `updated_unix`,`organize_device`.`organize_id` AS `organize_id`,`organize_device`.`organize_name` AS `organize_name`,`organize_device`.`device_imei` AS `imei`,`organize_device`.`time_zone` AS `time_zone`,`organize_device`.`character_set` AS `character_set`,`organize_device`.`channel` AS `channel`,`organize_device`.`last_gps_time` AS `last_gps_time`,`organize_vehicle`.`id` AS `id_vehicle`,`organize_vehicle`.`vehicle_id` AS `vehicle_id`,`organize_vehicle`.`vehicle_name` AS `vehicle_name`,`organize_vehicle`.`lpn` AS `lpn`,`organize_vehicle`.`fleet_id` AS `fleet_id`,`organize_vehicle`.`fleet_name` AS `fleet_name`,`organize_vehicle`.`vehicle_type` AS `vehicle_type`,`organize_vehicle`.`vehicle_model` AS `vehicle_model`,`organize_vehicle`.`expire_time` AS `expire_time`,`organize_vehicle`.`approved_number` AS `approved_number`,`organize_vehicle`.`icon` AS `icon`,`organize_vehicle`.`fuel_config` AS `fuel_config`,`organize_vehicle`.`io_config` AS `io_config`,`organize_vehicle`.`temp_config` AS `temp_config`,`organize_device`.`fuel_sensor` AS `fuel_sensor`,`organize_device`.`product_id` AS `product_id`,`device_product`.`product_name` AS `product_name`,`device_product`.`alarm_mapping` AS `alarm_mapping`,`organize_vehicle`.`auto_create_fence` AS `auto_create_fence` from ((`organize_device` join `organize_vehicle` on(((`organize_device`.`organize_id` = `organize_vehicle`.`organize_id`) and (`organize_device`.`vehicle_id` = `organize_vehicle`.`vehicle_id`)))) left join `device_product` on((`organize_device`.`product_id` = `device_product`.`product_id`)));
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_device_vehicle` AS select `organize_device`.`id` AS `id`,`organize_device`.`created_unix` AS `created_unix`,`organize_device`.`updated_unix` AS `updated_unix`,`organize_device`.`organize_id` AS `organize_id`,`organize_device`.`organize_name` AS `organize_name`,`organize_device`.`device_imei` AS `imei`,`organize_device`.`time_zone` AS `time_zone`,`organize_device`.`character_set` AS `character_set`,`organize_device`.`channel` AS `channel`,`organize_device`.`last_gps_time` AS `last_gps_time`,`organize_vehicle`.`id` AS `id_vehicle`,`organize_vehicle`.`vehicle_id` AS `vehicle_id`,`organize_vehicle`.`vehicle_name` AS `vehicle_name`,`organize_vehicle`.`lpn` AS `lpn`,`organize_vehicle`.`fleet_id` AS `fleet_id`,`organize_vehicle`.`fleet_name` AS `fleet_name`,`organize_vehicle`.`vehicle_type` AS `vehicle_type`,`organize_vehicle`.`vehicle_model` AS `vehicle_model`,`organize_vehicle`.`expire_time` AS `expire_time`,`organize_vehicle`.`approved_number` AS `approved_number`,`organize_vehicle`.`icon` AS `icon`,`organize_vehicle`.`fuel_config` AS `fuel_config`,`organize_vehicle`.`io_config` AS `io_config`,`organize_vehicle`.`temp_config` AS `temp_config`,`organize_vehicle`.`active` AS `active`,`organize_device`.`fuel_sensor` AS `fuel_sensor`,`organize_device`.`product_id` AS `product_id`,`device_product`.`product_name` AS `product_name`,`device_product`.`device_model` AS `device_model`,`device_product`.`protocol` AS `device_protocol`,`device_product`.`alarm_mapping` AS `alarm_mapping`,`organize_vehicle`.`auto_create_fence` AS `auto_create_fence` from ((`organize_device` join `organize_vehicle` on(((`organize_device`.`organize_id` = `organize_vehicle`.`organize_id`) and (`organize_device`.`vehicle_id` = `organize_vehicle`.`vehicle_id`)))) left join `device_product` on((`organize_device`.`product_id` = `device_product`.`product_id`)));
 
 -- ----------------------------
 -- View structure for view_organize_engineer
@@ -3988,19 +3673,82 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_engineer` 
 -- View structure for view_organize_member
 -- ----------------------------
 DROP VIEW IF EXISTS `view_organize_member`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_member` AS select `user_organize`.`id` AS `id`,`user_organize`.`organize_id` AS `organize_id`,`user_info`.`user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_organize`.`nick_name` AS `nick_name`,`user_organize`.`permission_actions` AS `permission_actions`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`role_id` AS `role_id`,`user_info`.`is_engineer` AS `is_engineer`,`user_info`.`is_admin` AS `is_admin` from (`user_organize` join `user_info`) where ((`user_info`.`user_id` = `user_organize`.`user_id`) and (`user_info`.`is_deleted` = 0)) order by `user_organize`.`member_role_value` desc;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_member` AS select `user_organize`.`id` AS `id`,`user_organize`.`organize_id` AS `organize_id`,`user_info`.`user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_organize`.`nick_name` AS `nick_name`,`user_organize`.`permission_actions` AS `permission_actions`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`role_id` AS `role_id`,`user_info`.`is_engineer` AS `is_engineer`,`user_info`.`is_admin` AS `is_admin`,`user_organize`.`fleet_id` AS `fleet_id` from (`user_organize` join `user_info`) where ((`user_info`.`user_id` = `user_organize`.`user_id`) and (`user_info`.`is_deleted` = 0)) order by `user_info`.`account`;
 
 -- ----------------------------
 -- View structure for view_organize_user
 -- ----------------------------
 DROP VIEW IF EXISTS `view_organize_user`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_user` AS select `view_organize_user`.`id` AS `id`,`view_organize_user`.`organize_id` AS `organize_id`,`view_organize_user`.`user_id` AS `user_id`,`view_organize_user`.`user_name` AS `user_name`,`view_organize_user`.`nick_name` AS `nick_name`,`view_organize_user`.`account` AS `account`,`view_organize_user`.`custom_avatar` AS `custom_avatar`,`view_organize_user`.`full_name` AS `full_name`,`view_organize_user`.`creator_id` AS `creator_id`,`view_organize_user`.`expire_time` AS `expire_time`,`view_organize_user`.`member_role` AS `member_role`,`view_organize_user`.`member_role_value` AS `member_role_value`,`view_organize_user`.`role_id` AS `role_id`,`view_organize_user`.`tree_model` AS `tree_model`,`view_organize_user`.`choose` AS `choose` from (select `user_organize`.`id` AS `id`,`user_organize`.`organize_id` AS `organize_id`,`user_info`.`user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_organize`.`nick_name` AS `nick_name`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_info`.`creator_id` AS `creator_id`,`user_organize`.`expire_time` AS `expire_time`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`member_role_value` AS `member_role_value`,`user_organize`.`role_id` AS `role_id`,`user_organize`.`tree_model` AS `tree_model`,1 AS `choose` from (`user_organize` join `user_info`) where ((`user_info`.`user_id` = `user_organize`.`user_id`) and (`user_info`.`is_deleted` = 0)) union all select -(`user_organize_invite`.`id`) AS `id`,`user_organize_invite`.`organize_id` AS `organize_id`,`user_organize_invite`.`invite_user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_info`.`user_name` AS `nick_name`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_info`.`creator_id` AS `creator_id`,NULL AS `expire_time`,`user_organize_invite`.`member_role` AS `member_role`,0 AS `member_role_value`,0 AS `tree_model`,'' AS `role_id`,`user_organize_invite`.`invite_user_choose` AS `choose` from (`user_organize_invite` join `user_info`) where ((`user_organize_invite`.`invite_user_choose` = 0) and (`user_info`.`user_id` = `user_organize_invite`.`invite_user_id`) and (`user_info`.`is_deleted` = 0))) `view_organize_user` order by `view_organize_user`.`member_role_value` desc;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_user` AS select `view_organize_user`.`id` AS `id`,`view_organize_user`.`organize_id` AS `organize_id`,`view_organize_user`.`user_id` AS `user_id`,`view_organize_user`.`user_name` AS `user_name`,`view_organize_user`.`nick_name` AS `nick_name`,`view_organize_user`.`account` AS `account`,`view_organize_user`.`custom_avatar` AS `custom_avatar`,`view_organize_user`.`full_name` AS `full_name`,`view_organize_user`.`creator_id` AS `creator_id`,`view_organize_user`.`expire_time` AS `expire_time`,`view_organize_user`.`member_role` AS `member_role`,`view_organize_user`.`member_role_value` AS `member_role_value`,`view_organize_user`.`role_id` AS `role_id`,`view_organize_user`.`role_name` AS `role_name`,`view_organize_user`.`tree_model` AS `tree_model`,`view_organize_user`.`fleet_id` AS `fleet_id`,`view_organize_user`.`last_time` AS `last_time`,`view_organize_user`.`choose` AS `choose` from (select `user_organize`.`id` AS `id`,`user_organize`.`organize_id` AS `organize_id`,`user_info`.`user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_organize`.`nick_name` AS `nick_name`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_info`.`creator_id` AS `creator_id`,`user_organize`.`expire_time` AS `expire_time`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`member_role_value` AS `member_role_value`,`user_organize`.`role_id` AS `role_id`,`organize_role`.`role_name` AS `role_name`,`user_organize`.`tree_model` AS `tree_model`,`user_organize`.`fleet_id` AS `fleet_id`,`user_organize`.`last_time` AS `last_time`,1 AS `choose` from ((`user_organize` join `user_info`) left join `organize_role` on(((`user_organize`.`organize_id` = `organize_role`.`organize_id`) and (`user_organize`.`role_id` = `organize_role`.`role_id`)))) where ((`user_info`.`user_id` = `user_organize`.`user_id`) and (`user_info`.`is_deleted` = 0)) union all select -(`user_organize_invite`.`id`) AS `id`,`user_organize_invite`.`organize_id` AS `organize_id`,`user_organize_invite`.`invite_user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_info`.`user_name` AS `nick_name`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_info`.`creator_id` AS `creator_id`,NULL AS `expire_time`,`user_organize_invite`.`member_role` AS `member_role`,0 AS `member_role_value`,'' AS `role_id`,'' AS `role_name`,0 AS `tree_model`,'' AS `fleet_id`,NULL AS `last_time`,`user_organize_invite`.`invite_user_choose` AS `choose` from (`user_organize_invite` join `user_info`) where ((`user_organize_invite`.`invite_user_choose` = 0) and (`user_info`.`user_id` = `user_organize_invite`.`invite_user_id`) and (`user_info`.`is_deleted` = 0))) `view_organize_user` order by `view_organize_user`.`account`;
 
 -- ----------------------------
 -- View structure for view_user_organize
 -- ----------------------------
 DROP VIEW IF EXISTS `view_user_organize`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user_organize` AS select `user_organize`.`id` AS `id`,`user_organize`.`user_id` AS `user_id`,`user_organize`.`role_id` AS `role_id`,`organize_role`.`role_name` AS `role_name`,`user_organize`.`expire_time` AS `expire_time`,`organize_info`.`organize_id` AS `organize_id`,`organize_info`.`organize_name` AS `organize_name`,`organize_info`.`domain_name` AS `domain_name`,`organize_info`.`short_name` AS `short_name`,`organize_info`.`custom_avatar` AS `custom_avatar`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`permission_actions` AS `permission_actions`,`organize_info`.`follow_organize_id` AS `follow_organize_id`,`organize_info`.`follow_organize_name` AS `follow_organize_name` from ((`user_organize` join `organize_info`) left join `organize_role` on(((`user_organize`.`organize_id` = `organize_role`.`organize_id`) and (`user_organize`.`role_id` = `organize_role`.`role_id`)))) where (`organize_info`.`organize_id` = `user_organize`.`organize_id`) order by `user_organize`.`id`;
+
+-- ----------------------------
+-- Procedure structure for a_migrate_task_alarm_exec
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `a_migrate_task_alarm_exec`;
+delimiter ;;
+CREATE PROCEDURE `a_migrate_task_alarm_exec`(IN task_id BIGINT)
+main_block: BEGIN
+
+    DECLARE sourceTable VARCHAR(64);
+    DECLARE targetTable VARCHAR(64);
+    DECLARE startId BIGINT;
+    DECLARE endId BIGINT;
+    DECLARE currentId BIGINT;
+    DECLARE batchSize INT;
+    DECLARE taskStatus VARCHAR(20);
+    DECLARE finished BOOLEAN DEFAULT FALSE;
+
+    -- 读取任务信息
+    SELECT source_table, target_table, start_id, end_id, current_id, batch_size, status
+    INTO sourceTable, targetTable, startId, endId, currentId, batchSize, taskStatus
+    FROM a_migrate_task_alarm
+    WHERE id = task_id
+    FOR UPDATE;
+
+    -- 如果任务不是 PENDING，直接退出
+    IF taskStatus != 'PENDING' THEN
+        SELECT 'Task already started or finished' AS msg;
+        LEAVE main_block;
+    END IF;
+
+    -- 标记任务为 RUNNING
+    UPDATE a_migrate_task_alarm SET status = 'RUNNING' WHERE id = task_id;
+
+    -- 循环迁移
+    WHILE finished = FALSE DO
+        IF currentId > endId THEN
+            SET finished = TRUE;
+        ELSE
+            SET @sql = CONCAT(
+                'INSERT INTO ', targetTable, ' (id, organize_id, fleet_id, fleet_name, vehicle_id, vehicle_name, lpn, imei, event_time, platform_alarm_id, alarm_class, device_type, additional, lng, lat, duration, work_date, time_zone, period_time, reduce_score, handle_flag, handle_result, handle_time, handler_id, created_unix, updated_unix) ',
+                'SELECT id, organize_id, fleet_id, fleet_name, vehicle_id, vehicle_name, lpn, imei, event_time, platform_alarm_id, alarm_class, device_type, additional, lng, lat, duration, work_date, time_zone, period_time, reduce_score, handle_flag, handle_result, handle_time, handler_id, created_unix, updated_unix ',
+                'FROM ', sourceTable, ' ',
+                'WHERE id BETWEEN ', currentId, ' AND ', currentId + batchSize - 1
+            );
+
+            PREPARE stmt FROM @sql;
+            EXECUTE stmt;
+            DEALLOCATE PREPARE stmt;
+
+            SET currentId = currentId + batchSize;
+            UPDATE a_migrate_task_alarm SET current_id = currentId WHERE id = task_id;
+						-- 延迟 1 秒，降低数据库压力
+						DO SLEEP(1);
+        END IF;
+    END WHILE;
+
+    -- 标记任务完成
+    UPDATE a_migrate_task_alarm SET status = 'FINISHED' WHERE id = task_id;
+
+END
+;;
+delimiter ;
 
 -- ----------------------------
 -- Procedure structure for CleanupBatchData
