@@ -11,7 +11,7 @@ services:
       # http-flv/hls端口,建议nginx代理, 内部别名访问
       #- 8080:8080
     volumes:
-      - "/home/docker/video/srs/conf:/usr/local/srs/conf"
+      - "${DOCKER_DIR:-/home/docker}/video/srs/conf:/usr/local/srs/conf"
       - "${DATA_DIR:-/data}/srs/html:/usr/local/srs/objs/nginx/html"
     ulimits:
       nproc: 65535
