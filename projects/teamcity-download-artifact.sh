@@ -12,7 +12,7 @@ print_help() {
   echo "Usage: $bin_name --build=<build> [--tag=<tag>]"
   echo
   echo "--build: 构建的名称, 例如: MaintainVbenAdmin_Release, 必填"
-  echo "--tag: 标签名, 若不填, 则下载最后一次的构建"
+  echo "--tag: 标签名, 默认为latest, 下载最后一次的构建"
   echo
   echo "示例:"
   echo
@@ -41,7 +41,7 @@ if [ -z "$BUILD" ]; then
   exit 1
 fi
 
-if [ -n "$TAG" ]; then
+if [ -n "$TAG" ] && [ "$TAG" != "latest" ]; then
   # locator的value包含`/`时, 需要进行base64编码
   # @see https://www.jetbrains.com/help/teamcity/rest/locators.html#e20589c5
   encoded_tag="$(printf '%s' "tags/$TAG" | base64)"
