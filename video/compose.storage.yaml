@@ -2,11 +2,11 @@ services:
   srs:
     volumes:
       - "/home/docker/video/srs-storage/conf:/usr/local/srs/conf"
-      - "/data/srs-storage/html:/usr/local/srs/objs/nginx/html"
+      - "${DATA_DIR:-/data}/srs-storage/html:/usr/local/srs/objs/nginx/html"
   rtp:
     volumes:
-      - "/data/logs/rtp-storage:/logs"
-      - "/data/srs-storage/html/dvr/live:/data/record"
+      - "${DATA_DIR:-/data}/logs/rtp-storage:/logs"
+      - "${DATA_DIR:-/data}/srs-storage/html/dvr/live:/data/record"
     depends_on:
       - minio
     environment:
