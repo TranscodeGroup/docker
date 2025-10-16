@@ -1,6 +1,6 @@
 services:
   jtt808:
-    image: transcodegroup/jtt808-server:${JTT808_VERSION:?required}
+    image: transcodegroup/jtt808-server:${TRACK_JTT808_VERSION:?required}
     container_name: jtt808_server
     restart: always
     ports:
