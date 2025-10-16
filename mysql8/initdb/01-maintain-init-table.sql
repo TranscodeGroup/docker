@@ -1340,12 +1340,28 @@ CREATE TABLE `order_contact_address`  (
 -- ----------------------------
 -- Table structure for order_daily_duration
 -- ----------------------------
+-- ----------------------------
+-- Table structure for order_daily_duration
+-- ----------------------------
 DROP TABLE IF EXISTS `order_daily_duration`;
 CREATE TABLE `order_daily_duration`  (
-  PRIMARY KEY ((id)) USING BTREE,
-  INDEX `idx_date`((work_date) ASC) USING BTREE,
-  INDEX `idx_month`((work_month) ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 53199 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '每日交单工单耗时分析' ROW_FORMAT = DYNAMIC;
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '工单归档。计算当天归档工单的耗时分析',
+  `work_month` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '月份 yyyy-mm',
+  `work_date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '预约日期 yyyy-mm-dd',
+  `order_type` int NOT NULL DEFAULT 0 COMMENT '1安装单 2维修单',
+  `num_order` int UNSIGNED NOT NULL DEFAULT 0 COMMENT '当天审核完成单',
+  `duration_order` int NOT NULL DEFAULT 0 COMMENT '工单持续时长',
+  `duration_assign` int NOT NULL DEFAULT 0 COMMENT '配单耗时, 分钟',
+  `duration_accept` int NOT NULL DEFAULT 0 COMMENT '接单耗时, 分钟',
+  `duration_done` int NOT NULL DEFAULT 0 COMMENT '服务耗时, 分钟',
+  `duration_confirm` int NOT NULL DEFAULT 0 COMMENT '签单耗时, 分钟',
+  `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除位',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_date`(`work_date` ASC) USING BTREE,
+  INDEX `idx_month`(`work_month` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 53217 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '每日交单工单耗时分析' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for order_daily_engineer
