@@ -1,6 +1,6 @@
 services:
   maintain:
-    image: transcodegroup/maintain-server
+    image: transcodegroup/maintain-server:${MAINTAIN_VERSION:?required}
     container_name: maintain
     restart: always
     volumes:

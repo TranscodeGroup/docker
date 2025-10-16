@@ -1,6 +1,6 @@
 services:
   gateway_808_2019:
-    image: transcodegroup/gateway-808-2019:latest
+    image: transcodegroup/gateway-808-2019:${BUS_GATEWAY_808_2019_VERSION:?required}
     container_name: gateway_808_2019
     restart: always
     volumes:
@@ -53,7 +53,7 @@ services:
         
   # spring-boot后端
   gateway_web:
-    image: transcodegroup/gateway-web
+    image: transcodegroup/gateway-web:${BUS_GATEWAY_VERSION:?required}
     container_name: gateway_web
     restart: always
     volumes:
@@ -104,7 +104,7 @@ services:
 
   # spring-boot调度
   gateway_dispatch:
-    image: transcodegroup/gateway-dispatch
+    image: transcodegroup/gateway-dispatch:${BUS_GATEWAY_VERSION:?required}
     container_name: gateway_dispatch
     restart: always
     volumes:
@@ -152,7 +152,7 @@ services:
         max-size: "100m"
   # 主动安全
   gateway_jsatl12:
-    image: transcodegroup/gateway-jsatl12
+    image: transcodegroup/gateway-jsatl12:${BUS_GATEWAY_JSATL12_VERSION:?required}
     container_name: gateway_jsatl12
     restart: always
     ports:
@@ -178,7 +178,7 @@ services:
         # 限制日志文件大小
         max-size: "100m"
   gateway_calculation:
-    image: transcodegroup/gateway-calculation
+    image: transcodegroup/gateway-calculation:${BUS_GATEWAY_CALCULATION_VERSION:?required}
     container_name: gateway_calculation
     restart: always
     volumes:
