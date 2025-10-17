@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # 默认使用名为artifacts的token, 权限较小(被设置为: `<Root project>: View build runtime parameters and data`)
 # @see http://th-ci.transcodegroup.cn:9080/profile.html?item=accessTokens
