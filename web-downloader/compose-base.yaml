@@ -1,8 +1,0 @@
-services:
-  web-downloader-base:
-    image: alpine/curl
-    command: /home/docker/web-downloader/web-downloader.sh
-    volumes:
-      - "${DATA_DIR:-/data}/nginx/html:/data/nginx/html"
-      - ./web-downloader.sh:/home/docker/web-downloader/web-downloader.sh
-      - ../projects/teamcity-download-artifact.sh:/home/docker/projects/teamcity-download-artifact.sh

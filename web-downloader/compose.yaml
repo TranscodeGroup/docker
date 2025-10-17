@@ -1,0 +1,37 @@
+services:
+  web-downloader-base:
+    # All web-downloader-base/bus/track services are disabled by default
+    profiles: ["disabled"]
+    image: alpine/curl
+    command: /home/docker/web-downloader/web-downloader.sh
+    volumes:
+      - "${DATA_DIR:-/data}/nginx/html:/data/nginx/html"
+    configs:
+      - source: web-downloader.sh
+        target: /home/docker/web-downloader/web-downloader.sh
+      - source: teamcity-download-artifact.sh
+        target: /home/docker/projects/teamcity-download-artifact.sh
+
+  web-downloader-bus:
+    extends: web-downloader-base
+    environment:
+      # tag starts with 'v', eg: v5.30.0
+      - TEAMCITY_TAG=v${BUS_WEB_VERSION:?required}
+      - TEAMCITY_BUILD_NAME=CityBusVueAdmin_Release
+      - TEAMCITY_BUILD_ZIP_NAME=bus.zip
+      - NGINX_HTML_DIR_NAME=bus
+
+  web-downloader-track:
+    extends: web-downloader-base
+    environment:
+      # tag starts with 'v', eg: v1.53.0
+      - TEAMCITY_TAG=v${TRACK_WEB_VERSION:?required}
+      - TEAMCITY_BUILD_NAME=MaintainVbenAdmin_Release
+      - TEAMCITY_BUILD_ZIP_NAME=maintain.zip
+      - NGINX_HTML_DIR_NAME=track
+
+configs:
+  web-downloader.sh:
+    file: ./web-downloader.sh
+  teamcity-download-artifact.sh:
+    file: ../projects/teamcity-download-artifact.sh
