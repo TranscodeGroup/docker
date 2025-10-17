@@ -14,21 +14,27 @@ services:
 
   web-downloader-bus:
     extends: web-downloader-base
+    volumes:
+      - ${BUS_WEB_OVERRIDE_DIR:?required}:${BUS_WEB_OVERRIDE_DIR:?required}
     environment:
       # tag starts with 'v', eg: v5.30.0
       - TEAMCITY_TAG=v${BUS_WEB_VERSION:?required}
       - TEAMCITY_BUILD_NAME=CityBusVueAdmin_Release
       - TEAMCITY_BUILD_ZIP_NAME=bus.zip
       - NGINX_HTML_DIR_NAME=bus
+      - NGINX_HTML_OVERRIDE_DIR=${BUS_WEB_OVERRIDE_DIR:?required}
 
   web-downloader-track:
     extends: web-downloader-base
+    volumes:
+      - ${TRACK_WEB_OVERRIDE_DIR:?required}:${TRACK_WEB_OVERRIDE_DIR:?required}
     environment:
       # tag starts with 'v', eg: v1.53.0
       - TEAMCITY_TAG=v${TRACK_WEB_VERSION:?required}
       - TEAMCITY_BUILD_NAME=MaintainVbenAdmin_Release
       - TEAMCITY_BUILD_ZIP_NAME=maintain.zip
       - NGINX_HTML_DIR_NAME=track
+      - NGINX_HTML_OVERRIDE_DIR=${TRACK_WEB_OVERRIDE_DIR:?required}
 
 configs:
   web-downloader.sh:
