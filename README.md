@@ -38,6 +38,13 @@ docker compose config > compose-stack.yaml
 
 ### 4. 下载前端文件
 
+#### 使用Docker自动下载
+
+- [compose-track.yaml](./web-downloader/compose-track.yaml): 自动下载track
+- [compose-bus.yaml](./web-downloader/compose-bus.yaml): 自动下载bus
+
+#### 手动下载
+
 部署distar等项目的前端:  
 [说明文件](projects/README.md)
 
