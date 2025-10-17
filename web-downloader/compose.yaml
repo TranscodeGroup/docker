@@ -1,7 +1,8 @@
 services:
   web-downloader-track:
     image: alpine
-    command: /home/docker/web-downloader/web-downloader.sh
+    # command: /home/docker/web-downloader/web-downloader.sh
+    command: /home/docker/projects/teamcity-download-artifact.sh
     environment:
       - TEAMCITY_TAG=${TRACK_WEB_VERSION:?required}
       - TEAMCITY_BUILD_NAME=MaintainVbenAdmin_Release
