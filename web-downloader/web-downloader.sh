@@ -9,7 +9,7 @@ fi
 
 cd /data/nginx/html || exit 1
 
-version_file="${NGINX_HTML_DIR_NAME}/.version"
+version_file="${NGINX_HTML_DIR_NAME}/.version-for-web-downloader"
 
 # Check if the version already exists
 if [ -f "$version_file" ]; then
@@ -34,3 +34,5 @@ unzip "${TEAMCITY_BUILD_ZIP_NAME}" -d "${NGINX_HTML_DIR_NAME}"
 rm -f "${TEAMCITY_BUILD_ZIP_NAME}"
 # rm "${TEAMCITY_BUILD_NAME}-${TEAMCITY_TAG}.zip"
 echo "${TEAMCITY_TAG}" > "$version_file"
+
+echo "Downloaded version ${TEAMCITY_TAG}"
