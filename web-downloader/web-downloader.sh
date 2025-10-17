@@ -20,19 +20,20 @@ if [ -f "$version_file" ]; then
     fi
 fi
 
-# Remove the existing directory
+# Download the new version
+/home/docker/projects/teamcity-download-artifact.sh --build="${TEAMCITY_BUILD_NAME}" --tag="${TEAMCITY_TAG}"
+
+# Unzip
+unzip "${TEAMCITY_BUILD_NAME}-${TEAMCITY_TAG}.zip"
 if [ -e "${NGINX_HTML_DIR_NAME}" ]; then
     rm -rf "${NGINX_HTML_DIR_NAME}"
 fi
-
-# Download the new version
-/home/docker/projects/teamcity-download-artifact.sh --build="${TEAMCITY_BUILD_NAME}" --tag="${TEAMCITY_TAG}"
-unzip "${TEAMCITY_BUILD_NAME}-${TEAMCITY_TAG}.zip"
 unzip "${TEAMCITY_BUILD_ZIP_NAME}" -d "${NGINX_HTML_DIR_NAME}"
-
 # Clean up
 rm -f "${TEAMCITY_BUILD_ZIP_NAME}"
 # rm "${TEAMCITY_BUILD_NAME}-${TEAMCITY_TAG}.zip"
 echo "${TEAMCITY_TAG}" > "$version_file"
 
+echo
 echo "Downloaded version ${TEAMCITY_TAG}"
+echo
