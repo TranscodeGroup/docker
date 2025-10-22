@@ -41,10 +41,11 @@ docker compose config > compose-stack.yaml
 
 #### 使用Docker自动下载
 
-在`/home/docker-compose/compose.yaml`文件中, `include`如下服务, 即可自动下载前端
+在`/home/docker-compose/compose.yaml`文件中, `include`如下服务, 即可自动下载前端:
 
-- [compose-track.yaml](./web-downloader/compose-track.yaml): 自动下载track
-- [compose-bus.yaml](./web-downloader/compose-bus.yaml): 自动下载bus
+- [compose.yaml](./web-downloader/compose.yaml): 自动下载的基础配置
+- [compose.track.yaml](./web-downloader/compose.track.yaml): 自动下载track的配置, 可选;
+- [compose.bus.yaml](./web-downloader/compose.bus.yaml): 自动下载bus的配置, 可选;
 
 #### 手动下载
 

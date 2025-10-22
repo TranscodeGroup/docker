@@ -120,22 +120,5 @@ cd ..
 # 复制配置文件
 cp -Rfv "$CONFIG_DIR"/* "$target_dir"
 
-# 指定要处理的HTML文件
-cd "$target_dir"
-html_file="index.html"
-
-# 使用sed命令进行文本替换, 网站微缩图
-OLD_TITLE='中车在线'
-NEW_TITLE='DiStarGPS'
-OLD_DIV='数字交通云平台'
-NEW_DIV='ดูแลการเดินรถของคุ'
-
-# 使用sed命令进行文本替换
-sed -i.bak "s|$OLD_TITLE|$NEW_TITLE|g" "$html_file"
-sed -i.bak "s|$OLD_DIV|$NEW_DIV|g" "$html_file"
-rm "$html_file".bak
-
-echo "替换完成：$html_file 中的 '工物员' 已被替换为 'DiStarGPS ดูแลการเดินรถของคุณ'"
-
 echo "解压完成,目录 -> " "$target_dir"
 echo "beta路径,复制到浏览器可预览 -> " https://tripsdd.com/beta/"$target_dir"
