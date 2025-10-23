@@ -19,6 +19,7 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 - [video-storage](./examples/video-storage/compose.yaml): RTP存储
 - [video-stream](./examples/video-stream/compose.yaml): RTP视频
 - [track](./examples/track/compose.yaml): Tracker V2单机部署
+- [bus](./examples/bus/compose.yaml): Bus单机部署
 - etc.
 
 ### 3. 配置`.env`
@@ -43,9 +44,14 @@ docker compose config > compose-stack.yaml
 
 在`/home/docker-compose/compose.yaml`文件中, `include`如下服务, 即可自动下载前端:
 
-- [compose.yaml](./web-downloader/compose.yml): 自动下载的基础配置
-- [compose.track.yaml](./web-downloader/compose.track.yml): 自动下载track的配置, 可选;
-- [compose.bus.yaml](./web-downloader/compose.bus.yml): 自动下载bus的配置, 可选;
+```yaml
+include:
+  # ...
+  - path:
+    - ../docker/web-downloader/compose.yml        # 自动下载的基础配置
+    - ../docker/web-downloader/compose.track.yml  # 自动下载track, 可选
+    - ../docker/web-downloader/compose.bus.yml    # 自动下载bus, 可选
+```
 
 #### 手动下载
 
