@@ -12,7 +12,8 @@ services:
       #- 8080:8080
     volumes:
       - "/home/docker/video/srs/conf:/usr/local/srs/conf"
-      - "/data/srs/html:/usr/local/srs/objs/nginx/html"
+      # - "/data/srs/html:/usr/local/srs/objs/nginx/html"
+      - "/data/logs/srs:/usr/local/srs/log"
     ulimits:
       nproc: 65535
       nofile:
@@ -77,3 +78,4 @@ services:
       options:
         # 限制日志文件大小
         max-size: "100m"
+        
