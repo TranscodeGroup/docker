@@ -29,9 +29,9 @@ services:
       - gateway_ftp_passive_ports=${JTT808_PORT_FTP_PASSIVE}
 
       # 终端注册服务
-      - gateway_device-register-url=${WEB_BASE_URL}
-      # 网关Http服务, 需要代理？
-      - gateway_http_url=${WEB_BASE_URL}/jtt808
+      - gateway_device-register-url=${WEB_BASE_URL:-http://${MAINTAIN_HOST}:${MAINTAIN_PORT}}
+      # 网关Http服务
+      - gateway_http_url=${WEB_BASE_URL:-http://${MAINTAIN_HOST}:${MAINTAIN_PORT}}/jtt808
 
       # MongoDB
       - spring_data_mongodb_host=${MONGODB_HOST:-mongodb}

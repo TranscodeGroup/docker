@@ -1,8 +1,6 @@
 ## V2单机部署方案
 # 1. 修改.env文件. 初始化各种密码
 # 2. docker compose up -d启动服务
-# 3. 配置/home/token秘钥
-# 4. 初始化数据库脚本和默认数据 user_info|organize_role|system_config|system_alarm_platform|system_dictionary
 include:
   - ../docker/mysql8/compose.yml
   - ../docker/redis/compose.yml
@@ -14,3 +12,7 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.track.yml
+  - path:
+    - ../docker/web-downloader/compose.yml
+    - ../docker/web-downloader/compose.track.yml
+
