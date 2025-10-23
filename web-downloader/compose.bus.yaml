@@ -1,0 +1,4 @@
+services:
+  web-downloader-bus:
+    # Remove the profiles field to enable the service
+    profiles: !reset null
