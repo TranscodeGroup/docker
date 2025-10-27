@@ -7,7 +7,7 @@ services:
       - ${DATA_DIR:-/data}/files:/data/files
       - ${DATA_DIR:-/data}/logs/gateway_808_2019:/logs
     environment:
-      - gateway_ip=${JTT808_IP}
+      - gateway_ip=${JTT808_IP:?required}
       - gateway_port=${JTT808_PORT}
       - gateway_type=bus-gps
       # 主动安全文件服务器
