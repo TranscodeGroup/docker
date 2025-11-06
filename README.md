@@ -40,7 +40,7 @@ docker compose config > compose-stack.yaml
 
 ### 4. 下载前端文件
 
-要手动下载前端, 详见: [说明文件](./projects/README.md)
+要手动下载前端, 详见: [说明文件](./scripts/README.md)
 
 要自动下载前端, 只需要在`/home/docker-compose/compose.yaml`文件中, `include`如下服务:
 
