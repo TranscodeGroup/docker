@@ -1,33 +1,7 @@
 services:
-  mysql8:
-    image: mysql:8.4
-    # 国内拦了 用加速站
-    #image: docker.m.daocloud.io/mysql:8.4
-    container_name: mysql8
-    restart: always
-    ports:
-      - ${MYSQL_PORT:-3306}:3306
-    configs:
-      - source: mysql8.conf
-        target: /etc/mysql/conf.d
-      - source: mysql8.initdb
-        target: /docker-entrypoint-initdb.d
-    volumes:
-      - "${DATA_DIR:-/data}/mysql8/data:/var/lib/mysql"
-      - "${DATA_DIR:-/data}/mysql8/logs:/var/log/mysql"
-      - "${DATA_DIR:-/data}/mysql8/backup/database:/mysql/backup/database"
-      - "${DATA_DIR:-/data}/mysql8/backup/log:/mysql/backup/log"
-    environment:
-      # 设置密码
-      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:?required}
-    logging: 
-      driver: "json-file"
-      options:
-        # 限制日志文件大小
-        max-size: "100m"
-  mysql-cron-backup:
+  mysql-cron-backup-cbus:
     image: fradelg/mysql-cron-backup
-    container_name: backup-cbus
+    container_name: mysql-cron-backup-cbus
     depends_on:
       - mysql8
     volumes:
@@ -45,23 +19,22 @@ services:
       # gzip 压缩等级（1–9），9 表示压缩最小、CPU 占用最高。
       - GZIP_LEVEL=9
       # 指定数据库
-      - DATABASES=cbus
-      # As of MySQL 8.0.21 this is needed
-    # 忽略表（多个以空格分隔）
-      - MYSQLDUMP_OPTS=--no-tablespaces \
-          --single-transaction \
-          --ignore-table=cbus.log_event \
-          --ignore-table=cbus.log_attendance \
-          --ignore-table=cbus.log_dispatch \
-          --ignore-table=cbus.log_dsp \
-          --ignore-table=cbus.log_login \
-          --ignore-table=cbus.log_message \
-          --ignore-table=cbus.log_station \
-          --ignore-table=cbus.log_system \
-          --ignore-table=cbus.log_web_socket \
-          --ignore-table=cbus.service_on_time \
-          --ignore-table=cbus.service_over_speed \
-          --ignore-table=cbus.schedule_plan_table \
-          --ignore-table=cbus.device_position \
-          --ignore-table=cbus.device_depart_arrive
+      - MYSQL_DATABASE=cbus
+      # 忽略表（多个以空格分隔）
+      - |
+        MYSQLDUMP_OPTS=--no-tablespaces --single-transaction
+        --ignore-table=cbus.log_event
+        --ignore-table=cbus.log_attendance
+        --ignore-table=cbus.log_dispatch
+        --ignore-table=cbus.log_dsp
+        --ignore-table=cbus.log_login
+        --ignore-table=cbus.log_message
+        --ignore-table=cbus.log_station
+        --ignore-table=cbus.log_system
+        --ignore-table=cbus.log_web_socket
+        --ignore-table=cbus.service_on_time
+        --ignore-table=cbus.service_over_speed
+        --ignore-table=cbus.schedule_plan_table
+        --ignore-table=cbus.device_position
+        --ignore-table=cbus.device_depart_arrive
     restart: unless-stopped
