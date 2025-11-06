@@ -16,13 +16,13 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 
 创建`/home/docker-compose/compose.yaml`文件, 参考如下示例:
 
-> 单机单独部署
+**单机单独部署**:
 
-- [bus-http](./examples/bus-http/docker-compose/compose.yaml): Bus-http单机部署
-- [bus-https](./examples/bus-https/docker-compose/compose.yaml): Bus-https单机部署
-- [track](./examples/track/compose.yaml): Tracker V2单机部署
+- [bus-http](./examples/bus-http/compose.yaml): Bus-http单机部署
+- [bus-https](./examples/bus-https/compose.yaml): Bus-https单机部署
+- [track-https](./examples/track-https/compose.yaml): Tracker V2单机部署
 
-> 分布式部署
+**分布式部署**:
 
 - [video-storage](./examples/video-storage/compose.yaml): RTP存储
 - [video-stream](./examples/video-stream/compose.yaml): RTP视频
@@ -92,6 +92,5 @@ git commit -m "Initial commit(初始化仓库)"
 BUS_WEB_VERSION=xxx
 # bus的后端
 BUS_GATEWAY_VERSION=xxx
-...
-
+#...
 ```
