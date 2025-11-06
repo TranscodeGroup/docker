@@ -1,4 +1,5 @@
-# 公交一键部署. 自定义密码这种在.env内部
+# Bus单机部署, 使用https
+# 密码/端口/域名等信息在.env文件中配置
 include:
   - ../docker/mysql8/compose.yml
   - ../docker/rabbitmq/compose.yml
@@ -13,7 +14,5 @@ include:
     - ../docker/nginx/compose.bus.yml
     - ../docker/nginx/compose.bus.https.yml
   - path:
-    # 前端自动下载的基础配置
     - ../docker/web-downloader/compose.yml     
-    # 自动下载bus前端  
     - ../docker/web-downloader/compose.bus.yml

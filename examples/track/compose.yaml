@@ -12,6 +12,7 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.track.yml
+    - ../docker/nginx/compose.track.https.yml
   - path:
     - ../docker/web-downloader/compose.yml
     - ../docker/web-downloader/compose.track.yml

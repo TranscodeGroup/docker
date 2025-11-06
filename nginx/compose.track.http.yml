@@ -3,4 +3,4 @@ secrets:
   bus-ssl-certificate:
     file: ./ssl/placeholder.crt
   bus-ssl-certificate-key:
-    file:./ssl/placeholder.key
+    file: ./ssl/placeholder.key
