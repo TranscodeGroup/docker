@@ -40,9 +40,9 @@ docker compose config > compose-stack.yaml
 
 ### 4. 下载前端文件
 
-#### 使用Docker自动下载
+要手动下载前端, 详见: [说明文件](./projects/README.md)
 
-在`/home/docker-compose/compose.yaml`文件中, `include`如下服务, 即可自动下载前端:
+要自动下载前端, 只需要在`/home/docker-compose/compose.yaml`文件中, `include`如下服务:
 
 ```yaml
 include:
@@ -51,29 +51,6 @@ include:
     - ../docker/web-downloader/compose.yml        # 自动下载的基础配置
     - ../docker/web-downloader/compose.track.yml  # 自动下载track, 可选
     - ../docker/web-downloader/compose.bus.yml    # 自动下载bus, 可选
-```
-
-#### 手动下载
-
-部署distar等项目的前端:  
-[说明文件](projects/README.md)
-
-下载并提取最新的`bus`前端:
-
-```sh
-cd /data/nginx/html
-/home/docker/projects/teamcity-download-artifact.sh --build=CityBusVueAdmin_Release
-unzip CityBusVueAdmin_Release-latest.zip
-unzip bus.zip -d bus
-```
-
-下载并提取最新的`track`前端:
-
-```sh
-cd /data/nginx/html
-/home/docker/projects/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release
-unzip MaintainVbenAdmin_Release-latest.zip
-unzip maintain.zip -d track
 ```
 
 ### 5. 启动
@@ -89,22 +66,20 @@ docker compose up
 在`/home/docker-compose`中执行如下命令
 
 ```sh
-
 # 切换到目录下面
 cd /home/docker-compose 
 
 # 每次修改配置之后, 记得备份一下配置, 方便对比实际影响差异
-docker compose config > compose.config.yaml
+docker compose config > compose-stack.yaml
 
 # 配置GIT账号
 git config --global user.name "tg"
 git config --global user.email tg@gmail.com
 
 # 初始化GIT
-git init 
- # 加入暂存区
-git add .
-#提交本地仓库
+git init
+# 加入暂存区
+git add -A
+# 提交本地仓库
 git commit -m "Initial commit(初始化仓库)"
-
 ```

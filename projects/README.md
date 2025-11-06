@@ -1,6 +1,26 @@
-# 项目特定的配置
+# 自动化脚本
 
-## distar前端
+## 手动下载前端: `teamcity-download-artifact.sh`
+
+下载并提取最新的`bus`前端:
+
+```sh
+cd /data/nginx/html
+/home/docker/scripts/teamcity-download-artifact.sh --build=CityBusVueAdmin_Release
+unzip CityBusVueAdmin_Release-latest.zip
+unzip bus.zip -d bus
+```
+
+下载并提取最新的`track`前端:
+
+```sh
+cd /data/nginx/html
+/home/docker/scripts/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release
+unzip MaintainVbenAdmin_Release-latest.zip
+unzip maintain.zip -d track
+```
+
+## 部署distar前端: `distar-beta-deploy.sh`
 
 ```sh
 # 确认https://github.com/TranscodeGroup/maintain-vben-admin仓库存在对应的版本tag
