@@ -60,7 +60,7 @@ docker compose config > compose-stack.yaml
 docker compose up
 ```
 
-### 6. 使用git管理docker-compose
+### 6. 使用git管理docker-compose目录
 
 在`/home/docker-compose`中执行如下命令
 
