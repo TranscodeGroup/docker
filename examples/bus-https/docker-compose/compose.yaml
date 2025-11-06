@@ -1,0 +1,18 @@
+# 公交一键部署. 自定义密码这种在.env内部
+include:
+  - ../docker/mysql8/compose.yml
+  - ../docker/rabbitmq/compose.yml
+  - ../docker/redis/compose.yml
+  - ../docker/bus/compose.yml
+  - ../docker/video-nginx/compose.yml
+  - path:
+    - ../docker/video/compose.yml
+    - ../docker/video/compose.bus.yml
+  - path:
+    - ../docker/nginx/compose.yml
+    - ../docker/nginx/compose.bus.yml
+  - path:
+    # 前端自动下载的基础配置
+    - ../docker/web-downloader/compose.yml     
+    # 自动下载bus前端  
+    - ../docker/web-downloader/compose.bus.yml
