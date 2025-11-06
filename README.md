@@ -43,20 +43,14 @@ docker compose config
 docker compose config > compose-stack.yaml
 ```
 
-### 4. 下载前端文件
+### 4. 配置前端
 
-要手动下载前端, 详见: [说明文件](./scripts/README.md)
+前端复写目录, 用来放`_app.config.js`等项目特定的前端配置文件:
 
-要自动下载前端, 只需要在`/home/docker-compose/compose.yaml`文件中, `include`如下服务:
+- `/home/docker-compose/bus-override`: bus前端复写目录
+- `/home/docker-compose/track-override`: track前端复写目录
 
-```yaml
-include:
-  # ...
-  - path:
-    - ../docker/web-downloader/compose.yml        # 自动下载的基础配置
-    - ../docker/web-downloader/compose.track.yml  # 自动下载track, 可选
-    - ../docker/web-downloader/compose.bus.yml    # 自动下载bus, 可选
-```
+**注意**: 修改完配置后, 需要执行`docker compose up`, 文件才会被覆盖到`/data/nginx/html/`里面去. 因为是使用的覆盖的方式, 因此不建议直接修改`/data/nginx/html/`里面的文件.
 
 ### 5. 启动
 
@@ -66,7 +60,7 @@ include:
 docker compose up
 ```
 
-### 6. 配置版本管理
+### 6. 使用git管理docker-compose
 
 在`/home/docker-compose`中执行如下命令
 
@@ -89,9 +83,9 @@ git add -A
 git commit -m "Initial commit(初始化仓库)"
 ```
 
-### 7. 其他注意事项
+## 注意事项
 
-#### 版本管理, 版本迭代同时, 记得同步mysql下面的脚本
+### 版本管理, 版本迭代同时, 记得同步mysql下面的脚本
 
 ```sh
 # bus前端
@@ -99,22 +93,5 @@ BUS_WEB_VERSION=xxx
 # bus的后端
 BUS_GATEWAY_VERSION=xxx
 ...
-
-```
-
-#### 前端文件复写
-
-```sh
-# bus前端文件复写目录, 该目录中的文件会在compose被up时被复制到bus前端目录, 通常可以复写如下文件:
-# - _app.config.js: 前端配置文件
-BUS_WEB_OVERRIDE_DIR=${DOCKER_COMPOSE_DIR}/bus-override
-
-# track前端文件复写目录, 该目录中的文件会在compose被up时被复制到track前端目录, 通常可以复写如下文件:
-# - _app.config.js: 前端配置文件
-# - index-seo.html: 交给爬虫(搜索引擎/Line网页摘要等)读取的静态页面
-# - favicon.ico: ico图标
-# - favicon.png: png图标
-# - logo.png: 大图标
-TRACK_WEB_OVERRIDE_DIR=${DOCKER_COMPOSE_DIR}/track-override
 
 ```
