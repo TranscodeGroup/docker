@@ -2,12 +2,12 @@ services:
   # rtp推流服务
   rtp:
     environment:
-      # 网关服务注册地址, 建议使用域名
+      # 网关服务注册地址, Bus平台不支持
       - gateway_media_enabled=false
-      # redis
+      # RTP在bus平台需要redis注册
       - spring_data_redis_repositories_enabled=true
       - SPRING_data_REDIS_HOST=${REDIS_HOST:-redis}
       - SPRING_data_REDIS_PORT=${REDIS_PORT:-6379}
       - SPRING_data_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
-      # 解除前端浏览器6个链接限制
+      # 默认https方式
       - gateway_srs_wan_http=https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_1}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_2}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_3}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_4}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_5}/mdvr
