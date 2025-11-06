@@ -11,6 +11,7 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.bus.yml
+    - ../docker/nginx/compose.bus.https.yml
   - path:
     # 前端自动下载的基础配置
     - ../docker/web-downloader/compose.yml     

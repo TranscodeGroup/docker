@@ -1,0 +1,6 @@
+secrets:
+  # 因为http和https共用了一个nginx.conf文件, 即使不使用https, 也要配置该变量, 否则nginx会报错, 占位证书
+  bus-ssl-certificate:
+    file: ./ssl/placeholder.crt
+  bus-ssl-certificate-key:
+    file:./ssl/placeholder.key
