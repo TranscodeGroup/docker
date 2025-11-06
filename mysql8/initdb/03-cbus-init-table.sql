@@ -388,7 +388,7 @@ CREATE TABLE `basic_device`  (
   `is_slave` tinyint NULL DEFAULT 0 COMMENT '是否备机',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `firmware` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '固件版本, 公交平台固件+报站文件版本',
-  `version_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '一般用于存储从设备,比如DVR的版本',
+  `version_no` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '一般用于存储从设备,比如DVR的版本',
   `ban_hint` int NOT NULL DEFAULT 0 COMMENT '过期提示 0表提示 1表禁用提示',
   `bind_user_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '绑定账号',
   `connect_state` int NULL DEFAULT 0 COMMENT '连接状态 0离线  1在线',
