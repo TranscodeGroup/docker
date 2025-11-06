@@ -95,19 +95,11 @@ git commit -m "Initial commit(初始化仓库)"
 
 ```sh
 # bus前端
-BUS_WEB_VERSION=5.31.0
+BUS_WEB_VERSION=xxx
 # bus的后端
-BUS_GATEWAY_VERSION=1.23.0
-# 公交808-2019版本号
-BUS_GATEWAY_808_2019_VERSION=25.8.25
-# 公交主动安全版本号
-BUS_GATEWAY_JSATL12_VERSION=23.1.21
+BUS_GATEWAY_VERSION=xxx
+...
 
-# track前端
-TRACK_WEB_VERSION=1.53.0
-# track后端
-TRACK_MAINTAIN_VERSION=1.45.0
-TRACK_JTT808_VERSION=1.18.0
 ```
 
 #### 前端文件复写
