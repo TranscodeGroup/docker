@@ -83,3 +83,28 @@ unzip maintain.zip -d track
 ```sh
 docker compose up
 ```
+
+### 6. 配置版本管理
+
+在`/home/docker-compose`中执行如下命令
+
+```sh
+
+# 切换到目录下面
+cd /home/docker-compose 
+
+# 每次修改配置之后, 记得备份一下配置, 方便对比实际影响差异
+docker compose config > compose.config.yaml
+
+# 配置GIT账号
+git config --global user.name "tg"
+git config --global user.email tg@gmail.com
+
+# 初始化GIT
+git init 
+ # 加入暂存区
+git add .
+#提交本地仓库
+git commit -m "Initial commit(初始化仓库)"
+
+```
