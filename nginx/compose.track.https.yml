@@ -1,0 +1,5 @@
+secrets:
+  track-ssl-certificate:
+    file: ${TRACK_SSL_CERTIFICATE:?required}.crt
+  track-ssl-certificate-key:
+    file: ${TRACK_SSL_CERTIFICATE:?required}.key

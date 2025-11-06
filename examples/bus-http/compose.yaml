@@ -1,8 +1,8 @@
-# BUS单机部署模版
+# Bus单机部署, 使用http
 include:
-  - ../docker/mysql5.7/compose.yml
+  - ../docker/mysql8/compose.yml
   - ../docker/rabbitmq/compose.yml
-  - ../docker/redis/compose.yml  
+  - ../docker/redis/compose.yml
   - ../docker/bus/compose.yml
   - path:  
     - ../docker/video-nginx/compose.yml
@@ -14,4 +14,7 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.bus.yml
-
+    - ../docker/nginx/compose.bus.http.yml
+  - path:
+    - ../docker/web-downloader/compose.yml
+    - ../docker/web-downloader/compose.bus.yml

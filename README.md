@@ -16,11 +16,16 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 
 创建`/home/docker-compose/compose.yaml`文件, 参考如下示例:
 
+**单机单独部署**:
+
+- [bus-http](./examples/bus-http/compose.yaml): Bus-http单机部署
+- [bus-https](./examples/bus-https/compose.yaml): Bus-https单机部署
+- [track-https](./examples/track-https/compose.yaml): Tracker V2单机部署
+
+**分布式部署**:
+
 - [video-storage](./examples/video-storage/compose.yaml): RTP存储
 - [video-stream](./examples/video-stream/compose.yaml): RTP视频
-- [track](./examples/track/compose.yaml): Tracker V2单机部署
-- [bus](./examples/bus/compose.yaml): Bus单机部署
-- etc.
 
 ### 3. 配置`.env`
 
@@ -38,43 +43,14 @@ docker compose config
 docker compose config > compose-stack.yaml
 ```
 
-### 4. 下载前端文件
+### 4. 配置前端
 
-#### 使用Docker自动下载
+前端复写目录, 用来放`_app.config.js`等项目特定的前端配置文件:
 
-在`/home/docker-compose/compose.yaml`文件中, `include`如下服务, 即可自动下载前端:
+- `/home/docker-compose/bus-override`: bus前端复写目录
+- `/home/docker-compose/track-override`: track前端复写目录
 
-```yaml
-include:
-  # ...
-  - path:
-    - ../docker/web-downloader/compose.yml        # 自动下载的基础配置
-    - ../docker/web-downloader/compose.track.yml  # 自动下载track, 可选
-    - ../docker/web-downloader/compose.bus.yml    # 自动下载bus, 可选
-```
-
-#### 手动下载
-
-部署distar等项目的前端:  
-[说明文件](projects/README.md)
-
-下载并提取最新的`bus`前端:
-
-```sh
-cd /data/nginx/html
-/home/docker/projects/teamcity-download-artifact.sh --build=CityBusVueAdmin_Release
-unzip CityBusVueAdmin_Release-latest.zip
-unzip bus.zip -d bus
-```
-
-下载并提取最新的`track`前端:
-
-```sh
-cd /data/nginx/html
-/home/docker/projects/teamcity-download-artifact.sh --build=MaintainVbenAdmin_Release
-unzip MaintainVbenAdmin_Release-latest.zip
-unzip maintain.zip -d track
-```
+**注意**: 修改完配置后, 需要执行`docker compose up`, 文件才会被覆盖到`/data/nginx/html/`里面去. 因为是使用的覆盖的方式, 因此不建议直接修改`/data/nginx/html/`里面的文件.
 
 ### 5. 启动
 
@@ -82,4 +58,39 @@ unzip maintain.zip -d track
 
 ```sh
 docker compose up
+```
+
+### 6. 使用git管理docker-compose目录
+
+在`/home/docker-compose`中执行如下命令
+
+```sh
+# 切换到目录下面
+cd /home/docker-compose 
+
+# 每次修改配置之后, 记得备份一下配置, 方便对比实际影响差异
+docker compose config > compose-stack.yaml
+
+# 配置GIT账号
+git config --global user.name "tg"
+git config --global user.email tg@gmail.com
+
+# 初始化GIT
+git init
+# 加入暂存区
+git add -A
+# 提交本地仓库
+git commit -m "Initial commit(初始化仓库)"
+```
+
+## 注意事项
+
+### 版本管理, 版本迭代同时, 记得同步mysql下面的脚本
+
+```sh
+# bus前端
+BUS_WEB_VERSION=xxx
+# bus的后端
+BUS_GATEWAY_VERSION=xxx
+#...
 ```

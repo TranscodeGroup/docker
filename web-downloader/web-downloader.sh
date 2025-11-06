@@ -31,7 +31,7 @@ if [ -f "$version_file" ]; then
 fi
 
 # Download the new version
-/home/docker/projects/teamcity-download-artifact.sh --build="${TEAMCITY_BUILD_NAME}" --tag="${TEAMCITY_TAG}"
+/home/docker/scripts/teamcity-download-artifact.sh --build="${TEAMCITY_BUILD_NAME}" --tag="${TEAMCITY_TAG}"
 
 # Unzip
 unzip "${TEAMCITY_BUILD_NAME}-${TEAMCITY_TAG}.zip"

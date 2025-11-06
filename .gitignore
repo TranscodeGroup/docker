@@ -4,4 +4,4 @@ ip2region.xdb
 /.env
 /.env.local
 /tmp
-/projects/*.zip
+/scripts/*.zip

@@ -10,7 +10,7 @@ services:
       - source: web-downloader.sh
         target: /home/docker/web-downloader/web-downloader.sh
       - source: teamcity-download-artifact.sh
-        target: /home/docker/projects/teamcity-download-artifact.sh
+        target: /home/docker/scripts/teamcity-download-artifact.sh
 
   web-downloader-bus:
     extends: web-downloader-base
@@ -40,4 +40,4 @@ configs:
   web-downloader.sh:
     file: ./web-downloader.sh
   teamcity-download-artifact.sh:
-    file: ../projects/teamcity-download-artifact.sh
+    file: ../scripts/teamcity-download-artifact.sh

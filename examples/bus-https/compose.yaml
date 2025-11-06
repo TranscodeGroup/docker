@@ -1,0 +1,18 @@
+# Bus单机部署, 使用https
+# 密码/端口/域名等信息在.env文件中配置
+include:
+  - ../docker/mysql8/compose.yml
+  - ../docker/rabbitmq/compose.yml
+  - ../docker/redis/compose.yml
+  - ../docker/bus/compose.yml
+  - ../docker/video-nginx/compose.yml
+  - path:
+    - ../docker/video/compose.yml
+    - ../docker/video/compose.bus.yml
+  - path:
+    - ../docker/nginx/compose.yml
+    - ../docker/nginx/compose.bus.yml
+    - ../docker/nginx/compose.bus.https.yml
+  - path:
+    - ../docker/web-downloader/compose.yml     
+    - ../docker/web-downloader/compose.bus.yml

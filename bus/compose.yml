@@ -177,33 +177,3 @@ services:
       options:
         # 限制日志文件大小
         max-size: "100m"
-  gateway_calculation:
-    image: transcodegroup/gateway-calculation:${BUS_GATEWAY_CALCULATION_VERSION:?required}
-    container_name: gateway_calculation
-    restart: always
-    volumes:
-      - ${DATA_DIR:-/data}/logs/gateway_calculation:/logs
-      - ${DATA_DIR:-/data}/files:/data/files
-    environment:
-      # 默认开启分区存储
-      - DYNAMIC_TABLE=TRUE
-      - STORAGE_ACTIVE=FALSE
-      # DB
-      - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
-      - SPRING_DATASOURCE_USERNAME=${MYSQL_USERNAME:-root}
-      - SPRING_DATASOURCE_PASSWORD=${MYSQL_PASSWORD:?required}
-
-      # REDIS
-      - SPRING_REDIS_HOST=${REDIS_HOST:-redis}
-      - SPRING_REDIS_PORT=${REDIS_PORT:-6379}
-      - SPRING_REDIS_PASSWORD=${REDIS_PASSWORD:?required}
-    ulimits:
-      nproc: 65535
-      nofile:
-        soft: 20000
-        hard: 40000
-    logging: 
-      driver: "json-file"
-      options:
-        # 限制日志文件大小
-        max-size: "100m"
