@@ -1,6 +1,6 @@
 # BUS单机部署模版
 include:
-  - ../docker/mysql5.7/compose.yml
+  - ../docker/mysql8/compose.yml
   - ../docker/rabbitmq/compose.yml
   - ../docker/redis/compose.yml  
   - ../docker/bus/compose.yml
