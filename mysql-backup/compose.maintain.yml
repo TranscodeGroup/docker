@@ -2,14 +2,12 @@ services:
   mysql-cron-backup-maintain:
     image: fradelg/mysql-cron-backup
     container_name: mysql-cron-backup-maintain
-    depends_on:
-      - mysql8
     volumes:
       - "${DATA_DIR:-/data}/mysql8/backup:/backup"
     environment:
-      - MYSQL_HOST=mysql8
+      - MYSQL_HOST=${MYSQL_HOST:-mysql8}
       - MYSQL_PORT={MYSQL_PORT:-3306}
-      - MYSQL_USER=root
+      - MYSQL_USER=${MYSQL_USERNAME:-root}
       - MYSQL_PASS=${MYSQL_PASSWORD:?required}
       - MAX_BACKUPS=15
       # 是否在容器启动时立即执行一次备份：1 表示立即备份，0 表示等到下一个定时点再执行。
