@@ -1,21 +1,27 @@
 services:
   certbot:
-    image: ghcr.io/alexzorin/certbot-dns-multi:4.27.0
-    command:
-      - certonly
-      - --non-interactive
-      - --agree-tos
-      - --authenticator=dns-multi
-      - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
-      - --domains=${TRACK_HOSTNAME:?required}
-      - --domains=${BUS_HOSTNAME:?required}
+    # image: ghcr.io/alexzorin/certbot-dns-multi:4.27.0
+    # command:
+    #   - certonly
+    #   - --non-interactive
+    #   - --agree-tos
+    #   - --authenticator=dns-multi
+    #   - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
+    #   - --domains=${TRACK_HOSTNAME:?required}
+    #   - --domains=${BUS_HOSTNAME:?required}
       # - --dry-run
+    image: docker:cli
+    command: /home/docker/certbot/certbot-renew.sh
     volumes:
-      - ${DATA_DIR:-/data}/logs/certbot:/var/log/letsencrypt
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${DATA_DIR:-/data}/certbot:/etc/letsencrypt
     configs:
-      - source: cerbot-dns-multi.ini
+      - source: certbot-renew.sh
+        target: /home/docker/certbot/certbot-renew.sh
+      - source: certbot-dns-multi.ini
         target: /etc/letsencrypt/dns-multi.ini
         mode: 0600
+  
 
   ofelia:
     image: mcuadros/ofelia
@@ -30,11 +36,13 @@ services:
       ofelia.job-run.certbot-renew.volume: "/var/run/docker.sock:/var/run/docker.sock"
 
 configs:
-  cerbot-dns-multi.ini:
+  certbot-renew.sh:
+    file: ./certbot-renew.sh
+  certbot-dns-multi.ini:
     content: |
       dns_multi_provider=cloudflare
       CLOUDFLARE_DNS_API_TOKEN=
-  cerbot-dns-multi-tencentcloud.ini:
+  certbot-dns-multi-tencentcloud.ini:
     content: |
       dns_multi_provider=tencentcloud
       TENCENTCLOUD_SECRET_ID=
