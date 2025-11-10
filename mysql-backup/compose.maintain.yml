@@ -1,0 +1,55 @@
+services:
+  mysql-cron-backup-maintain:
+    image: fradelg/mysql-cron-backup
+    container_name: mysql-cron-backup-maintain
+    volumes:
+      - "${DATA_DIR:-/data}/mysql8/backup:/backup"
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST:-mysql8}
+      - MYSQL_PORT={MYSQL_PORT:-3306}
+      - MYSQL_USER=${MYSQL_USERNAME:-root}
+      - MYSQL_PASS=${MYSQL_PASSWORD:?required}
+      - MAX_BACKUPS=15
+      # 是否在容器启动时立即执行一次备份：1 表示立即备份，0 表示等到下一个定时点再执行。
+      - INIT_BACKUP=0
+      # 每天凌晨 3 点执行一次备份。cron 表达式格式：分 时 日 月 星期
+      - CRON_TIME=0 3 * * *
+      # gzip 压缩等级（1–9），9 表示压缩最小、CPU 占用最高。
+      - GZIP_LEVEL=9
+      # 指定数据库
+      - MYSQL_DATABASE=maintain
+      # 忽略表（多个以空格分隔）
+      - |
+        MYSQLDUMP_OPTS=--no-tablespaces --single-transaction
+        --ignore-table=maintain.jtt808_alarm
+        --ignore-table=maintain.jtt808_alarm_count
+        --ignore-table=maintain.jtt808_alarm_file
+        --ignore-table=maintain.jtt808_alarm_safety
+        --ignore-table=maintain.jtt808_card
+        --ignore-table=maintain.jtt808_cmd
+        --ignore-table=maintain.jtt808_cmd_face
+        --ignore-table=maintain.jtt808_connect
+        --ignore-table=maintain.jtt808_face
+        --ignore-table=maintain.jtt808_fence
+        --ignore-table=maintain.jtt808_file_upload
+        --ignore-table=maintain.jtt808_health
+        --ignore-table=maintain.jtt808_io
+        --ignore-table=maintain.jtt808_media_file
+        --ignore-table=maintain.jtt808_media_photograph
+        --ignore-table=maintain.jtt808_obd
+        --ignore-table=maintain.jtt808_passenger
+        --ignore-table=maintain.jtt808_position
+        --ignore-table=maintain.jtt808_position_history
+        --ignore-table=maintain.jtt808_position_last
+        --ignore-table=maintain.jtt808_position_migrate_task
+        --ignore-table=maintain.jtt808_register
+        --ignore-table=maintain.jtt808_tpms
+        --ignore-table=maintain.jtt808_video_storage
+        --ignore-table=maintain.log_error
+        --ignore-table=maintain.log_geocoder
+        --ignore-table=maintain.log_login
+        --ignore-table=maintain.log_mail
+        --ignore-table=maintain.log_message
+        --ignore-table=maintain.log_system
+        --ignore-table=maintain.log_text
+    restart: unless-stopped

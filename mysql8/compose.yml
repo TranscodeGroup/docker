@@ -15,8 +15,6 @@ services:
     volumes:
       - "${DATA_DIR:-/data}/mysql8/data:/var/lib/mysql"
       - "${DATA_DIR:-/data}/mysql8/logs:/var/log/mysql"
-      - "${DATA_DIR:-/data}/mysql8/backup/database:/mysql/backup/database"
-      - "${DATA_DIR:-/data}/mysql8/backup/log:/mysql/backup/log"
     environment:
       # 设置密码
       - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:?required}

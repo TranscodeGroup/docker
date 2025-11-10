@@ -2,6 +2,7 @@
 # 密码/端口/域名等信息在.env文件中配置
 include:
   - ../docker/mysql8/compose.yml
+  - ../docker/mysql-backup/compose.cbus.yml
   - ../docker/rabbitmq/compose.yml
   - ../docker/redis/compose.yml
   - ../docker/bus/compose.yml
