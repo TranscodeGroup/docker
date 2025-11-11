@@ -4,8 +4,9 @@ services:
     command:
       - certonly
       - --non-interactive
-      - --email=${CERTBOT_EMAIL:-transcodegroupdeveloper@gmail.com}
       - --agree-tos
+      - --email
+      - ${CERTBOT_EMAIL:-transcodegroupdeveloper@gmail.com}
       - --authenticator=dns-multi
       - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
       # 两个域名可以同时申请, 故不要求两个都必填
