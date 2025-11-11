@@ -1,23 +1,23 @@
 services:
   certbot:
-    # image: ghcr.io/alexzorin/certbot-dns-multi:4.27.0
-    # command:
-    #   - certonly
-    #   - --non-interactive
-    #   - --agree-tos
-    #   - --authenticator=dns-multi
-    #   - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
-    #   - --domains=${TRACK_HOSTNAME:?required}
-    #   - --domains=${BUS_HOSTNAME:?required}
-      # - --dry-run
-    image: docker:cli
-    command: /home/docker/certbot/certbot-renew.sh
+    build: .
+    command:
+      - certonly
+      - --non-interactive
+      - --agree-tos
+      - --authenticator=dns-multi
+      - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
+      # 两个域名可以同时申请, 故不要求两个都必填
+      - --domains=${TRACK_HOSTNAME}
+      - --domains=${BUS_HOSTNAME}
+      - --deploy-hook
+      - "sh -c 'COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} DATA=${DATA_DIR:-/data} /home/docker/certbot/deploy-hook.sh'"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${DATA_DIR:-/data}/certbot:/etc/letsencrypt
     configs:
-      - source: certbot-renew.sh
-        target: /home/docker/certbot/certbot-renew.sh
+      - source: certbot-deploy-hook.sh
+        target: /home/docker/certbot/deploy-hook.sh
       - source: certbot-dns-multi.ini
         target: /etc/letsencrypt/dns-multi.ini
         mode: 0600
@@ -29,6 +29,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     labels:
+      # 通过ofelia重启其他服务, 需要这样绕一道
       # https://github.com/mcuadros/ofelia/issues/280#issuecomment-2561863012
       ofelia.job-run.certbot-renew.schedule: "@daily"
       ofelia.job-run.certbot-renew.command: "sh -c 'docker compose -p ${COMPOSE_PROJECT_NAME} restart certbot'"
@@ -36,14 +37,14 @@ services:
       ofelia.job-run.certbot-renew.volume: "/var/run/docker.sock:/var/run/docker.sock"
 
 configs:
-  certbot-renew.sh:
-    file: ./certbot-renew.sh
+  certbot-deploy-hook.sh:
+    file: ./deploy-hook.sh
+  # certbot-dns-multi的配置文件
+  # https://github.com/alexzorin/certbot-dns-multi#usage
   certbot-dns-multi.ini:
     content: |
-      dns_multi_provider=cloudflare
-      CLOUDFLARE_DNS_API_TOKEN=
-  certbot-dns-multi-tencentcloud.ini:
-    content: |
-      dns_multi_provider=tencentcloud
-      TENCENTCLOUD_SECRET_ID=
-      TENCENTCLOUD_SECRET_KEY=
+      dns_multi_provider=${CERTBOT_DNS_PROVIDER:-dnspod}
+      DNSPOD_API_KEY=${CERTBOT_DNS_API_KEY:?required}
+      CLOUDFLARE_DNS_API_TOKEN=${CERTBOT_DNS_API_KEY:?required}
+      TENCENTCLOUD_SECRET_KEY=${CERTBOT_DNS_API_KEY:?required}
+      TENCENTCLOUD_SECRET_ID=${CERTBOT_TENCENTCLOUD_SECRET_ID}
