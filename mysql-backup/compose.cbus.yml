@@ -6,7 +6,7 @@ services:
       - "${DATA_DIR:-/data}/mysql8/backup:/backup"
     environment:
       - MYSQL_HOST=${MYSQL_HOST:-mysql8}
-      - MYSQL_PORT={MYSQL_PORT:-3306}
+      - MYSQL_PORT=${MYSQL_PORT:-3306}
       - MYSQL_USER=${MYSQL_USERNAME:-root}
       - MYSQL_PASS=${MYSQL_PASSWORD:?required}
       - MAX_BACKUPS=15
