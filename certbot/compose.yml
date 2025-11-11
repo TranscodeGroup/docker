@@ -4,6 +4,7 @@ services:
     command:
       - certonly
       - --non-interactive
+      - --email=${CERTBOT_EMAIL:-transcodegroupdeveloper@gmail.com}
       - --agree-tos
       - --authenticator=dns-multi
       - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
