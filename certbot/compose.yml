@@ -45,8 +45,8 @@ configs:
   # https://github.com/alexzorin/certbot-dns-multi#usage
   certbot-dns-multi.ini:
     content: |
-      dns_multi_provider=${CERTBOT_DNS_PROVIDER:-dnspod}
-      DNSPOD_API_KEY=${CERTBOT_DNS_API_KEY:?required}
-      CLOUDFLARE_DNS_API_TOKEN=${CERTBOT_DNS_API_KEY:?required}
-      TENCENTCLOUD_SECRET_KEY=${CERTBOT_DNS_API_KEY:?required}
-      TENCENTCLOUD_SECRET_ID=${CERTBOT_TENCENTCLOUD_SECRET_ID}
+      dns_multi_provider = ${CERTBOT_DNS_PROVIDER:-dnspod}
+      DNSPOD_API_KEY = "${CERTBOT_DNS_API_KEY:?required}"
+      CLOUDFLARE_DNS_API_TOKEN = "${CERTBOT_DNS_API_KEY:?required}"
+      TENCENTCLOUD_SECRET_KEY = "${CERTBOT_DNS_API_KEY:?required}"
+      TENCENTCLOUD_SECRET_ID = "${CERTBOT_TENCENTCLOUD_SECRET_ID}"
