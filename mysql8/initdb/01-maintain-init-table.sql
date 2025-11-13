@@ -11,7 +11,7 @@
  Target Server Version : 80405 (8.4.5)
  File Encoding         : 65001
 
- Date: 16/10/2025 10:15:03
+ Date: 13/11/2025 15:53:48
 
  替换自增长ID成空正则: \s*AUTO_INCREMENT( = \d+)\b
 */
@@ -457,6 +457,7 @@ CREATE TABLE `jtt808_cmd`  (
   `request_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '应答结果 初始 离线待发 无响应 成功',
   `response_time` datetime NULL DEFAULT NULL COMMENT '终端应答时间',
   `response_data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求响应, JSON对象',
+  `retry_times` int NULL DEFAULT 0 COMMENT '重试次数',
   `sender_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送者ID',
   `sender_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发送者名称',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '一些备注',
@@ -872,6 +873,38 @@ PARTITION `p_202511` VALUES LESS THAN (739951) ENGINE = InnoDB MAX_ROWS = 0 MIN_
 ;
 
 -- ----------------------------
+-- Table structure for jtt808_position_history
+-- ----------------------------
+DROP TABLE IF EXISTS `jtt808_position_history`;
+CREATE TABLE `jtt808_position_history`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增长ID',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '企业ID',
+  `fleet_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '线路id',
+  `fleet_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '线路名称',
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆ID',
+  `vehicle_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆名称',
+  `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌',
+  `imei` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '终端唯一码',
+  `state` bigint NULL DEFAULT NULL COMMENT '车辆状态',
+  `warning` bigint NULL DEFAULT NULL COMMENT '报警状态',
+  `lng` decimal(11, 6) NOT NULL COMMENT '经度',
+  `lat` decimal(11, 6) NOT NULL COMMENT '纬度',
+  `height` smallint NULL DEFAULT NULL COMMENT '高度',
+  `speed` smallint NULL DEFAULT NULL COMMENT '速度',
+  `azimuth` smallint NULL DEFAULT NULL COMMENT '方位角',
+  `mileage` decimal(11, 3) NULL DEFAULT NULL COMMENT '里程 km',
+  `event_time` datetime NOT NULL COMMENT '事件时间',
+  `receive_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '接收时间',
+  `additional` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附加数据',
+  `properties` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附加数据',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`, `event_time`) USING BTREE,
+  INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
+  INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端设备的GPS数据' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for jtt808_position_last
 -- ----------------------------
 DROP TABLE IF EXISTS `jtt808_position_last`;
@@ -899,6 +932,25 @@ CREATE TABLE `jtt808_position_last`  (
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE,
   INDEX `idx_lpn`(`organize_id` ASC, `lpn` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = '车辆最后位置' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for jtt808_position_migrate_task
+-- ----------------------------
+DROP TABLE IF EXISTS `jtt808_position_migrate_task`;
+CREATE TABLE `jtt808_position_migrate_task`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '任务ID，自增主键',
+  `source_table` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '源表名称',
+  `target_table` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '目标表名称',
+  `start_id` bigint NOT NULL COMMENT '迁移起始ID',
+  `end_id` bigint NOT NULL COMMENT '迁移结束ID',
+  `current_id` bigint NOT NULL DEFAULT 0 COMMENT '当前迁移进度ID',
+  `batch_size` int NOT NULL DEFAULT 10000 COMMENT '每批迁移数量',
+  `status` enum('PENDING','RUNNING','FINISHED','FAILED') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'PENDING' COMMENT '任务状态',
+  `start_time` datetime NULL DEFAULT NULL COMMENT '迁移起始ID对应的时间',
+  `created_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '任务创建时间',
+  `updated_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '任务更新时间',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '迁移任务表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for jtt808_register
@@ -1339,9 +1391,6 @@ CREATE TABLE `order_contact_address`  (
   INDEX `idx_to_organize_id`(`to_organize_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单联系地址' ROW_FORMAT = DYNAMIC;
 
--- ----------------------------
--- Table structure for order_daily_duration
--- ----------------------------
 -- ----------------------------
 -- Table structure for order_daily_duration
 -- ----------------------------
@@ -1789,6 +1838,7 @@ CREATE TABLE `organize_accessories_vehicle`  (
   `category_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '配件类别Id',
   `category_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '配件类别名称',
   `accessories_type` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '外设类型, 枚举 ADAS DSM TPMS OIL TEMP CARD PASSENGER',
+  `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建者ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -2690,7 +2740,9 @@ CREATE TABLE `organize_sim`  (
   `installed_imei` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '安装设备id',
   `flow_mb` int NULL DEFAULT 0 COMMENT '流量MB',
   `activation_time` datetime NULL DEFAULT NULL COMMENT '激活时间',
+  `company_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT '' COMMENT '账号归属公司',
   `creator_id` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建用户',
+  `creator_name` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '创建用户名称',
   `created_unix` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `updated_unix` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -2722,7 +2774,7 @@ DROP TABLE IF EXISTS `organize_vehicle`;
 CREATE TABLE `organize_vehicle`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
-  `organize_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织全名',
+  `organize_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织全名',
   `fleet_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '车队编号',
   `fleet_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '公司或车队名称',
   `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆编号',
@@ -3550,7 +3602,8 @@ CREATE TABLE `user_organize`  (
   `permission_actions` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '权限组_废弃, 采用角色的方式',
   `expire_time` datetime NULL DEFAULT NULL COMMENT '到期时间',
   `tree_model` smallint NOT NULL DEFAULT 0 COMMENT '0默认企业-车队-车辆树 1企业-车辆树 2企业-车辆上级车队-车辆树',
-  `fleet_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '账号归属车队ID',
+  `fleet_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '账号归属车队ID-20251110废弃改用company_id',
+  `company_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '公司ID',
   `last_time` datetime NULL DEFAULT NULL COMMENT '最近一次在组织内查询车辆树的时间',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -3679,7 +3732,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_device_gateway` AS 
 -- View structure for view_device_vehicle
 -- ----------------------------
 DROP VIEW IF EXISTS `view_device_vehicle`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_device_vehicle` AS select `organize_device`.`id` AS `id`,`organize_device`.`created_unix` AS `created_unix`,`organize_device`.`updated_unix` AS `updated_unix`,`organize_device`.`organize_id` AS `organize_id`,`organize_device`.`organize_name` AS `organize_name`,`organize_device`.`device_imei` AS `imei`,`organize_device`.`time_zone` AS `time_zone`,`organize_device`.`character_set` AS `character_set`,`organize_device`.`channel` AS `channel`,`organize_device`.`last_gps_time` AS `last_gps_time`,`organize_vehicle`.`id` AS `id_vehicle`,`organize_vehicle`.`vehicle_id` AS `vehicle_id`,`organize_vehicle`.`vehicle_name` AS `vehicle_name`,`organize_vehicle`.`lpn` AS `lpn`,`organize_vehicle`.`fleet_id` AS `fleet_id`,`organize_vehicle`.`fleet_name` AS `fleet_name`,`organize_vehicle`.`vehicle_type` AS `vehicle_type`,`organize_vehicle`.`vehicle_model` AS `vehicle_model`,`organize_vehicle`.`expire_time` AS `expire_time`,`organize_vehicle`.`approved_number` AS `approved_number`,`organize_vehicle`.`icon` AS `icon`,`organize_vehicle`.`fuel_config` AS `fuel_config`,`organize_vehicle`.`io_config` AS `io_config`,`organize_vehicle`.`temp_config` AS `temp_config`,`organize_vehicle`.`active` AS `active`,`organize_device`.`fuel_sensor` AS `fuel_sensor`,`organize_device`.`product_id` AS `product_id`,`device_product`.`product_name` AS `product_name`,`device_product`.`device_model` AS `device_model`,`device_product`.`protocol` AS `device_protocol`,`device_product`.`alarm_mapping` AS `alarm_mapping`,`organize_vehicle`.`auto_create_fence` AS `auto_create_fence` from ((`organize_device` join `organize_vehicle` on(((`organize_device`.`organize_id` = `organize_vehicle`.`organize_id`) and (`organize_device`.`vehicle_id` = `organize_vehicle`.`vehicle_id`)))) left join `device_product` on((`organize_device`.`product_id` = `device_product`.`product_id`)));
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_device_vehicle` AS select `organize_device`.`id` AS `id`,`organize_device`.`created_unix` AS `created_unix`,`organize_device`.`updated_unix` AS `updated_unix`,`organize_device`.`organize_id` AS `organize_id`,`organize_device`.`organize_name` AS `organize_name`,`organize_device`.`device_imei` AS `imei`,`organize_device`.`time_zone` AS `time_zone`,`organize_device`.`character_set` AS `character_set`,`organize_device`.`channel` AS `channel`,`organize_device`.`last_gps_time` AS `last_gps_time`,`organize_vehicle`.`id` AS `id_vehicle`,`organize_vehicle`.`vehicle_id` AS `vehicle_id`,`organize_vehicle`.`vehicle_name` AS `vehicle_name`,`organize_vehicle`.`lpn` AS `lpn`,`organize_vehicle`.`fleet_id` AS `fleet_id`,`organize_vehicle`.`fleet_name` AS `fleet_name`,`organize_vehicle`.`vehicle_type` AS `vehicle_type`,`organize_vehicle`.`vehicle_model` AS `vehicle_model`,`organize_vehicle`.`expire_time` AS `expire_time`,`organize_vehicle`.`approved_number` AS `approved_number`,`organize_vehicle`.`icon` AS `icon`,`organize_vehicle`.`fuel_config` AS `fuel_config`,`organize_vehicle`.`io_config` AS `io_config`,`organize_vehicle`.`temp_config` AS `temp_config`,`organize_vehicle`.`active` AS `active`,`organize_vehicle`.`dlt` AS `dlt`,`organize_device`.`fuel_sensor` AS `fuel_sensor`,`organize_device`.`product_id` AS `product_id`,`device_product`.`product_name` AS `product_name`,`device_product`.`device_model` AS `device_model`,`device_product`.`protocol` AS `device_protocol`,`device_product`.`alarm_mapping` AS `alarm_mapping`,`organize_vehicle`.`auto_create_fence` AS `auto_create_fence` from ((`organize_device` join `organize_vehicle` on(((`organize_device`.`organize_id` = `organize_vehicle`.`organize_id`) and (`organize_device`.`vehicle_id` = `organize_vehicle`.`vehicle_id`)))) left join `device_product` on((`organize_device`.`product_id` = `device_product`.`product_id`)));
 
 -- ----------------------------
 -- View structure for view_organize_engineer
@@ -3704,69 +3757,6 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_user` AS s
 -- ----------------------------
 DROP VIEW IF EXISTS `view_user_organize`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user_organize` AS select `user_organize`.`id` AS `id`,`user_organize`.`user_id` AS `user_id`,`user_organize`.`role_id` AS `role_id`,`organize_role`.`role_name` AS `role_name`,`user_organize`.`expire_time` AS `expire_time`,`organize_info`.`organize_id` AS `organize_id`,`organize_info`.`organize_name` AS `organize_name`,`organize_info`.`domain_name` AS `domain_name`,`organize_info`.`short_name` AS `short_name`,`organize_info`.`custom_avatar` AS `custom_avatar`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`permission_actions` AS `permission_actions`,`organize_info`.`follow_organize_id` AS `follow_organize_id`,`organize_info`.`follow_organize_name` AS `follow_organize_name` from ((`user_organize` join `organize_info`) left join `organize_role` on(((`user_organize`.`organize_id` = `organize_role`.`organize_id`) and (`user_organize`.`role_id` = `organize_role`.`role_id`)))) where (`organize_info`.`organize_id` = `user_organize`.`organize_id`) order by `user_organize`.`id`;
-
--- ----------------------------
--- Procedure structure for a_migrate_task_alarm_exec
--- ----------------------------
-DROP PROCEDURE IF EXISTS `a_migrate_task_alarm_exec`;
-delimiter ;;
-CREATE PROCEDURE `a_migrate_task_alarm_exec`(IN task_id BIGINT)
-main_block: BEGIN
-
-    DECLARE sourceTable VARCHAR(64);
-    DECLARE targetTable VARCHAR(64);
-    DECLARE startId BIGINT;
-    DECLARE endId BIGINT;
-    DECLARE currentId BIGINT;
-    DECLARE batchSize INT;
-    DECLARE taskStatus VARCHAR(20);
-    DECLARE finished BOOLEAN DEFAULT FALSE;
-
-    -- 读取任务信息
-    SELECT source_table, target_table, start_id, end_id, current_id, batch_size, status
-    INTO sourceTable, targetTable, startId, endId, currentId, batchSize, taskStatus
-    FROM a_migrate_task_alarm
-    WHERE id = task_id
-    FOR UPDATE;
-
-    -- 如果任务不是 PENDING，直接退出
-    IF taskStatus != 'PENDING' THEN
-        SELECT 'Task already started or finished' AS msg;
-        LEAVE main_block;
-    END IF;
-
-    -- 标记任务为 RUNNING
-    UPDATE a_migrate_task_alarm SET status = 'RUNNING' WHERE id = task_id;
-
-    -- 循环迁移
-    WHILE finished = FALSE DO
-        IF currentId > endId THEN
-            SET finished = TRUE;
-        ELSE
-            SET @sql = CONCAT(
-                'INSERT INTO ', targetTable, ' (id, organize_id, fleet_id, fleet_name, vehicle_id, vehicle_name, lpn, imei, event_time, platform_alarm_id, alarm_class, device_type, additional, lng, lat, duration, work_date, time_zone, period_time, reduce_score, handle_flag, handle_result, handle_time, handler_id, created_unix, updated_unix) ',
-                'SELECT id, organize_id, fleet_id, fleet_name, vehicle_id, vehicle_name, lpn, imei, event_time, platform_alarm_id, alarm_class, device_type, additional, lng, lat, duration, work_date, time_zone, period_time, reduce_score, handle_flag, handle_result, handle_time, handler_id, created_unix, updated_unix ',
-                'FROM ', sourceTable, ' ',
-                'WHERE id BETWEEN ', currentId, ' AND ', currentId + batchSize - 1
-            );
-
-            PREPARE stmt FROM @sql;
-            EXECUTE stmt;
-            DEALLOCATE PREPARE stmt;
-
-            SET currentId = currentId + batchSize;
-            UPDATE a_migrate_task_alarm SET current_id = currentId WHERE id = task_id;
-						-- 延迟 1 秒，降低数据库压力
-						DO SLEEP(1);
-        END IF;
-    END WHILE;
-
-    -- 标记任务完成
-    UPDATE a_migrate_task_alarm SET status = 'FINISHED' WHERE id = task_id;
-
-END
-;;
-delimiter ;
 
 -- ----------------------------
 -- Procedure structure for CleanupBatchData
@@ -3872,6 +3862,69 @@ BEGIN
     ELSE
         SELECT CONCAT("partition `", PARTITIONNAME, "` for table `",IN_SCHEMANAME, ".", IN_TABLENAME, "` already exists OR table not exists") AS result;
     END IF;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for jtt808_position_migrate_task_exec
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `jtt808_position_migrate_task_exec`;
+delimiter ;;
+CREATE PROCEDURE `jtt808_position_migrate_task_exec`(IN task_id BIGINT)
+main_block: BEGIN
+
+    DECLARE sourceTable VARCHAR(64);
+    DECLARE targetTable VARCHAR(64);
+    DECLARE startId BIGINT;
+    DECLARE endId BIGINT;
+    DECLARE currentId BIGINT;
+    DECLARE batchSize INT;
+    DECLARE taskStatus VARCHAR(20);
+    DECLARE finished BOOLEAN DEFAULT FALSE;
+
+    -- 读取任务信息
+    SELECT source_table, target_table, start_id, end_id, current_id, batch_size, status
+    INTO sourceTable, targetTable, startId, endId, currentId, batchSize, taskStatus
+    FROM jtt808_position_migrate_task
+    WHERE id = task_id
+    FOR UPDATE;
+
+    -- 如果任务不是 PENDING，直接退出
+    IF taskStatus != 'PENDING' THEN
+        SELECT 'Task already started or finished' AS msg;
+        LEAVE main_block;
+    END IF;
+
+    -- 标记任务为 RUNNING
+    UPDATE jtt808_position_migrate_task SET status = 'RUNNING' WHERE id = task_id;
+
+    -- 循环迁移
+    WHILE finished = FALSE DO
+        IF currentId > endId THEN
+            SET finished = TRUE;
+        ELSE
+            SET @sql = CONCAT(
+                'INSERT INTO ', targetTable, ' (`id`, `organize_id`, `fleet_id`, `fleet_name`, `vehicle_id`, `vehicle_name`, `lpn`, `imei`, `state`, `warning`, `lng`, `lat`, `height`, `speed`, `azimuth`, `mileage`, `event_time`, `receive_time`, `additional`, `properties`, `created_unix`, `updated_unix`) ',
+                'SELECT `id`, `organize_id`, `fleet_id`, `fleet_name`, `vehicle_id`, `vehicle_name`, `lpn`, `imei`, `state`, `warning`, `lng`, `lat`, `height`, `speed`, `azimuth`, `mileage`, `event_time`, `receive_time`, `additional`, `properties`, `created_unix`, `updated_unix` ',
+                'FROM ', sourceTable, ' ',
+                'WHERE id BETWEEN ', currentId, ' AND ', currentId + batchSize - 1
+            );
+
+            PREPARE stmt FROM @sql;
+            EXECUTE stmt;
+            DEALLOCATE PREPARE stmt;
+
+            SET currentId = currentId + batchSize;
+            UPDATE jtt808_position_migrate_task SET current_id = currentId WHERE id = task_id;
+						-- 延迟 1 秒，降低数据库压力
+						DO SLEEP(1);
+        END IF;
+    END WHILE;
+
+    -- 标记任务完成
+    UPDATE jtt808_position_migrate_task SET status = 'FINISHED' WHERE id = task_id;
+
 END
 ;;
 delimiter ;
