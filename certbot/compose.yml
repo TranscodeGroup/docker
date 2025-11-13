@@ -9,10 +9,11 @@ services:
       - ${CERTBOT_EMAIL:-transcodegroupdeveloper@gmail.com}
       - --authenticator=dns-multi
       - --dns-multi-credentials=/etc/letsencrypt/dns-multi.ini
-      # 三个域名可以同时申请, 故不要求必填
+      # 四个域名可以同时申请, 故不要求必填
       - --domains=${SERVER_HOSTNAME}
       - --domains=${TRACK_HOSTNAME}
       - --domains=${BUS_HOSTNAME}
+      - --domains=${VIDEO_HOSTNAME}
       - --deploy-hook
       - "sh -c 'COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME} DATA=${DATA_DIR:-/data} /home/docker/certbot/deploy-hook.sh'"
     volumes:
