@@ -13,7 +13,8 @@ echo "正在查找包含'nginx'的服务..."
 nginx_services=$(docker compose -p "${COMPOSE_PROJECT_NAME}" ps --services | grep nginx || true)
 
 if [ -n "$nginx_services" ]; then
-    echo "重启$nginx_services..." | tr '\n' ' '
+    echo "重启 $nginx_services 中..." | tr '\n' ' '
+    echo
     echo "$nginx_services" | xargs docker compose -p "${COMPOSE_PROJECT_NAME}" restart
     echo "重启完成"
 else
