@@ -9,7 +9,14 @@ echo "请将证书变量设置为:"
 echo "SSL_CERTIFICATE='${DATA_DIR:-/data}/certbot/live/$(basename "$RENEWED_LINEAGE")/certificate'"
 echo
 
-echo "重启Nginx..."
-docker compose -p "${COMPOSE_PROJECT_NAME}" restart nginx
-echo "重启完成"
+echo "正在查找包含'nginx'的服务..."
+nginx_services=$(docker compose -p "${COMPOSE_PROJECT_NAME}" ps --services | grep nginx || true)
+
+if [ -n "$nginx_services" ]; then
+    echo "重启$nginx_services..." | tr '\n' ' '
+    echo "$nginx_services" | xargs docker compose -p "${COMPOSE_PROJECT_NAME}" restart
+    echo "重启完成"
+else
+    echo "未找到包含'nginx'的服务"
+fi
 echo "======================"
