@@ -15,7 +15,9 @@ server {
 
     # minio录像云存储
     location /minio/ {
-        proxy_pass   http://${MINIO_HOST}:${MINIO_PORT}/;
+        # 动态解析minio的域名
+        set $dynamic "${MINIO_HOST}";
+        proxy_pass   http://$dynamic:${MINIO_PORT}/;
     }
 
     #access_log  /var/log/nginx/host.access.log  main;
