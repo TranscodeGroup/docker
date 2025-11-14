@@ -1,7 +1,6 @@
 services:
   redis:
     image: redis
-    container_name: redis
     restart: always
     # 启用持久化 增加密码 降低日志级别 限制数据库数量 
     command: --appendonly yes --requirepass "${REDIS_PASSWORD:?required}" --loglevel warning --databases 3

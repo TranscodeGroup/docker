@@ -1,7 +1,6 @@
 services:
   gateway_808_2019:
     image: transcodegroup/gateway-808-2019:${BUS_GATEWAY_808_2019_VERSION:?required}
-    container_name: gateway_808_2019
     restart: always
     volumes:
       - ${DATA_DIR:-/data}/files:/data/files
@@ -54,7 +53,6 @@ services:
   # spring-boot后端
   gateway_web:
     image: transcodegroup/gateway-web:${BUS_GATEWAY_VERSION:?required}
-    container_name: gateway_web
     restart: always
     volumes:
       - ${DATA_DIR:-/data}/files:/data/files
@@ -105,7 +103,6 @@ services:
   # spring-boot调度
   gateway_dispatch:
     image: transcodegroup/gateway-dispatch:${BUS_GATEWAY_VERSION:?required}
-    container_name: gateway_dispatch
     restart: always
     volumes:
       - ${DATA_DIR:-/data}/files:/data/files
@@ -153,7 +150,6 @@ services:
   # 主动安全
   gateway_jsatl12:
     image: transcodegroup/gateway-jsatl12:${BUS_GATEWAY_JSATL12_VERSION:?required}
-    container_name: gateway_jsatl12
     restart: always
     ports:
       - ${JTT808_PORT_FILE}:${JTT808_PORT_FILE}

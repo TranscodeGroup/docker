@@ -1,7 +1,6 @@
 services:
   srs:
     image: ossrs/srs:v6.0-a1
-    container_name: srs
     restart: always
     ports:
       # rtmp端口(rtp和app使用)
@@ -26,7 +25,6 @@ services:
   # rtp推流服务
   rtp:
     image: transcodegroup/gateway-rtpserver:23.8.5
-    container_name: rtp
     restart: always
     ports:
       # 终端-实时直播端口

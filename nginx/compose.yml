@@ -1,7 +1,6 @@
 services:
   nginx:
     image: nginx:1.27.4
-    container_name: nginx
     restart: always
     ports:
       - ${WEB_PORT_HTTPS:-443}:443
