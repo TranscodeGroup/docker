@@ -1,5 +1,8 @@
 services:
   nginx:
+    depends_on:
+      - gateway_web
+      - gateway_dispatch
     configs:
       - source: bus.conf.template
         target: /etc/nginx/templates/bus.conf.template

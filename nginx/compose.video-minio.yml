@@ -1,5 +1,7 @@
 services:
   nginx:
+    depends_on:
+      - minio
     configs:
       - source: video-minio.conf.template
         target: /etc/nginx/templates/video-minio.conf.template
