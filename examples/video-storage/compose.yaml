@@ -9,5 +9,7 @@ include:
     - ../docker/video/compose.yml
     - ../docker/video/compose.storage.yml
   - path:
-    - ../docker/video-nginx/compose.yml
-    - ../docker/video-nginx/compose.minio.yml
+    - ../docker/nginx/compose.yml
+    - ../docker/nginx/compose.video.yml
+    - ../docker/nginx/compose.video.https.yml
+    - ../docker/nginx/compose.video-minio.yml
