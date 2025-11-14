@@ -1,0 +1,12 @@
+services:
+  nginx:
+    configs:
+      - source: video-minio.conf.template
+        target: /etc/nginx/templates/video-minio.conf.template
+    environment:
+      - MINIO_HOST=${MINIO_HOST}
+      - MINIO_PORT=${MINIO_PORT}
+
+configs:
+  video-minio.conf.template:
+    file: ./conf/conf.d/video-minio.conf.template
