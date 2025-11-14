@@ -4,6 +4,7 @@ services:
     container_name: mysql-cron-backup-cbus
     volumes:
       - "${DATA_DIR:-/data}/mysql8/backup:/backup"
+      - /etc/localtime:/etc/localtime:ro
     environment:
       - MYSQL_HOST=${MYSQL_HOST:-mysql8}
       - MYSQL_PORT=${MYSQL_PORT:-3306}
