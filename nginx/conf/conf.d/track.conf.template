@@ -60,9 +60,7 @@ server {
     }
 
     location /minio/ {
-        # 动态解析minio的域名
-        set $dynamic "${MINIO_HOST}";
-        proxy_pass   http://$dynamic:${MINIO_PORT}/;
+        proxy_pass   http://${MINIO_HOST}:${MINIO_PORT}/;
     }
 
     location /jtt808/ {
