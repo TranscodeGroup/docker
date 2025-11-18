@@ -12,7 +12,6 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.bus.yml
-    - ../docker/nginx/compose.bus.http.yml
     - ../docker/nginx/compose.video.yml
     - ../docker/nginx/compose.video.http.yml
   - path:

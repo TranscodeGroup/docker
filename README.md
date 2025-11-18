@@ -18,9 +18,10 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 
 **单机单独部署**:
 
-- [bus-http](./examples/bus-http/compose.yaml): Bus-http单机部署
-- [bus-https](./examples/bus-https/compose.yaml): Bus-https单机部署
-- [track-https](./examples/track-https/compose.yaml): Tracker V2单机部署
+- [bus-http](./examples/bus-http/compose.yaml): Bus http单机部署
+- [bus-https](./examples/bus-https/compose.yaml): Bus https单机部署
+- [track-http](./examples/track-http/compose.yaml): Tracker V2 http单机部署
+- [track-https](./examples/track-https/compose.yaml): Tracker V2 https单机部署
 
 **分布式部署**:
 

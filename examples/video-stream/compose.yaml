@@ -7,6 +7,5 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.video.yml
-    - ../docker/nginx/compose.video.https.yml
   - path:
     - ../docker/video/compose.yml
