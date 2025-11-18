@@ -9,10 +9,13 @@ include:
   - ../docker/minio/compose.yml
   - ../docker/maintain/compose.yml
   - ../docker/jtt808/compose.yml
+  - ../docker/video/compose.yml
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.track.yml
     - ../docker/nginx/compose.track.https.yml
+    - ../docker/nginx/compose.video.yml
+    - ../docker/nginx/compose.video.https.yml
   - path:
     - ../docker/web-downloader/compose.yml
     - ../docker/web-downloader/compose.track.yml
