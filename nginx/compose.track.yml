@@ -1,5 +1,8 @@
 services:
   nginx:
+    depends_on:
+      - maintain
+      - minio
     configs:
       - source: track.conf.template
         target: /etc/nginx/templates/track.conf.template

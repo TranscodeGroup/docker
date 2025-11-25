@@ -1,6 +1,0 @@
-services:
-  # rtp推流服务
-  rtp:
-    environment:
-      # https方式, 供前端使用
-      - gateway_srs_wan_http=https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_1}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_2}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_3}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_4}/mdvr,https://${VIDEO_HOSTNAME:?required}:${VIDEO_PORT_HTTPS_5}/mdvr

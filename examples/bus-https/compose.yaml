@@ -6,7 +6,6 @@ include:
   - ../docker/rabbitmq/compose.yml
   - ../docker/redis/compose.yml
   - ../docker/bus/compose.yml
-  - ../docker/video-nginx/compose.yml
   - ../docker/certbot/compose.yml
   - path:
     - ../docker/video/compose.yml
@@ -14,7 +13,7 @@ include:
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.bus.yml
-    - ../docker/nginx/compose.bus.https.yml
+    - ../docker/nginx/compose.video.yml
   - path:
-    - ../docker/web-downloader/compose.yml     
+    - ../docker/web-downloader/compose.yml
     - ../docker/web-downloader/compose.bus.yml

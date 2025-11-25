@@ -1,7 +1,6 @@
 services:
   mysql-cron-backup-maintain:
     image: fradelg/mysql-cron-backup
-    container_name: mysql-cron-backup-maintain
     volumes:
       - "${DATA_DIR:-/data}/mysql8/backup:/backup"
       - /etc/localtime:/etc/localtime:ro

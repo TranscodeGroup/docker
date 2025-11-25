@@ -1,7 +1,6 @@
 services:
   maintain:
     image: transcodegroup/maintain-server:${TRACK_MAINTAIN_VERSION:?required}
-    container_name: maintain
     restart: always
     volumes:
       - /etc/localtime:/etc/localtime

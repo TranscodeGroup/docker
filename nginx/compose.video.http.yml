@@ -1,0 +1,10 @@
+services:
+  nginx:
+    configs:
+      # 使用http的配置覆盖
+      - source: video-http.conf.template
+        target: /etc/nginx/templates/video.conf.template
+
+configs:
+  video-http.conf.template:
+    file: ./conf/conf.d/video-http.conf.template

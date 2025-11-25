@@ -1,20 +1,22 @@
-## V2单机部署方案
-# 1. 修改.env文件. 初始化各种密码
-# 2. docker compose up -d启动服务
+## V2单机部署方案, 使用http
 include:
   - ../docker/mysql8/compose.yml
+  - ../docker/mysql-backup/compose.maintain.yml
   - ../docker/redis/compose.yml
   - ../docker/mongodb/compose.yml
   - ../docker/rabbitmq/compose.yml
   - ../docker/minio/compose.yml
   - ../docker/maintain/compose.yml
   - ../docker/jtt808/compose.yml
-  - ../docker/video/compose.yml
+  - path:
+    - ../docker/video/compose.yml
+    - ../docker/video/compose.storage.yml
+    - ../docker/video/compose.http.yml
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.track.yml
     - ../docker/nginx/compose.video.yml
+    - ../docker/nginx/compose.video.http.yml
   - path:
     - ../docker/web-downloader/compose.yml
     - ../docker/web-downloader/compose.track.yml
-

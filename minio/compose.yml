@@ -1,7 +1,6 @@
 services:
   minio:
     image: minio/minio:RELEASE.2024-08-03T04-33-23Z
-    container_name: minio
     restart: always
     ports:
        # 原生端口是9000和9001, 规避RTP服务端口冲突, 所以-1000

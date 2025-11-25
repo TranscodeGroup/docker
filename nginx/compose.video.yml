@@ -1,8 +1,5 @@
 services:
-  video-nginx:
-    image: nginx:1.22.1
-    container_name: video-nginx
-    restart: always
+  nginx:
     ports:
       # 视频直播,映射srs端口
       - ${VIDEO_PORT_HTTPS_0}:${VIDEO_PORT_HTTPS_0}
@@ -11,29 +8,17 @@ services:
       - ${VIDEO_PORT_HTTPS_3}:${VIDEO_PORT_HTTPS_3}
       - ${VIDEO_PORT_HTTPS_4}:${VIDEO_PORT_HTTPS_4}
       - ${VIDEO_PORT_HTTPS_5}:${VIDEO_PORT_HTTPS_5}
-    privileged: true
     depends_on:
       - srs
       - rtp
     secrets:
       - video-ssl-certificate
       - video-ssl-certificate-key
-    volumes:
-      #- "${DOCKER_DIR:-/home/docker}/video-nginx/conf/nginx.conf:/etc/nginx/nginx.conf"
-      # 使用配置文件模板, 后缀需要是.conf.tempalte
-      # https://hub.docker.com/_/nginx#:~:text=Using%20environment%20variables
-      #- "${DOCKER_DIR:-/home/docker}/video-nginx/conf/conf.d:/etc/nginx/templates"
-      - "${DOCKER_DIR:-/home/docker}/video-nginx/html:/usr/share/nginx/html"
-      - "${DATA_DIR:-/data}/logs/video-nginx:/var/log/nginx"
     configs:
-      - source: nginx.conf
-        target: /etc/nginx/nginx.conf
       # 默认启动https的配置
-      - source: mdvr-live-https.conf.template
-        target: /etc/nginx/templates/mdvr-live.conf.template
+      - source: video-https.conf.template
+        target: /etc/nginx/templates/video.conf.template
     environment:
-      - MINIO_HOST=${MINIO_HOST}
-      - MINIO_PORT=${MINIO_PORT}
       - VIDEO_PORT_HTTPS_0=${VIDEO_PORT_HTTPS_0}
       - VIDEO_PORT_HTTPS_1=${VIDEO_PORT_HTTPS_1}
       - VIDEO_PORT_HTTPS_2=${VIDEO_PORT_HTTPS_2}
@@ -48,9 +33,5 @@ secrets:
     file: ${VIDEO_SSL_CERTIFICATE:?required}.key
 
 configs:
-  nginx.conf:
-    file: ./conf/nginx.conf
-  443.conf.template:
-    file: ./conf/conf.d/443.conf.template
-  mdvr-live-https.conf.template:
-    file: ./conf/conf.d/mdvr-live-https.conf.template
+  video-https.conf.template:
+    file: ./conf/conf.d/video-https.conf.template

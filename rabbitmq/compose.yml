@@ -1,7 +1,6 @@
 services:
   rabbitmq:
     image: rabbitmq:management
-    container_name: rabbitmq
     restart: always
     ports:
       # 加密的 AMQP 协议端口

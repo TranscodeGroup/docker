@@ -1,5 +1,0 @@
-secrets:
-  bus-ssl-certificate:
-    file: ${BUS_SSL_CERTIFICATE:?required}.crt
-  bus-ssl-certificate-key:
-    file: ${BUS_SSL_CERTIFICATE:?required}.key

@@ -6,16 +6,14 @@ include:
   - ../docker/redis/compose.yml
   - ../docker/bus/compose.yml
   - path:  
-    - ../docker/video-nginx/compose.yml
-    - ../docker/video-nginx/compose.http.yml
-  - path:  
     - ../docker/video/compose.yml
     - ../docker/video/compose.bus.yml
     - ../docker/video/compose.bus.http.yml
   - path:
     - ../docker/nginx/compose.yml
     - ../docker/nginx/compose.bus.yml
-    - ../docker/nginx/compose.bus.http.yml
+    - ../docker/nginx/compose.video.yml
+    - ../docker/nginx/compose.video.http.yml
   - path:
     - ../docker/web-downloader/compose.yml
     - ../docker/web-downloader/compose.bus.yml
