@@ -40,7 +40,7 @@ CREATE TABLE `basic_ad_banner`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `company_id`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_ad_passenger_info
@@ -62,7 +62,7 @@ CREATE TABLE `basic_ad_passenger_info`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `company_id`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_ad_passenger_publish
@@ -85,7 +85,7 @@ CREATE TABLE `basic_ad_passenger_publish`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `company_id`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_ad_passenger_template
@@ -103,7 +103,7 @@ CREATE TABLE `basic_ad_passenger_template`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `company_id`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_alarm_device
@@ -120,7 +120,7 @@ CREATE TABLE `basic_alarm_device`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ak_aid`(`device_alarm_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_alarm_platform
@@ -140,7 +140,7 @@ CREATE TABLE `basic_alarm_platform`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ak_aid`(`platform_alarm_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_announcement
@@ -159,7 +159,7 @@ CREATE TABLE `basic_announcement`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_user_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建账号',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_announcement_flag
@@ -172,7 +172,7 @@ CREATE TABLE `basic_announcement_flag`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_busstop
@@ -205,7 +205,7 @@ CREATE TABLE `basic_busstop`  (
   UNIQUE INDEX `uk_stop_id`(`stop_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_stop_code`(`company_id` ASC, `stop_code` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_stop`(`company_id` ASC, `stop_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_car
@@ -263,7 +263,7 @@ CREATE TABLE `basic_car`  (
   UNIQUE INDEX `uk_car_id`(`car_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_car_name`(`company_id` ASC, `car_name` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_car`(`company_id` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_car_insurance
@@ -293,7 +293,7 @@ CREATE TABLE `basic_car_insurance`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_car`(`company_id` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_car_license
@@ -316,7 +316,7 @@ CREATE TABLE `basic_car_license`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_car`(`company_id` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_car_renewal
@@ -352,7 +352,7 @@ CREATE TABLE `basic_car_renewal`  (
   UNIQUE INDEX `uk_order`(`order_id` ASC, `car_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_expire_time`(`car_id` ASC, `company_id` ASC, `expire_time_before` ASC, `renewal_duration` ASC) USING BTREE,
   INDEX `idx_order`(`company_id` ASC, `order_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_car_type
@@ -367,7 +367,7 @@ CREATE TABLE `basic_car_type`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_vehicle_type`(`company_id` ASC, `vehicle_type_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_device
@@ -403,7 +403,7 @@ CREATE TABLE `basic_device`  (
   UNIQUE INDEX `uk_id`(`imei` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_imei`(`company_id` ASC, `imei` ASC) USING BTREE,
   INDEX `idx_car`(`company_id` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_device_compose
@@ -431,7 +431,7 @@ CREATE TABLE `basic_device_compose`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_device_key`(`imei` ASC, `device_key` ASC) USING BTREE,
   INDEX `idx_imei`(`imei` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_device_request
@@ -453,7 +453,7 @@ CREATE TABLE `basic_device_request`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_device_type
@@ -477,7 +477,7 @@ CREATE TABLE `basic_device_type`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_type`(`type_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 127 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_display
@@ -507,7 +507,7 @@ CREATE TABLE `basic_display`  (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_display_id`(`company_id` ASC, `display_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_display_ad
@@ -527,7 +527,7 @@ CREATE TABLE `basic_display_ad`  (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`publish_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_display_maintain
@@ -546,7 +546,7 @@ CREATE TABLE `basic_display_maintain`  (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_display_date`(`display_id` ASC, `maintain_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_display_route
@@ -564,7 +564,7 @@ CREATE TABLE `basic_display_route`  (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_display_id`(`company_id` ASC, `display_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_employee
@@ -601,7 +601,7 @@ CREATE TABLE `basic_employee`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_emp`(`company_id` ASC, `emp_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_employee_card
@@ -623,7 +623,7 @@ CREATE TABLE `basic_employee_card`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_emp`(`company_id` ASC, `card_id` ASC, `is_deleted` ASC) USING BTREE,
   UNIQUE INDEX `uk_physical`(`company_id` ASC, `physical_number` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fault_area
@@ -642,7 +642,7 @@ CREATE TABLE `basic_fault_area`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_fault_area`(`company_id` ASC, `area_id` ASC, `parent_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fault_description
@@ -661,7 +661,7 @@ CREATE TABLE `basic_fault_description`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_fault_description`(`company_id` ASC, `module_id` ASC, `parent_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fault_history
@@ -680,7 +680,7 @@ CREATE TABLE `basic_fault_history`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_history`(`company_id` ASC, `event_id` ASC, `fault_status` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fault_part
@@ -697,7 +697,7 @@ CREATE TABLE `basic_fault_part`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_part`(`company_id` ASC, `fault_part_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fault_repair
@@ -752,7 +752,7 @@ CREATE TABLE `basic_fault_repair`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_fault_repair`(`company_id` ASC, `event_id` ASC, `create_time` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fault_solution
@@ -769,7 +769,7 @@ CREATE TABLE `basic_fault_solution`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_solution`(`company_id` ASC, `fault_solution_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_firmware
@@ -799,7 +799,7 @@ CREATE TABLE `basic_firmware`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_firmware`(`firmware_id` ASC) USING BTREE,
   INDEX `uk_cid_firmware`(`company_id` ASC, `firmware_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_firmware_ota
@@ -831,7 +831,7 @@ CREATE TABLE `basic_firmware_ota`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_firmware_ota`(`company_id` ASC, `is_deleted` ASC, `imei` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_fleet
@@ -855,7 +855,7 @@ CREATE TABLE `basic_fleet`  (
   UNIQUE INDEX `uk_name`(`company_id` ASC, `fleet_name` ASC) USING BTREE,
   UNIQUE INDEX `uk_id`(`fleet_id` ASC) USING BTREE,
   INDEX `idx_fleet`(`company_id` ASC, `fleet_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_illegal_score
@@ -869,7 +869,7 @@ CREATE TABLE `basic_illegal_score`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '产生时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '违规扣分配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '违规扣分配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_lost_found
@@ -888,7 +888,7 @@ CREATE TABLE `basic_lost_found`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '更新日期',
   `create_user_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建用户',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_maintain
@@ -916,7 +916,7 @@ CREATE TABLE `basic_maintain`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_car`(`company_id` ASC, `car_id` ASC) USING BTREE,
   INDEX `idx_maintain`(`company_id` ASC, `maintain_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_maintain_item
@@ -935,7 +935,7 @@ CREATE TABLE `basic_maintain_item`  (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_maintain`(`company_id` ASC, `maintain_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_region
@@ -963,7 +963,7 @@ CREATE TABLE `basic_region`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_region_rule
@@ -983,7 +983,7 @@ CREATE TABLE `basic_region_rule`  (
   `is_deleted` int NOT NULL DEFAULT 0 COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_stop`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_region_rule_car
@@ -999,7 +999,7 @@ CREATE TABLE `basic_region_rule_car`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_stop`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_route
@@ -1031,7 +1031,7 @@ CREATE TABLE `basic_route`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`route_id` ASC) USING BTREE,
   INDEX `uk_name`(`company_id` ASC, `route_name` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_route_change
@@ -1050,7 +1050,7 @@ CREATE TABLE `basic_route_change`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_route_control
@@ -1097,7 +1097,7 @@ CREATE TABLE `basic_route_control`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`route_id` ASC) USING BTREE,
   INDEX `idx_service`(`company_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_route_direction
@@ -1117,7 +1117,7 @@ CREATE TABLE `basic_route_direction`  (
   `intervals` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发车间隔',
   `price` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '价格区间',
   `sort_id` int NULL DEFAULT NULL,
-  `path` varchar(18000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路径点 lat1,lng1|lat2,lng2',
+  `path` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路径点 lat1,lng1|lat2,lng2',
   `style` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '自定义样式',
   `non_linear` decimal(11, 3) NULL DEFAULT NULL COMMENT '非直线系数',
   `avg_station_km` decimal(11, 3) NULL DEFAULT NULL COMMENT '平均站距',
@@ -1129,7 +1129,7 @@ CREATE TABLE `basic_route_direction`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_direction`(`company_id` ASC, `way_id` ASC, `route_id` ASC, `direction` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_way`(`way_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_route_station
@@ -1166,7 +1166,7 @@ CREATE TABLE `basic_route_station`  (
   INDEX `idx_way`(`company_id` ASC, `way_id` ASC) USING BTREE,
   INDEX `idx_stop_id`(`company_id` ASC, `stop_id` ASC) USING BTREE,
   INDEX `idx_route_direction`(`company_id` ASC, `route_id` ASC, `direction` ASC, `way_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_route_way
@@ -1193,7 +1193,7 @@ CREATE TABLE `basic_route_way`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_way_id`(`way_id` ASC) USING BTREE,
   INDEX `idx_route_id`(`company_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_safety_score
@@ -1209,7 +1209,7 @@ CREATE TABLE `basic_safety_score`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_company_id`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主动安全报警扣分标准' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主动安全报警扣分标准' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_sim
@@ -1232,7 +1232,7 @@ CREATE TABLE `basic_sim`  (
   UNIQUE INDEX `uk_iccid`(`iccid` ASC) USING BTREE,
   UNIQUE INDEX `uk_sim`(`sim_id` ASC) USING BTREE,
   INDEX `idx_sim`(`company_id` ASC, `sim_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_subscribe_car
@@ -1250,7 +1250,7 @@ CREATE TABLE `basic_subscribe_car`  (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_stop`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for basic_subscribe_topic
@@ -1270,7 +1270,7 @@ CREATE TABLE `basic_subscribe_topic`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_stop`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_common_template
@@ -1294,7 +1294,7 @@ CREATE TABLE `config_common_template`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级通用模板' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级通用模板' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_field_station
@@ -1313,7 +1313,7 @@ CREATE TABLE `config_field_station`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的站场配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的站场配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_remote_upgrade
@@ -1333,7 +1333,7 @@ CREATE TABLE `config_remote_upgrade`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级包发布记录' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级包发布记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_voice_basic
@@ -1352,7 +1352,7 @@ CREATE TABLE `config_voice_basic`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级公共、站点基础配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级公共、站点基础配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_voice_library
@@ -1376,7 +1376,7 @@ CREATE TABLE `config_voice_library`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_firmware`(`voice_id` ASC) USING BTREE,
   INDEX `uk_cid_firmware`(`company_id` ASC, `voice_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级用的语音库' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级用的语音库' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_voice_line
@@ -1409,7 +1409,7 @@ CREATE TABLE `config_voice_line`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_line_voice`(`company_id` ASC, `route_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的线路配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的线路配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_voice_public
@@ -1439,7 +1439,7 @@ CREATE TABLE `config_voice_public`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_public_voice`(`company_id` ASC, `route_id` ASC, `voice_type` ASC, `usefulness` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的公共配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的公共配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for config_voice_station
@@ -1461,23 +1461,23 @@ CREATE TABLE `config_voice_station`  (
   `is_big` bit(1) NULL DEFAULT b'0' COMMENT '大站',
   `direction` int NULL DEFAULT NULL COMMENT '方向',
   `mandarin` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '普通话',
-  `mandarin_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
-  `mandarin_name` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `mandarin_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
+  `mandarin_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `english` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '英语',
-  `english_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
-  `english_name` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `english_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
+  `english_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `dialect` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '方言',
-  `dialect_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
-  `dialect_name` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
+  `dialect_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
+  `dialect_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '名称',
   `advert_one` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语1',
-  `advert_one_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
-  `advert_one_name` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语1',
+  `advert_one_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
+  `advert_one_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语1',
   `advert_two` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语2',
-  `advert_two_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
-  `advert_two_name` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语2',
+  `advert_two_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
+  `advert_two_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语2',
   `advert_three` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语3',
-  `advert_three_path` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
-  `advert_three_name` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语3',
+  `advert_three_path` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '语音文件路径',
+  `advert_three_name` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语3',
   `advert_en_one` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语英语1',
   `advert_en_two` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语英语2',
   `advert_en_three` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '扩展用语英语3',
@@ -1490,7 +1490,7 @@ CREATE TABLE `config_voice_station`  (
   `enter_station` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_station_voice`(`company_id` ASC, `route_id` ASC, `station_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的站点配置' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '终端升级的站点配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_car
@@ -1555,7 +1555,7 @@ CREATE TABLE `ledger_daily_car`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_company
@@ -1623,7 +1623,7 @@ CREATE TABLE `ledger_daily_company`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_workdate`(`company_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 351 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_company_alarm
@@ -1640,7 +1640,7 @@ CREATE TABLE `ledger_daily_company_alarm`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uk_workdate`(`company_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_detail
@@ -1709,7 +1709,7 @@ CREATE TABLE `ledger_daily_detail`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_cwr`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_crw`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_employee
@@ -1766,7 +1766,7 @@ CREATE TABLE `ledger_daily_employee`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_illegal
@@ -1792,7 +1792,7 @@ CREATE TABLE `ledger_daily_illegal`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_mileage
@@ -1822,7 +1822,7 @@ CREATE TABLE `ledger_daily_mileage`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE,
   INDEX `ix_date_car`(`company_id` ASC, `work_date` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_route
@@ -1891,7 +1891,7 @@ CREATE TABLE `ledger_daily_route`  (
   INDEX `idx_cwr`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_crw`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE,
   INDEX `uk_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_daily_station
@@ -1918,7 +1918,7 @@ CREATE TABLE `ledger_daily_station`  (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_route_time`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_driver_trip_level
@@ -1951,7 +1951,7 @@ CREATE TABLE `ledger_driver_trip_level`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_driver_record`(`company_id` ASC, `work_date` ASC, `route_fleet_id` ASC, `route_id` ASC, `car_id` ASC, `emp_id` ASC, `plan_depart` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `ix_trip_level`(`company_id` ASC, `work_date` ASC, `emp_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_fault_data_check
@@ -2012,7 +2012,7 @@ CREATE TABLE `ledger_fault_data_check`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_fault_repair`(`company_id` ASC, `event_id` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `uk_company_time`(`company_id` ASC, `archive_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_car
@@ -2072,7 +2072,7 @@ CREATE TABLE `ledger_monthly_car`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_monthly_car`(`company_id` ASC, `month` ASC, `route_id` ASC, `car_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_company
@@ -2129,7 +2129,7 @@ CREATE TABLE `ledger_monthly_company`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_monthly_company`(`company_id` ASC, `month` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 349 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_employee
@@ -2186,7 +2186,7 @@ CREATE TABLE `ledger_monthly_employee`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_monthly_car`(`company_id` ASC, `month` ASC, `route_id` ASC, `emp_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_fault_contract
@@ -2226,7 +2226,7 @@ CREATE TABLE `ledger_monthly_fault_contract`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_index`(`company_id` ASC, `month` ASC, `fleet_id` ASC, `contract_no` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `nk_index`(`company_id` ASC, `month` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_fault_module
@@ -2267,7 +2267,7 @@ CREATE TABLE `ledger_monthly_fault_module`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_index`(`company_id` ASC, `month` ASC, `fleet_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_fault_platform
@@ -2293,7 +2293,7 @@ CREATE TABLE `ledger_monthly_fault_platform`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_index`(`company_id` ASC, `month` ASC, `fleet_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_fault_rate
@@ -2320,7 +2320,7 @@ CREATE TABLE `ledger_monthly_fault_rate`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `nk_index`(`company_id` ASC, `month` ASC, `fleet_id` ASC) USING BTREE,
   INDEX `ik_index`(`company_id` ASC, `month` ASC, `fleet_id` ASC, `is_deleted` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_fault_report
@@ -2345,7 +2345,7 @@ CREATE TABLE `ledger_monthly_fault_report`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_index`(`company_id` ASC, `month` ASC, `fleet_id` ASC, `contract_no` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `normal_index`(`company_id` ASC, `month` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_route
@@ -2412,7 +2412,7 @@ CREATE TABLE `ledger_monthly_route`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_cwr`(`company_id` ASC, `month` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_crw`(`company_id` ASC, `route_id` ASC, `month` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_monthly_safety_score
@@ -2442,7 +2442,7 @@ CREATE TABLE `ledger_monthly_safety_score`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_company_emp`(`company_id` ASC, `month` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单人月度台账' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '单人月度台账' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_time_route
@@ -2500,7 +2500,7 @@ CREATE TABLE `ledger_time_route`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_cwr`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_crw`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_attendance
@@ -2528,7 +2528,7 @@ CREATE TABLE `log_attendance`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_dispatch
@@ -2552,7 +2552,7 @@ CREATE TABLE `log_dispatch`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_dsp
@@ -2580,7 +2580,7 @@ CREATE TABLE `log_dsp`  (
   INDEX `idx_time_route`(`company_id` ASC, `event_time` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_route_time`(`company_id` ASC, `route_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_work_date`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_event
@@ -2607,7 +2607,7 @@ CREATE TABLE `log_event`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_login
@@ -2630,7 +2630,7 @@ CREATE TABLE `log_login`  (
   INDEX `idx_token`(`token` ASC) USING BTREE,
   INDEX `idx_login`(`company_id` ASC, `login_in` ASC) USING BTREE,
   INDEX `idx_user`(`user_id` ASC, `login_in` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 276 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_message
@@ -2657,7 +2657,7 @@ CREATE TABLE `log_message`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_send_time`(`company_id` ASC, `send_time` ASC) USING BTREE,
   INDEX `idx_date_car`(`company_id` ASC, `work_date` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_plan_change
@@ -2680,7 +2680,7 @@ CREATE TABLE `log_plan_change`  (
   INDEX `idx_plan_id`(`plan_id` ASC) USING BTREE,
   INDEX `idx_create_time`(`create_time` ASC) USING BTREE,
   INDEX `idx_company`(`company_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_station
@@ -2712,7 +2712,7 @@ CREATE TABLE `log_station`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_station`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_system
@@ -2735,7 +2735,7 @@ CREATE TABLE `log_system`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`company_id` ASC, `create_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 225 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for log_web_socket
@@ -2762,7 +2762,7 @@ CREATE TABLE `log_web_socket`  (
   INDEX `idx_time`(`company_id` ASC, `create_time` ASC) USING BTREE,
   INDEX `log_web_socket_socket_uuid_IDX`(`socket_uuid` ASC) USING BTREE,
   INDEX `log_web_socket_socket_id_IDX`(`socket_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1207 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for operation_fuel
@@ -2786,7 +2786,7 @@ CREATE TABLE `operation_fuel`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_wr`(`work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for operation_ic_card
@@ -2811,7 +2811,7 @@ CREATE TABLE `operation_ic_card`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for operation_income
@@ -2836,7 +2836,7 @@ CREATE TABLE `operation_income`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_unique`(`route_id` ASC, `work_date` ASC, `car_id` ASC, `emp_id` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `ix_cwr`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_console
@@ -2853,7 +2853,7 @@ CREATE TABLE `owner_console`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_dispatch`(`company_id` ASC, `console_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_console_route
@@ -2869,7 +2869,7 @@ CREATE TABLE `owner_console_route`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_dispatch_route`(`company_id` ASC, `console_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_console_user
@@ -2885,7 +2885,7 @@ CREATE TABLE `owner_console_user`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_dispatch_user`(`company_id` ASC, `console_id` ASC, `user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_role
@@ -2909,7 +2909,7 @@ CREATE TABLE `owner_role`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_name`(`company_id` ASC, `role_name` ASC, `is_deleted` ASC) USING BTREE,
   UNIQUE INDEX `uk_id`(`role_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_role_perm
@@ -2928,7 +2928,7 @@ CREATE TABLE `owner_role_perm`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_role_module`(`company_id` ASC, `role_id` ASC, `module_id` ASC) USING BTREE,
   INDEX `idx_role`(`role_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_user
@@ -2962,7 +2962,7 @@ CREATE TABLE `owner_user`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_account`(`account` ASC, `is_deleted` ASC) USING BTREE,
   UNIQUE INDEX `uk_id`(`user_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_user_alarm
@@ -2983,7 +2983,7 @@ CREATE TABLE `owner_user_alarm`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_user_alarm`(`company_id` ASC, `user_id` ASC, `platform_alarm_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_user_auth
@@ -3000,7 +3000,7 @@ CREATE TABLE `owner_user_auth`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_user_organize
@@ -3017,7 +3017,7 @@ CREATE TABLE `owner_user_organize`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_user_org`(`user_id` ASC, `org_id` ASC) USING BTREE,
   INDEX `idx_user_org`(`company_id` ASC, `user_id` ASC, `org_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for owner_user_role
@@ -3033,7 +3033,7 @@ CREATE TABLE `owner_user_role`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_userrole`(`company_id` ASC, `user_id` ASC, `role_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_attendance
@@ -3078,7 +3078,7 @@ CREATE TABLE `schedule_attendance`  (
   UNIQUE INDEX `uk_attendance`(`company_id` ASC, `work_date` ASC, `emp_id` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_attendance`(`work_date` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_date_route`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_idle
@@ -3115,7 +3115,7 @@ CREATE TABLE `schedule_idle`  (
   INDEX `idx_routename`(`company_id` ASC, `car_id` ASC) USING BTREE,
   INDEX `idx_routeid`(`company_id` ASC) USING BTREE,
   INDEX `idx_workdate`(`company_id` ASC, `work_date` ASC, `car_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_master
@@ -3168,7 +3168,7 @@ CREATE TABLE `schedule_master`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_ws`(`work_date` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_wr`(`work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_plan
@@ -3229,7 +3229,7 @@ CREATE TABLE `schedule_plan`  (
   INDEX `idx_crw`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE,
   INDEX `idx_wr`(`work_date` ASC, `route_id` ASC) USING BTREE,
   INDEX `idx_cwe`(`company_id` ASC, `work_date` ASC, `emp_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_plan_table
@@ -3279,7 +3279,7 @@ CREATE TABLE `schedule_plan_table`  (
   INDEX `idx_work_date`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE,
   INDEX `idx_plan_id`(`company_id` ASC, `work_date` ASC, `schedule_plan_id` ASC) USING BTREE,
   INDEX `idx_date_emp`(`company_id` ASC, `work_date` ASC, `emp_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_request
@@ -3312,7 +3312,7 @@ CREATE TABLE `schedule_request`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_route_time`(`company_id` ASC, `route_id` ASC, `event_time` ASC) USING BTREE,
   INDEX `idx_time`(`company_id` ASC, `event_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_resource
@@ -3373,7 +3373,7 @@ CREATE TABLE `schedule_resource`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_resource`(`company_id` ASC, `work_date` ASC, `car_id` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_resource`(`work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 344 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_suggestion
@@ -3405,7 +3405,7 @@ CREATE TABLE `schedule_suggestion`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_suggestion`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_table
@@ -3460,7 +3460,7 @@ CREATE TABLE `schedule_table`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_ws`(`company_id` ASC, `work_date` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_wr`(`company_id` ASC, `work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for schedule_vacation
@@ -3484,7 +3484,7 @@ CREATE TABLE `schedule_vacation`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_cid_starttime`(`company_id` ASC, `start_time` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_date
@@ -3518,7 +3518,7 @@ CREATE TABLE `scheme_date`  (
   UNIQUE INDEX `uk_route_date`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_route_route`(`company_id` ASC, `route_id` ASC, `work_date` ASC) USING BTREE,
   INDEX `idx_route_date`(`work_date` ASC, `company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_direction
@@ -3553,7 +3553,7 @@ CREATE TABLE `scheme_direction`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_scheme_direction`(`company_id` ASC, `scheme_id` ASC, `direction` ASC) USING BTREE,
   INDEX `idx_route_scheme`(`company_id` ASC, `route_id` ASC, `scheme_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_first
@@ -3582,7 +3582,7 @@ CREATE TABLE `scheme_first`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_scheme`(`company_id` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_route_scheme`(`company_id` ASC, `route_id` ASC, `scheme_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_group
@@ -3608,7 +3608,7 @@ CREATE TABLE `scheme_group`  (
   `emp_shift_id` int NOT NULL DEFAULT 0 COMMENT '司机轮换规则,,废弃',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_group`(`company_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_group_member
@@ -3656,7 +3656,7 @@ CREATE TABLE `scheme_group_member`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_member`(`company_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_idle
@@ -3678,7 +3678,7 @@ CREATE TABLE `scheme_idle`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_scheme`(`company_id` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_route_scheme`(`company_id` ASC, `route_id` ASC, `scheme_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_master
@@ -3720,7 +3720,7 @@ CREATE TABLE `scheme_master`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_scheme`(`company_id` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_route`(`company_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_param
@@ -3746,7 +3746,7 @@ CREATE TABLE `scheme_param`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_scheme`(`company_id` ASC, `scheme_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_param_temp
@@ -3777,7 +3777,7 @@ CREATE TABLE `scheme_param_temp`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_scheme`(`work_date` ASC, `company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_route_time_period
@@ -3800,7 +3800,7 @@ CREATE TABLE `scheme_route_time_period`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`company_id` ASC, `work_date` ASC, `route_id` ASC, `time_period_id` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_service`(`company_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_station
@@ -3841,7 +3841,7 @@ CREATE TABLE `scheme_station`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_route_scheme`(`company_id` ASC, `route_id` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_scheme`(`company_id` ASC, `scheme_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 214 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for scheme_table
@@ -3872,7 +3872,7 @@ CREATE TABLE `scheme_table`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_scheme`(`company_id` ASC, `scheme_id` ASC) USING BTREE,
   INDEX `idx_route_scheme`(`company_id` ASC, `route_id` ASC, `scheme_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 147 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for service_abnormal
@@ -3893,7 +3893,7 @@ CREATE TABLE `service_abnormal`  (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `ix_logevent`(`work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for service_illegal
@@ -3932,7 +3932,7 @@ CREATE TABLE `service_illegal`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_wr`(`work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for service_on_time
@@ -3974,7 +3974,7 @@ CREATE TABLE `service_on_time`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_company_data`(`company_id` ASC, `work_date` ASC) USING BTREE,
   INDEX `idx_data_company`(`work_date` ASC, `company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for service_over_speed
@@ -4016,7 +4016,7 @@ CREATE TABLE `service_over_speed`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_wr`(`work_date` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_av_rtp
@@ -4039,7 +4039,7 @@ CREATE TABLE `system_av_rtp`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_av_srs
@@ -4065,7 +4065,7 @@ CREATE TABLE `system_av_srs`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ak_prefix`(`company_id` ASC, `node_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_company
@@ -4103,7 +4103,7 @@ CREATE TABLE `system_company`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`company_id` ASC) USING BTREE,
   UNIQUE INDEX `uk_name`(`company_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_company_module
@@ -4119,7 +4119,7 @@ CREATE TABLE `system_company_module`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`company_id` ASC, `module_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 432 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业信息' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业信息' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_config
@@ -4137,7 +4137,7 @@ CREATE TABLE `system_config`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_holidays
@@ -4153,7 +4153,7 @@ CREATE TABLE `system_holidays`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_company_date`(`company_id` ASC, `work_date` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_module
@@ -4183,7 +4183,7 @@ CREATE TABLE `system_module`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_path`(`path` ASC) USING BTREE,
   UNIQUE INDEX `uk_id`(`module_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 258 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_module_datav
@@ -4212,7 +4212,7 @@ CREATE TABLE `system_module_datav`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_path`(`path` ASC) USING BTREE,
   UNIQUE INDEX `uk_id`(`module_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 606001 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_open_platform
@@ -4235,7 +4235,7 @@ CREATE TABLE `system_open_platform`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_service`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_regular_clean
@@ -4260,7 +4260,7 @@ CREATE TABLE `system_regular_clean`  (
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ix_table_name`(`database_name` ASC, `table_name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 175 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_rule
@@ -4275,7 +4275,7 @@ CREATE TABLE `system_rule`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `ak_prefix`(`prefix` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_schema_history
@@ -4312,7 +4312,7 @@ CREATE TABLE `system_service`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_id`(`service_id` ASC) USING BTREE,
   INDEX `idx_service`(`company_id` ASC, `service_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_service_route
@@ -4328,7 +4328,7 @@ CREATE TABLE `system_service_route`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_service_route`(`service_id` ASC, `route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_shedlock
@@ -4344,7 +4344,7 @@ CREATE TABLE `system_shedlock`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_name`(`name` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 418 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_snippet
@@ -4359,7 +4359,7 @@ CREATE TABLE `system_snippet`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_service`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for system_token_file
@@ -4377,7 +4377,7 @@ CREATE TABLE `system_token_file`  (
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_service`(`company_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- View structure for gateway_device
