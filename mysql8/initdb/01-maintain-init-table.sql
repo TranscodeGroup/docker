@@ -2748,7 +2748,6 @@ CREATE TABLE `organize_sim`  (
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_phone`(`phone` ASC) USING BTREE,
   UNIQUE INDEX `uk_iccid`(`iccid` ASC) USING BTREE,
-  UNIQUE INDEX `uk_imei`(`installed_imei` ASC) USING BTREE,
   INDEX `idx_sim`(`organize_id` ASC, `iccid` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb3 COLLATE = utf8mb3_general_ci COMMENT = 'SIM卡管理' ROW_FORMAT = DYNAMIC;
 
