@@ -18,10 +18,10 @@ services:
       # 日志
       - "${DATA_DIR:-/data}/logs/jtt808:/logs"
       # 通力转mp4程序
-      - /home/docker-compose/opt/ifv2mp4:/usr/local/bin/ifv2mp4
+      - ${DOCKER_COMPOSE_DIR}/opt/ifv2mp4:/usr/local/bin/ifv2mp4
       # ffmpeg可执行程序
-      - /home/docker-compose/opt/ffmpeg:/usr/local/bin/ffmpeg:ro
-      - /home/docker-compose/opt/ffprobe:/usr/local/bin/ffprobe:ro
+      - ${DOCKER_COMPOSE_DIR}/opt/ffmpeg:/usr/local/bin/ffmpeg:ro
+      - ${DOCKER_COMPOSE_DIR}/opt/ffprobe:/usr/local/bin/ffprobe:ro
     environment:
       - JAVA_TOOL_OPTIONS=-Xms1024m -Xmx2048m
       # 监听端口
