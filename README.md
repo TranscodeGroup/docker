@@ -52,7 +52,12 @@ docker compose config > compose-stack.yaml
 
 **注意**: 修改完配置后, 需要执行`docker compose up`, 文件才会被覆盖到`/data/nginx/html/`里面去. 因为是使用的覆盖的方式, 因此不建议直接修改`/data/nginx/html/`里面的文件.
 
-### 5. 启动
+### 5. 其他可选配置
+
+- [jtt808视频转换工具](./jtt808/README.md)
+- [手动下载前端](./scripts/README.md)
+
+### 6. 启动
 
 在`/home/docker-compose`中执行如下命令, 启动docker:
 
@@ -60,7 +65,7 @@ docker compose config > compose-stack.yaml
 docker compose up
 ```
 
-### 6. 使用git管理docker-compose目录
+### 7. 使用git管理docker-compose目录
 
 在`/home/docker-compose`中执行如下命令
 
