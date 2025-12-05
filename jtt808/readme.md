@@ -15,7 +15,7 @@ sudo cp ffmpeg ffprobe /home/docker-compose/opt/
 ffmpeg -version
 ```
 
-## FFmpeg 静态编译安装
+## 通力ifv转mp4工具(现在H264正常, H265前端播放器不支持)
 
 ```bash
 # 目录
