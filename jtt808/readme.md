@@ -22,15 +22,12 @@ ffmpeg -version
 cd /home/docker-compose/opt
 # 创建工具文件夹
 mkdir ifv2mp4
-
-# @DO 上传通力给的工具 tlgrectomp4_linux1.0.0.2.tar.gz 到 ifv2mp4目录, 或者上传到http服务器上提供wget下载
-
+# 下载安装程序
+wget https://github.com/TranscodeGroup/docker/releases/download/1.0.2/tlgrectomp4_linux1.0.0.2.tar.gz
 # 解压
 tar -xzvf tlgrectomp4_linux1.0.0.2.tar.gz
-
 # 增加路径
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/docker-compose/opt/ifv2mp4/release
-
 # 验证
 /home/docker-compose/opt/ifv2mp4/release/tlgrectomp4 input.ifv output.mp4
 
