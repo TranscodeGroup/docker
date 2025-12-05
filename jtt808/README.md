@@ -1,6 +1,8 @@
 ## FFmpeg 静态编译安装
 
 ```bash
+# 创建工具文件夹
+mkdir -p /home/docker-compose/opt
 # 进入目录
 cd /home/docker-compose
 # 下载
@@ -10,7 +12,7 @@ tar -xvf ffmpeg-release-amd64-static.tar.xz
 # 进入源目录
 cd ffmpeg-*-amd64-static
 # 复制新目录
-sudo cp ffmpeg ffprobe /home/docker-compose/opt/
+cp ffmpeg ffprobe /home/docker-compose/opt/
 # 测试
 ffmpeg -version
 ```
@@ -18,10 +20,10 @@ ffmpeg -version
 ## 通力ifv转mp4工具(现在H264正常, H265前端播放器不支持)
 
 ```bash
-# 目录
-cd /home/docker-compose/opt
 # 创建工具文件夹
-mkdir ifv2mp4
+mkdir -p /home/docker-compose/opt/ifv2mp4
+# 进入目录
+cd /home/docker-compose/opt/ifv2mp4
 # 下载安装程序
 wget https://github.com/TranscodeGroup/docker/releases/download/1.0.2/tlgrectomp4_linux1.0.0.2.tar.gz
 # 解压
