@@ -10,9 +10,17 @@ services:
       - ${JTT808_PORT_FTP_ACTIVE}:${JTT808_PORT_FTP_ACTIVE}
       - ${JTT808_PORT_FTP_PASSIVE}:${JTT808_PORT_FTP_PASSIVE}
     volumes:
+      # 时区
       - "/etc/localtime:/etc/localtime:ro"
+      # 设备上传文件
       - "${DATA_DIR:-/data}/jtt808:/data/jtt808"
+      # 日志
       - "${DATA_DIR:-/data}/logs/jtt808:/logs"
+      # 通力转mp4程序
+      - ${JTT808_OPT_DIR:?required}/ifv2mp4:/usr/local/bin/ifv2mp4
+      # ffmpeg可执行程序
+      - ${JTT808_OPT_DIR:?required}/ffmpeg:/usr/local/bin/ffmpeg:ro
+      - ${JTT808_OPT_DIR:?required}/ffprobe:/usr/local/bin/ffprobe:ro
     environment:
       - JAVA_TOOL_OPTIONS=-Xms1024m -Xmx2048m
       # 监听端口
