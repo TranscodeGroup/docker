@@ -23,7 +23,7 @@ mkdir -p /home/docker-compose/opt/ifv2mp4
 # 进入目录
 cd /home/docker-compose/opt/ifv2mp4
 # 下载安装程序
-wget https://github.com/TranscodeGroup/docker/releases/download/1.0.2/tlgrectomp4_linux1.0.0.2.tar.gz
+wget https://github.com/TranscodeGroup/docker/releases/download/v1.0.2/tlgrectomp4_linux1.0.0.2.tar.gz
 # 解压
 tar -xzvf tlgrectomp4_linux1.0.0.2.tar.gz
 # 增加路径
