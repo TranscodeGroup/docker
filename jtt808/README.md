@@ -4,17 +4,15 @@
 # 创建工具文件夹
 mkdir -p /home/docker-compose/opt
 # 进入目录
-cd /home/docker-compose
+cd /home/docker-compose/opt
 # 下载
 wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
 # 解压
 tar -xvf ffmpeg-release-amd64-static.tar.xz
-# 进入源目录
-cd ffmpeg-*-amd64-static
-# 复制新目录
-cp ffmpeg ffprobe /home/docker-compose/opt/
+# 复制bin文件
+cp ./ffmpeg-*-amd64-static/ffmpeg ./ffmpeg-*-amd64-static/ffprobe /home/docker-compose/opt/
 # 测试
-ffmpeg -version
+./ffmpeg -version
 ```
 
 ## 通力ifv转mp4工具(现在H264正常, H265前端播放器不支持)
