@@ -29,7 +29,7 @@ tar -xzvf tlgrectomp4_linux1.0.0.2.tar.gz
 # 增加路径
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/docker-compose/opt/ifv2mp4/release
 # 验证
-/home/docker-compose/opt/ifv2mp4/release/tlgrectomp4 input.ifv output.mp4
+/home/docker-compose/opt/ifv2mp4/release/tlgrectomp4 --help
 ```
 
 ## 确保jtt808的docker服务包含如下配置(当前版本已内置, 旧版手工补齐)
