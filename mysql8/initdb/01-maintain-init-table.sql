@@ -454,7 +454,7 @@ CREATE TABLE `jtt808_cmd`  (
   `message_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '消息唯一ID.替换UUID',
   `request_time` datetime NOT NULL COMMENT '发送时间',
   `param_object` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求参数, JSON对象',
-  `request_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '应答结果 初始 离线待发 无响应 成功',
+  `request_state` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '应答结果 初始 离线待发 无响应 成功',
   `response_time` datetime NULL DEFAULT NULL COMMENT '终端应答时间',
   `response_data` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '请求响应, JSON对象',
   `retry_times` int NULL DEFAULT 0 COMMENT '重试次数',
