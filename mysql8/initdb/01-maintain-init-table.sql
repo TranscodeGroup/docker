@@ -2493,6 +2493,7 @@ CREATE TABLE `organize_renewal`  (
   `start_time` datetime NULL DEFAULT NULL COMMENT '开始时间',
   `renewal_images` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '续约单附件',
   `payment_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '支付单号',
+  `payment_time` datetime NULL DEFAULT NULL COMMENT '支付时间',
   `total_cost` decimal(10, 2) NULL DEFAULT NULL COMMENT '整个订单的费用',
   `remark` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '用户ID',
@@ -2803,6 +2804,7 @@ CREATE TABLE `organize_vehicle`  (
   `route_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '线路id',
   `renewal_time` datetime NULL DEFAULT NULL COMMENT '续约时间',
   `owner_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '拥有者ID',
+  `vehicle_status` smallint NOT NULL DEFAULT 0 COMMENT '车辆状态, 0=Active, 1=Repair, 2=Buckling,3=Scrap, 4=Tax Waiver.',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -3703,6 +3705,21 @@ CREATE TABLE `user_third_login`  (
   UNIQUE INDEX `uk_unique_acount`(`third_unique_account` ASC, `is_deleted` ASC) USING BTREE,
   INDEX `idx_user_id`(`user_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '第三方登录表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for user_topic_config
+-- ----------------------------
+DROP TABLE IF EXISTS `user_topic_config`;
+CREATE TABLE `user_topic_config`  (
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增长ID',
+  `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
+  `topic` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '主题',
+  `config` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '配置',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `idx_topic_config`(`user_id` ASC, `topic` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户订阅配置' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for user_vehicle
