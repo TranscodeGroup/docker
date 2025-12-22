@@ -22,16 +22,6 @@ SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Records of basic_car
--- ----------------------------
-INSERT INTO `basic_car` VALUES (1, '10001', 'CAR000001', '18270240064', 0, '', '18270240064', 5, 'GRP000001', 'ROU000001', '', 'car', '2025-05-13 08:54:21', '2026-05-13 08:54:21', '0sz5OkypkZl50iIUiTJyNA==', 0, 0.000, 0.000, 60.000, '', 0, 0.000, '', 0, NULL, NULL, '', '', 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '{}', '', 0, 'UID010001', '2025-05-13 08:54:43', '2025-05-13 08:54:43');
-
--- ----------------------------
--- Records of basic_device
--- ----------------------------
-INSERT INTO `basic_device` VALUES (1, '10001', '18270240064', 'GRP000001', 'DTY000124', 'CAR000001', NULL, NULL, '+08:00', 'GBK', 'CH1,CH2,CH3,CH4,CH5,CH6,CH7,CH8', 0, NULL, '2.3.21 r1 K3|2025-04-11_13-42-51', 0, NULL, 1, '2025-05-13 09:11:23', '2025-05-13 10:52:36', NULL, NULL, 0, '2025-05-13 08:54:43', '2025-05-13 10:52:36');
-
--- ----------------------------
 -- Records of basic_device_type
 -- ----------------------------
 INSERT INTO `basic_device_type` VALUES (110, 'DTY000113', 'TG-MDVR', 'Transcodegroup', '808&1078', 1535, 'files/img/devtype/4be52d46ecf84d79b10de8f7c3e2b230.jpg', 41, '支持国标808/1078设备，通用类型', 'k3u;k8vu;stu;zip', 2, 0, NULL, '2019-08-23 07:43:12', '2021-01-11 09:17:58');
