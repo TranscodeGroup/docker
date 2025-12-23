@@ -44,30 +44,11 @@ INSERT INTO `owner_role` VALUES (3, '100', 'RID000002', 'User', 0, NULL, 7, 1, 0
 INSERT INTO `owner_user` VALUES (1, '100', 'UID000001', '', 'sysadmin', '21218CCA77804D2BA1922C33E0151105', '平台管理员', 100, 'static/images/user-boy.png', '', '', '平台管理员', NULL, NULL, 0, '2025-05-13 06:44:32', 0, '2025-05-13 11:56:07', NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2025-05-13 11:56:07');
 INSERT INTO `owner_user` VALUES (2, '100', 'UID000002', '', 'lin', '21218CCA77804D2BA1922C33E0151105', '林工', 100, 'static/images/user-boy.png', '', 'lin557@126.com', '系统测试', NULL, NULL, 0, '2025-05-13 06:44:32', 0, NULL, NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2021-06-29 01:57:21');
 INSERT INTO `owner_user` VALUES (3, '100', 'UID000003', '', 'eason', '21218CCA77804D2BA1922C33E0151105', '聂工', 100, 'static/images/user-boy.png', '', '330811792@qq.com', '系统测试', NULL, NULL, 0, '2025-05-13 06:44:32', 0, NULL, NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2021-06-29 01:57:22');
-INSERT INTO `owner_user` VALUES (4, '10001', 'UID010001', '', 'gongcheng@admin', '5E28E1C011ED5A673F708B6DD5634507', 'gongcheng@admin', 1, '/files/img/user/336e793aaf154bf1bd5d203e3788c385.png', NULL, NULL, 'auto create', NULL, NULL, 0, '2025-05-13 08:48:45', 0, '2025-05-13 11:56:28', NULL, 3, 0, NULL, '2025-05-13 08:48:44', '2025-05-13 11:56:28');
-INSERT INTO `owner_user` VALUES (5, '10001', 'UID010002', '', 'gongcheng@tg', '8204A34D6CAA61C262DADE8CC9633C9E', 'gongcheng@tg', 1, '/files/img/user/0217e9561c6544178d2c2e3f377654c7.png', NULL, NULL, 'auto create', NULL, NULL, 0, '2025-05-13 08:48:45', 0, NULL, NULL, 3, 0, NULL, '2025-05-13 08:48:45', '2025-05-13 11:42:42');
-
--- ----------------------------
--- Records of owner_user_role
--- ----------------------------
-INSERT INTO `owner_user_role` VALUES (2, '10001', 'UID010001', 'RID000001', 'UID010001', '2025-05-13 11:42:33', '2025-05-13 11:42:33');
-INSERT INTO `owner_user_role` VALUES (3, '10001', 'UID010002', 'RID000001', 'UID010001', '2025-05-13 11:42:42', '2025-05-13 11:42:42');
-
--- ----------------------------
--- Records of schedule_request
--- ----------------------------
-INSERT INTO `schedule_request` VALUES (1, '10001', '2025-05-13', '18270240064', 1, NULL, '2025-03-12 19:56:27', 0, 0, 0, 'ROU000001', '1路', 'CAR000001', '18270240064', NULL, NULL, NULL, 0, NULL, NULL, NULL, '2025-05-13 09:15:46', '2025-05-13 09:15:46');
-
--- ----------------------------
--- Records of system_av_srs
--- ----------------------------
-INSERT INTO `system_av_srs` VALUES (8, '10001', 'live-36.212.31.166', 'gc', NULL, 'rtmp://36.212.31.166:9005/', 'rtmp://36.212.31.166:9005/', NULL, 'http://36.212.31.166:9085/mdvr,http://36.212.31.166:9086/mdvr,http://36.212.31.166:9087/mdvr,http://36.212.31.166:9088/mdvr,http://36.212.31.166:9089/mdvr', NULL, NULL, 1, NULL, 0, 100, '2025-05-13 09:25:16', '2025-05-13 11:46:32');
 
 -- ----------------------------
 -- Records of system_company
 -- ----------------------------
 INSERT INTO `system_company` VALUES (1, '100', '', 'CityBus', 'CityBus', NULL, NULL, '默认企业', NULL, 30, NULL, 1, NULL, NULL, NULL, '+08:00', 'zh', NULL, NULL, NULL, NULL, '07:00-09:00', '17:00-19:00', '', 0, NULL, '2019-08-14 12:01:15', '2021-06-29 02:00:41');
-INSERT INTO `system_company` VALUES (2, '10001', '100', '恭城公交', '恭城公交', '/files/img/company/5e7a5dabf76e4fcdaa91d257d3cd12d4.png', NULL, '', 'gongcheng@admin', 20, 7, 1, NULL, 110.817484, 24.838551, '+08:00', 'zh', NULL, NULL, NULL, '{\"disable_auto_schedule\":false,\"multiple_search_limit\":60,\"alarm_safety_list\":[],\"gps_deviation_excluded\":false}', '07:00-09:00', '17:00-19:00', 'iheCxAgUe7psEqq/5VmVxw==', 0, 'UID000001', '2025-05-13 08:48:44', '2025-05-13 11:56:15');
 
 -- ----------------------------
 -- Records of system_module
