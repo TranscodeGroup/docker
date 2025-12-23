@@ -24,15 +24,18 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- ----------------------------
 -- Records of basic_device_type
 -- ----------------------------
-INSERT INTO `basic_device_type` VALUES (110, 'DTY000113', 'TG-MDVR', 'Transcodegroup', '808&1078', 1535, 'files/img/devtype/4be52d46ecf84d79b10de8f7c3e2b230.jpg', 41, '支持国标808/1078设备，通用类型', 'k3u;k8vu;stu;zip', 2, 0, NULL, '2019-08-23 07:43:12', '2021-01-11 09:17:58');
-INSERT INTO `basic_device_type` VALUES (114, 'DTY000117', 'TG-T8', 'Transcodegroup', '808&1078&bus', 1151, '', 31, '刷卡，报站，4CH视频', 'k8hu;k8vu', 2, 1, NULL, '2019-08-23 07:43:12', '2021-03-04 08:57:27');
-INSERT INTO `basic_device_type` VALUES (115, 'DTY000118', 'TG-T3', 'Transcodegroup', '808&1078&bus', 1055, '', 30, '刷卡，报站', 'k3u', 2, 0, NULL, '2019-08-23 07:43:12', '2021-01-11 09:17:53');
-INSERT INTO `basic_device_type` VALUES (118, 'DTY000121', 'TG-SD', 'Transcodegroup', '808&1078', 1535, '', 50, 'SD卡录像', 'MR9704C;CONFIG', 1, 0, NULL, '2019-08-23 07:43:12', '2021-01-11 09:17:39');
-INSERT INTO `basic_device_type` VALUES (119, 'DTY000122', 'TG-HD', 'Transcodegroup', '808&1078', 1535, '', 51, '硬盘录像', 'MR9704C;CONFIG', 1, 0, NULL, '2019-08-23 07:43:12', '2021-01-11 09:17:41');
-INSERT INTO `basic_device_type` VALUES (120, 'DTY000124', 'K3&MDVR', 'Transcodegroup', '808&1078&bus', 67056, '', 61, 'K3&MDVR配套使用', 'k3u;k8vu;stu;zip', 2, 1, NULL, '2020-12-17 07:25:54', '2021-01-11 09:17:47');
-INSERT INTO `basic_device_type` VALUES (121, 'DTY000125', 'TG_BUS', 'STM', '808&1078&bus&stm', 0, '', 71, '扩展协议，0x16,0x17,0x18是公交数据的设备,GPS站序错误忽略\n', 'sw;zip', 2, 0, NULL, '2020-12-24 11:36:04', '2021-02-25 02:00:06');
-INSERT INTO `basic_device_type` VALUES (122, 'DTY000126', 'TG-K3', 'Transcodegroup', '808&1078', 1520, '', 72, '刷卡，报站，文本下发', 'k3u;stu;zip', 2, 0, NULL, '2021-01-25 05:41:52', '2021-01-29 08:27:40');
-INSERT INTO `basic_device_type` VALUES (123, 'DTY000127', 'L12', 'L12', 'LTY', 0, '', NULL, 'lty的设备升级', 'sw', 101, 0, NULL, '2021-06-02 07:23:52', '2021-06-04 02:44:19');
+INSERT INTO `basic_device_type` VALUES (1, 'DTY000113', 'TG-MDVR', 'Transcodegroup', '808&1078', 3568, 'files/img/devtype/4be52d46ecf84d79b10de8f7c3e2b230.jpg', 41, '支持国标808/1078设备，通用类型', 'k3u;k8vu;stu;zip;k8u', 2, 0, NULL, '2019-08-23 07:43:12', '2025-01-07 06:13:33');
+INSERT INTO `basic_device_type` VALUES (2, 'DTY000117', 'TG-T8', 'Transcodegroup', '808-2011&808-2013&1078-2016&bus2016-sf', 3184, '', 31, '刷卡，报站，4CH视频', 'k8hu;k8vu;zip', 2, 1, NULL, '2019-08-23 07:43:12', '2025-01-16 03:25:27');
+INSERT INTO `basic_device_type` VALUES (3, 'DTY000118', 'TG-T3', 'Transcodegroup', '808&1078&bus2016-sf&1078-2016&808-2011', 3088, '', 30, '刷卡，报站', 'k3u;stu;zip', 2, 0, NULL, '2019-08-23 07:43:12', '2025-09-19 10:03:48');
+INSERT INTO `basic_device_type` VALUES (4, 'DTY000121', 'TG-SD', 'Transcodegroup', '808&1078', 3568, '', 100101, 'SD卡录像', 'MR9704C;CONFIG', 1, 0, NULL, '2019-08-23 07:43:12', '2023-07-18 08:07:45');
+INSERT INTO `basic_device_type` VALUES (5, 'DTY000122', 'TG-HD', 'Transcodegroup', '808&1078&bus2015', 3568, '', 100201, '硬盘录像', 'MR9704C;CONFIG', 1, 0, NULL, '2019-08-23 07:43:12', '2023-07-18 08:07:48');
+INSERT INTO `basic_device_type` VALUES (6, 'DTY000124', 'K3&MDVR', 'Transcodegroup', '808&1078&bus', 69104, '', 61, 'K3&MDVR配套使用', 'k3u;k8vu;stu;zip', 2, 1, NULL, '2020-12-17 07:25:54', '2023-07-18 08:07:32');
+INSERT INTO `basic_device_type` VALUES (7, 'DTY000125', 'TG_BUS', 'STM', '808&1078&bus&stm', 2048, '', 71, '扩展协议，0x16,0x17,0x18是公交数据的设备,GPS站序错误忽略\n', 'sw;zip;k8u', 2, 0, NULL, '2020-12-24 11:36:04', '2025-01-07 06:13:39');
+INSERT INTO `basic_device_type` VALUES (8, 'DTY000126', 'TG-K3', 'Transcodegroup', '808&1078&bus2016-sf', 3504, '', 72, '刷卡，报站，文本下发', 'k3u;stu;zip', 2, 0, NULL, '2021-01-25 05:41:52', '2025-09-19 09:44:55');
+INSERT INTO `basic_device_type` VALUES (9, 'DTY000127', 'L12', 'L12', 'LTY', 68720, '', NULL, 'lty的设备升级', 'sw', 101, 0, NULL, '2021-06-02 07:23:52', '2024-04-24 03:20:05');
+INSERT INTO `basic_device_type` VALUES (10, 'DTY000128', 'ITH-M525', 'Transcodegroup', 'safety-jiangsu-sbh&808-2011&1078-2016', 1535, '', 99, '支持国标808/1078设备，思博慧主动安全', 'xml;crc;stu;zip', 1, 0, NULL, '2019-08-23 07:43:12', '2023-01-10 10:41:33');
+INSERT INTO `basic_device_type` VALUES (11, 'DTY010001', 'K3-TALK&MDVR', '三锋智能', '808-2013&1078-2016&bus2016-sf&safety-jiangsu', 69104, '', 100, 'K3+通力设备，K3对讲， 必须包含关键字 （K3-TALK）', 'k3u;k8vu;stu;zip', 2, 1, '{}', '2024-01-11 06:04:13', '2024-01-11 06:16:53');
+INSERT INTO `basic_device_type` VALUES (12, 'DTY010002', 'L10', 'L10', 'lty', 68720, '', 100, NULL, NULL, 101, 0, '{}', '2024-04-24 03:19:45', '2024-04-24 03:19:54');
 
 -- ----------------------------
 -- Records of owner_role
