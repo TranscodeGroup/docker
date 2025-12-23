@@ -56,7 +56,7 @@ services:
     restart: always
     volumes:
       - ${DATA_DIR:-/data}/files:/data/files
-      - /usr/share/fonts:/usr/share/fonts
+      # - /usr/share/fonts:/usr/share/fonts
     # ports:
       # 内部端口, 不暴露
       # - 8899:8899
