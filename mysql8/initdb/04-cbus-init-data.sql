@@ -41,7 +41,7 @@ INSERT INTO `owner_role` VALUES (3, '100', 'RID000002', 'User', 0, NULL, 7, 1, 0
 -- ----------------------------
 -- Records of owner_user
 -- ----------------------------
-INSERT INTO `owner_user` VALUES (1, '100', 'UID000001', '', 'sysadmin', '21218CCA77804D2BA1922C33E0151105', '平台管理员', 100, 'static/images/user-boy.png', '', '', '平台管理员', NULL, NULL, 0, '2025-05-13 06:44:32', 0, '2025-05-13 11:56:07', NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2025-05-13 11:56:07');
+INSERT INTO `owner_user` VALUES (1, '100', 'UID000001', '', 'sysadmin', 'D137888A5DEF2881E23EA901FCB698A4', '平台管理员', 100, 'static/images/user-boy.png', '', '', '平台管理员', NULL, NULL, 0, '2025-05-13 06:44:32', 0, '2025-05-13 11:56:07', NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2025-05-13 11:56:07');
 INSERT INTO `owner_user` VALUES (2, '100', 'UID000002', '', 'lin', '21218CCA77804D2BA1922C33E0151105', '林工', 100, 'static/images/user-boy.png', '', 'lin557@126.com', '系统测试', NULL, NULL, 0, '2025-05-13 06:44:32', 0, NULL, NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2021-06-29 01:57:21');
 INSERT INTO `owner_user` VALUES (3, '100', 'UID000003', '', 'eason', '21218CCA77804D2BA1922C33E0151105', '聂工', 100, 'static/images/user-boy.png', '', '330811792@qq.com', '系统测试', NULL, NULL, 0, '2025-05-13 06:44:32', 0, NULL, NULL, 3, NULL, NULL, '2019-08-23 07:49:08', '2021-06-29 01:57:22');
 
