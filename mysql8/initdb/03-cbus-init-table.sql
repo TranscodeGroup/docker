@@ -4560,8 +4560,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_api_direction` AS s
 -- View structure for view_api_route
 -- ----------------------------
 DROP VIEW IF EXISTS `view_api_route`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_api_route` AS select `basic_route`.`id` AS `id`,`basic_route`.`company_id` AS `company_id`,`basic_route`.`route_code` AS `route_code`,`basic_route`.`route_id` AS `route_id`,`basic_route`.`route_name` AS `route_name`,`basic_route`.`category` AS `category`,`basic_route`.`create_time` AS `create_time`,`basic_route`.`update_time` AS `update_time` from `basic_route` where (`basic_route`.`is_deleted` = 0);
-
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_api_route` AS select `basic_route`.`id` AS `id`,`basic_route`.`company_id` AS `company_id`,`basic_route`.`route_code` AS `route_code`,`basic_route`.`route_id` AS `route_id`,`basic_route`.`route_name` AS `route_name`,`basic_route`.`category` AS `category`,`basic_route`.`fleet_id` AS `fleet_id`,`basic_fleet`.`fleet_name` AS `fleet_name`,`basic_route`.`create_time` AS `create_time`,`basic_route`.`update_time` AS `update_time` from (`basic_route` left join `basic_fleet` on(((`basic_route`.`company_id` = `basic_fleet`.`company_id`) and (`basic_route`.`fleet_id` = `basic_fleet`.`fleet_id`)))) where (`basic_route`.`is_deleted` = 0);
 -- ----------------------------
 -- View structure for view_api_station
 -- ----------------------------
