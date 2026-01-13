@@ -61,6 +61,8 @@ server {
 
     location /minio/ {
         proxy_pass   http://${MINIO_HOST}:${MINIO_PORT}/;
+
+        add_header Content-Disposition $content_disposition_download; 
     }
 
     location /jtt808/ {
