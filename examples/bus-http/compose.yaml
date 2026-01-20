@@ -1,4 +1,4 @@
-# Bus单机部署, 使用http
+# Bus standalone deployment, using http
 include:
   - ../docker/mysql8/compose.yml
   - ../docker/mysql-backup/compose.cbus.yml
