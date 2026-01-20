@@ -30,7 +30,7 @@ Create `/home/docker-compose/compose.yaml` file, refer to the following examples
 
 ### 3. Configure `.env`
 
-Create `/home/docker-compose/.env` file, refer to [.env.default](./.env.default) to override configuration items that need to be changed.
+Create `/home/docker-compose/.env` file, refer to [default.env](./default.env) to override configuration items that need to be changed.
 
 Execute the following command in `/home/docker-compose` to verify if all required values used are set:
 
