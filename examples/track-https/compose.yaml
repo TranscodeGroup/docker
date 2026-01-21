@@ -1,6 +1,6 @@
-## V2单机部署方案
-# 1. 修改.env文件. 初始化各种密码
-# 2. docker compose up -d启动服务
+## V2 standalone deployment solution
+# 1. Modify .env file, initialize various passwords
+# 2. docker compose up -d to start services
 include:
   - ../docker/mysql8/compose.yml
   - ../docker/redis/compose.yml

@@ -1,10 +1,10 @@
 # docker
 
-docker配置文件仓库
+Docker configuration files repository
 
-## 部署
+## Deployment
 
-### 1. 初始化
+### 1. Initialization
 
 ```sh
 mkdir -p /home/docker-compose
@@ -12,91 +12,92 @@ mkdir /data
 git clone https://github.com/TranscodeGroup/docker.git /home/docker
 ```
 
-### 2. 配置`compse.yaml`
+### 2. Configure `compose.yaml`
 
-创建`/home/docker-compose/compose.yaml`文件, 参考如下示例:
+Create `/home/docker-compose/compose.yaml` file, refer to the following examples:
 
-**单机单独部署**:
+**Standalone Deployment**:
 
-- [bus-http](./examples/bus-http/compose.yaml): Bus http单机部署
-- [bus-https](./examples/bus-https/compose.yaml): Bus https单机部署
-- [track-http](./examples/track-http/compose.yaml): Tracker V2 http单机部署
-- [track-https](./examples/track-https/compose.yaml): Tracker V2 https单机部署
+- [bus-http](./examples/bus-http/compose.yaml): Bus HTTP standalone deployment
+- [bus-https](./examples/bus-https/compose.yaml): Bus HTTPS standalone deployment
+- [track-http](./examples/track-http/compose.yaml): Tracker V2 HTTP standalone deployment
+- [track-https](./examples/track-https/compose.yaml): Tracker V2 HTTPS standalone deployment
 
-**分布式部署**:
+**Distributed Deployment**:
 
-- [video-storage](./examples/video-storage/compose.yaml): RTP存储
-- [video-stream](./examples/video-stream/compose.yaml): RTP视频
+- [video-storage](./examples/video-storage/compose.yaml): RTP storage
+- [video-stream](./examples/video-stream/compose.yaml): RTP video
 
-### 3. 配置`.env`
+### 3. Configure `.env`
 
-创建`/home/docker-compose/.env`文件, 参考[.env.default](./.env.default)复写需要改写的配置项.
+Create `/home/docker-compose/.env` file, refer to [.env.default](./.env.default) to override configuration items as needed.
 
-在`/home/docker-compose`中执行如下命令, 校验所有使用到的必填的值, 是否已经设置:
+Execute the following command in `/home/docker-compose` to verify all required values have been set:
 
 ```sh
 docker compose config
 ```
 
-校验通过之后, 执行如下命令, 将compose配置导出成一个文件, 方便在更新compose文件后对比差异:
+After validation passes, execute the following command to export the compose configuration to a file, making it easier to compare differences after updating compose files:
 
 ```sh
 docker compose config > compose-stack.yaml
 ```
 
-### 4. 配置前端
+### 4. Configure Frontend
 
-前端复写目录, 用来放`_app.config.js`等项目特定的前端配置文件:
+Frontend override directories, used to place project-specific frontend configuration files such as `_app.config.js`:
 
-- `/home/docker-compose/bus-override`: bus前端复写目录
-- `/home/docker-compose/track-override`: track前端复写目录
+- `/home/docker-compose/bus-override`: Bus frontend override directory
+- `/home/docker-compose/track-override`: Track frontend override directory
 
-**注意**: 修改完配置后, 需要执行`docker compose up`, 文件才会被覆盖到`/data/nginx/html/`里面去. 因为是使用的覆盖的方式, 因此不建议直接修改`/data/nginx/html/`里面的文件.
+**Note**: After modifying configurations, you need to execute `docker compose up` for the files to be copied to `/data/nginx/html/`. Since files are overwritten, it is not recommended to directly modify files in `/data/nginx/html/`.
 
-### 5. 其他可选配置
+### 5. Other Optional Configurations
 
-- [jtt808视频转换工具](./jtt808/README.md)
-- [手动下载前端](./scripts/README.md)
+- [jtt808 Video Conversion Tool](./jtt808/README.md)
+- [Manual Frontend Download](./scripts/README.md)
 
-### 6. 启动
+### 6. Start
 
-在`/home/docker-compose`中执行如下命令, 启动docker:
+Execute the following command in `/home/docker-compose` to start docker:
 
 ```sh
 docker compose up
 ```
 
-### 7. 使用git管理docker-compose目录
+### 7. Use git to Manage docker-compose Directory
 
-在`/home/docker-compose`中执行如下命令
+Execute the following commands in `/home/docker-compose`:
 
 ```sh
-# 切换到目录下面
-cd /home/docker-compose 
+# Change to the directory
+cd /home/docker-compose
 
-# 每次修改配置之后, 记得备份一下配置, 方便对比实际影响差异
+# After each configuration change, remember to backup the configuration for easy comparison of actual differences
 docker compose config > compose-stack.yaml
 
-# 配置GIT账号
+# Configure GIT account
 git config --global user.name "tg"
 git config --global user.email tg@gmail.com
 
-# 初始化GIT
+# Initialize GIT
 git init
-# 加入暂存区
+# Add to staging area
 git add -A
-# 提交本地仓库
-git commit -m "Initial commit(初始化仓库)"
+# Commit to local repository
+git commit -m "Initial commit"
 ```
 
-## 注意事项
+## Important Notes
 
-### 版本管理, 版本迭代同时, 记得同步mysql下面的脚本
+### Version Management
+When updating versions, remember to synchronize the scripts under mysql:
 
 ```sh
-# bus前端
+# Bus frontend
 BUS_WEB_VERSION=xxx
-# bus的后端
+# Bus backend
 BUS_GATEWAY_VERSION=xxx
 #...
 ```

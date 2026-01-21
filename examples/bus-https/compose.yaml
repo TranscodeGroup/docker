@@ -1,5 +1,5 @@
-# Bus单机部署, 使用https
-# 密码/端口/域名等信息在.env文件中配置
+# Bus standalone deployment, using https
+# Passwords/ports/domain names etc. are configured in .env file
 include:
   - ../docker/mysql8/compose.yml
   - ../docker/mysql-backup/compose.cbus.yml

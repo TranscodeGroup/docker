@@ -1,11 +1,11 @@
-# Bus单机部署, 使用http
+# Bus standalone deployment, using http
 include:
   - ../docker/mysql8/compose.yml
   - ../docker/mysql-backup/compose.cbus.yml
   - ../docker/rabbitmq/compose.yml
   - ../docker/redis/compose.yml
   - ../docker/bus/compose.yml
-  - path:  
+  - path:
     - ../docker/video/compose.yml
     - ../docker/video/compose.bus.yml
     - ../docker/video/compose.bus.http.yml
