@@ -200,4 +200,27 @@ INSERT INTO `system_dictionary` VALUES (47, '47', '轨迹完整率低', '轨迹�
 INSERT INTO `system_dictionary` VALUES (48, '48', '漂移', '漂移', 'drift', 'GPS กระโดด', 'drift', 'Deriva', 'Deriva', 'Fault-Type', NULL, NULL, 0, 0, '2022-05-09 03:27:18', '2025-10-09 04:31:10');
 INSERT INTO `system_dictionary` VALUES (49, '49', '不读司机卡', '不读司机卡', 'Does not read driver card', 'เครื่องรูดบัตร', 'Tidak membaca kartu pengemudi', 'No lee la tarjeta del conductor', 'Não lê o cartão do motorista', 'Fault-Type', NULL, NULL, 0, 0, '2022-05-09 03:27:18', '2025-10-09 04:31:10');
 
+
+-- ----------------------------
+-- Records of device_category
+-- ----------------------------
+
+INSERT INTO `maintain`.`device_category` VALUES (1, '1d3b089c74ca496b8c17cfa77e13a65a', '视频终端', '视频终端', 'MDVR', 'MDVR', 'MDVR', 'MDVR', 'MDVR', '', 200, 0, '2026-01-21 07:14:15', '2026-01-21 07:14:15');
+INSERT INTO `maintain`.`device_category` VALUES (2, 'ed4d3d9b5eda4dfe9a6cdb1327ec1690', 'GPS Tracker', 'GPS Tracker', 'GPS Tracker', 'GPS Tracker', 'GPS Tracker', 'GPS Tracker', 'GPS Tracker', '', 100, 0, '2026-01-21 07:58:47', '2026-01-21 07:58:47');
+
+-- ----------------------------
+-- Records of device_manufacturer
+-- ----------------------------
+
+INSERT INTO `maintain`.`device_manufacturer` VALUES (1, '43a610ca929d45dea574b1122e313e2b', 'TGC', '100010001', NULL, 0, '2026-01-21 07:13:43', '2026-01-21 07:13:43');
+
+-- ----------------------------
+-- Records of device_product
+-- ----------------------------
+
+INSERT INTO `maintain`.`device_product` VALUES (1, '7de049b26def4364a9f3dc3bc60cf029', 'TCG-MDVR', 'TCG-MDVR', '1d3b089c74ca496b8c17cfa77e13a65a', '[\"808-2011\",\"808-2013\",\"808-2016\",\"808-2019\",\"1078-2016\",\"safety-jiangsu\",\"tl\"]', '', 2, 4095, '43a610ca929d45dea574b1122e313e2b', 'TGC', NULL, '', 0, NULL, NULL, 0, '', '[\"TCG-MDVR\"]', 0, '2026-01-21 07:15:23', '2026-01-21 07:16:39');
+INSERT INTO `maintain`.`device_product` VALUES (2, 'bf56842a3d80445c96d705e91320a92a', 'GPS Tracker', 'GPS Tracker', 'ed4d3d9b5eda4dfe9a6cdb1327ec1690', '[\"808-2011\",\"808-2013\",\"808-2019\",\"tg\"]', '', 0, 288, '43a610ca929d45dea574b1122e313e2b', 'TGC', NULL, '', 0, NULL, NULL, 0, '', NULL, 0, '2026-01-21 08:02:53', '2026-01-21 08:02:53');
+
+
+
 SET FOREIGN_KEY_CHECKS = 1;
