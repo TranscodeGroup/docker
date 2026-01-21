@@ -3,6 +3,7 @@
 # 2. docker compose up -d启动服务
 include:
   - ../docker/mysql8/compose.yml
+  - ../docker/mysql-backup/compose.maintain.yml
   - ../docker/redis/compose.yml
   - ../docker/mongodb/compose.yml
   - ../docker/rabbitmq/compose.yml

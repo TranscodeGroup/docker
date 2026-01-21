@@ -3135,10 +3135,10 @@ CREATE TABLE `schedule_complaint`  (
   `company_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '企业ID',
   `complaint_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '投诉ID',
   `complaint_status` tinyint NOT NULL DEFAULT 0 COMMENT '工单状态: 0=录入工单, 10=处理中, 20=处理完成, 100=归档',
-  `complain_type` int NULL DEFAULT NULL COMMENT '投诉类型: 1=驾驶员行为, 2=调度/运营问题, 3=计费/结算问题, 10=其他',
+  `complaint_type` int NULL DEFAULT NULL COMMENT '投诉类型: 1=驾驶员行为, 2=调度/运营问题, 3=计费/结算问题, 10=其他',
   `urgency_level` tinyint NULL DEFAULT NULL COMMENT '紧急程度: 1=低, 2=中, 3=高, 4=紧急',
-  `complain_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '投诉标题',
-  `complain_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '投诉内容',
+  `complaint_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '投诉标题',
+  `complaint_content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '投诉内容',
   `attachments` json NULL COMMENT '投诉图片列表(JSON数组)',
   `complainant_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '投诉人姓名',
   `complainant_phone` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '投诉人联系方式',
@@ -3152,6 +3152,25 @@ CREATE TABLE `schedule_complaint`  (
   INDEX `idx_company_id`(`company_id` ASC) USING BTREE,
   INDEX `idx_complaint_no`(`complaint_no` ASC) USING BTREE,
   INDEX `idx_complaint_status`(`complaint_status` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '公交投诉数据表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for schedule_complaint_progress
+-- ----------------------------
+DROP TABLE IF EXISTS `schedule_complaint_progress`;
+CREATE TABLE `schedule_complaint_progress`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+  `company_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '企业ID',
+  `complaint_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '投诉ID',
+  `progress_content` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '进度内容',
+  `attachments` json NULL COMMENT '投诉图片列表(JSON数组)',
+  `create_user_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '创建人ID',
+  `create_user_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建人姓名',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_company_id`(`company_id` ASC) USING BTREE,
+  INDEX `idx_complaint_no`(`complaint_no` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '公交投诉数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -3580,6 +3599,7 @@ CREATE TABLE `schedule_three_check`  (
   `car_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '车辆id',
   `car_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '车辆自编码',
   `weather` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '天气',
+  `route_id` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NULL DEFAULT NULL COMMENT '线路id',
   `route_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '线路名称',
   `drive_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '驾驶员',
   `check_type` int NULL DEFAULT NULL COMMENT '1出车前 2行驶中 3收车后',
@@ -4540,8 +4560,7 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_api_direction` AS s
 -- View structure for view_api_route
 -- ----------------------------
 DROP VIEW IF EXISTS `view_api_route`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_api_route` AS select `basic_route`.`id` AS `id`,`basic_route`.`company_id` AS `company_id`,`basic_route`.`route_code` AS `route_code`,`basic_route`.`route_id` AS `route_id`,`basic_route`.`route_name` AS `route_name`,`basic_route`.`category` AS `category`,`basic_route`.`create_time` AS `create_time`,`basic_route`.`update_time` AS `update_time` from `basic_route` where (`basic_route`.`is_deleted` = 0);
-
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_api_route` AS select `basic_route`.`id` AS `id`,`basic_route`.`company_id` AS `company_id`,`basic_route`.`route_code` AS `route_code`,`basic_route`.`route_id` AS `route_id`,`basic_route`.`route_name` AS `route_name`,`basic_route`.`category` AS `category`,`basic_route`.`fleet_id` AS `fleet_id`,`basic_fleet`.`fleet_name` AS `fleet_name`,`basic_route`.`create_time` AS `create_time`,`basic_route`.`update_time` AS `update_time` from (`basic_route` left join `basic_fleet` on(((`basic_route`.`company_id` = `basic_fleet`.`company_id`) and (`basic_route`.`fleet_id` = `basic_fleet`.`fleet_id`)))) where (`basic_route`.`is_deleted` = 0);
 -- ----------------------------
 -- View structure for view_api_station
 -- ----------------------------
