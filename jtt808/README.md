@@ -23,7 +23,7 @@ mkdir -p /home/docker-compose/opt/ifv2mp4
 # Enter directory
 cd /home/docker-compose/opt/ifv2mp4
 # Download installer
-wget https://github.com/TranscodeGroup/docker/releases/download/v1.0.2/tlgrectomp4_linux1.0.0.2.tar.gz
+wget https://github.com/TranscodeGroup/docker/releases/download/v1.0.4/tlgrectomp4_linux1.0.0.4.tar.gz
 # Decompress
 tar -xzvf tlgrectomp4_linux1.0.0.2.tar.gz
 # Add path
