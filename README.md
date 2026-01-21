@@ -1,3 +1,5 @@
+<div align="center"> <a href="./README.en.md">English</a> | 简体中文 </div>
+
 # docker
 
 docker配置文件仓库
@@ -30,7 +32,7 @@ git clone https://github.com/TranscodeGroup/docker.git /home/docker
 
 ### 3. 配置`.env`
 
-创建`/home/docker-compose/.env`文件, 参考[.env.default](./.env.default)复写需要改写的配置项.
+创建`/home/docker-compose/.env`文件, 参考[default.env](./default.env)复写需要改写的配置项.
 
 在`/home/docker-compose`中执行如下命令, 校验所有使用到的必填的值, 是否已经设置:
 
