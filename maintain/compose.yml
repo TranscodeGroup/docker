@@ -42,6 +42,8 @@ services:
 
       # 网关指令
       - spring_my_gateway_jtt808_url=http://${JTT808_HOST:-jtt808}:${JTT808_PORT_HTTP:-9012}
+      # 让Spring识别nginx添加的X-Forwarded-*头, 参考: https://docs.spring.io/spring-boot/how-to/webserver.html#howto.webserver.use-behind-a-proxy-server
+      - SERVER_FORWARD_HEADERS_STRATEGY=native
 
       # 短信服务
       # - tencent_sms_secret_id=AKID74lBKCoAF2YomUv60e06vTkkSt3wYtxk
@@ -56,7 +58,7 @@ services:
       - spring_my_push_group_secret=63b4ff15d550ba1675b1dceb
 
       # 跨域 逗号分割
-      - spring_my_cors_origin-patterns=https://*.tgtrack.com,https://*.tripsdd.com,https://tripsdd.com
+      - spring_my_cors_origin-patterns=*://${TRACK_HOSTNAME}:[*],*://${SERVER_IP_PUBLIC}:[*]
 
       # Mail-预设了bus的邮箱
       - spring_mail_host=${MAIL_HOST:-smtp.transcodegroup.com}
