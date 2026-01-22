@@ -4,6 +4,12 @@
 
 docker配置文件仓库
 
+## 一键部署(实验性功能)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/TranscodeGroup/docker/master/download-and-install.sh | sudo bash
+```
+
 ## 部署
 
 ### 1. 初始化

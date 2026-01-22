@@ -4,6 +4,12 @@
 
 docker configuration repository
 
+## One-click deployment (beta)
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/TranscodeGroup/docker/master/download-and-install.sh | sudo bash
+```
+
 ## Deployment
 
 ### 1. Initialization

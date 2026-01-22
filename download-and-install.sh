@@ -3,7 +3,9 @@
 # ==========================================
 # TranscodeGroup One-Click Installer
 # Downloads repo, installs deps, runs setup
-# Usage: curl -fsSL https://raw.githubusercontent.com/.../download-and-install.sh | bash
+# Usage: 
+# curl -fsSL https://raw.githubusercontent.com/.../download-and-install.sh | bash
+# curl -fsSL https://raw.githubusercontent.com/TranscodeGroup/docker/perf/deploy/nxr/download-and-install.sh | sudo BRANCH=perf/deploy/nxr bash
 # ==========================================
 
 set -e
