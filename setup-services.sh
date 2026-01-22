@@ -15,6 +15,7 @@ NC='\033[0m' # No Color
 # Configuration
 REPO_DIR="/home/docker"
 DEFAULT_TARGET_BASE="/home/docker-compose"
+GLOBAL_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 echo -e "${BLUE}=================================================${NC}"
 echo -e "${BLUE}       Docker Compose One-Click Deployment       ${NC}"
@@ -48,6 +49,7 @@ done
 echo -e "${GREEN}Selected: $SELECTED_EXAMPLE${NC}"
 
 # 2. Prepare Target Directory
+echo -e "${GREEN}Hint: Press Enter to accept the [default] value.${NC}"
 read -p "Enter installation directory [${DEFAULT_TARGET_BASE}]: " TARGET_BASE
 TARGET_BASE=${TARGET_BASE:-$DEFAULT_TARGET_BASE}
 TARGET_DIR="$TARGET_BASE"
@@ -56,10 +58,23 @@ echo -e "${BLUE}Installing to $TARGET_DIR...${NC}"
 
 if [ -d "$TARGET_DIR" ]; then
     echo -e "${YELLOW}Directory $TARGET_DIR already exists.${NC}"
-    read -p "Overwrite contents? (y/N) " confirm
+    read -p "Backup and overwrite? (y/N) " confirm
     if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
         echo "Aborting."
         exit 0
+    fi
+
+    # Check if directory is not empty before backing up
+    if [ "$(ls -A $TARGET_DIR)" ]; then
+        BACKUP_DIR="${TARGET_DIR}_backup_${GLOBAL_TIMESTAMP}"
+        
+        echo -e "${YELLOW}Backing up existing directory to: $BACKUP_DIR${NC}"
+        mv "$TARGET_DIR" "$BACKUP_DIR"
+        
+        if [ $? -ne 0 ]; then
+            echo -e "${RED}Failed to backup directory. Aborting.${NC}"
+            exit 1
+        fi
     fi
 fi
 
@@ -102,8 +117,24 @@ else
         grep "^$1=" "$TARGET_ENV" | head -n 1 | sed 's/[[:space:]]*#.*//' | cut -d'=' -f2- | tr -d "'\"[:space:]"
     }
 
+    # --- 4.0.1 Auto-fix SSL Path for HTTP-only scenarios ---
+    # If not using HTTPS, we must ensure SSL_CERTIFICATE points to a valid file 
+    # (the default placeholder) to prevent Docker Compose 'secret not found' errors.
+    if [[ "$SELECTED_EXAMPLE" != *"https"* && "$SELECTED_EXAMPLE" != *"ssl"* ]]; then
+        DEFAULT_CERT_PATH="$REPO_DIR/nginx/ssl/placeholder"
+        CURRENT_SSL=$(get_env_val "SSL_CERTIFICATE")
+        
+        # If variable is empty OR the file it points to doesn't exist
+        if [[ -z "$CURRENT_SSL" ]] || [[ ! -f "${CURRENT_SSL}.crt" ]]; then
+             if [[ -f "${DEFAULT_CERT_PATH}.crt" ]]; then
+                 echo -e "${YELLOW}HTTP mode detected: Forcing SSL_CERTIFICATE to default placeholder to ensure container startup.${NC}"
+                 set_env_val "SSL_CERTIFICATE" "$DEFAULT_CERT_PATH" "Auto-set for HTTP mode"
+             fi
+        fi
+    fi
+
     # --- 4.1 Configure IP/Hostname (Always prompt) ---
-    echo -e "${BLUE}Server Information Configuration${NC}"
+    echo -e "${BLUE}Server Information Configuration (Press Enter for default)${NC}"
 
     # Ignore template values from .env, force auto-detect
     CURRENT_IP="" 
@@ -168,8 +199,8 @@ else
                 SHOULD_GENERATE_PASS="n"
                 ;;
             2)
-                TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-                BACKUP_DIR="${CHECK_DIR}_backup_${TIMESTAMP}"
+                # Use the SAME timestamp as the project dir backup for consistency
+                BACKUP_DIR="${CHECK_DIR}_backup_${GLOBAL_TIMESTAMP}"
                 echo -e "${YELLOW}Renaming $CHECK_DIR to $BACKUP_DIR...${NC}"
                 mv "$CHECK_DIR" "$BACKUP_DIR"
                 if [ $? -eq 0 ]; then
@@ -230,9 +261,23 @@ fi
 
 echo -e "${GREEN}Deployment setup complete!${NC}"
 echo -e "Configuration file: ${YELLOW}$TARGET_ENV${NC}"
-echo -e "To start services:"
-echo -e "${BLUE}cd $TARGET_DIR${NC}"
-echo -e "${BLUE}docker compose up -d${NC}"
+
+# --- SSL Certificate Checklist ---
+SSL_CERT_VAL=$(get_env_val "SSL_CERTIFICATE")
+# Only show checklist if SSL var is set AND the selected example implies HTTPS usage
+if [[ -n "$SSL_CERT_VAL" ]] && [[ "$SELECTED_EXAMPLE" == *"https"* || "$SELECTED_EXAMPLE" == *"ssl"* ]]; then
+    echo -e "\n${YELLOW}=================================================${NC}"
+    echo -e "${YELLOW}           SSL CERTIFICATE CHECKLIST             ${NC}"
+    echo -e "${YELLOW}=================================================${NC}"
+    echo -e "The current configuration is using:"
+    echo -e "CRT: ${BLUE}${SSL_CERT_VAL}.crt${NC}"
+    echo -e "KEY: ${BLUE}${SSL_CERT_VAL}.key${NC}"
+    echo -e ""
+    echo -e "${YELLOW}ACTION REQUIRED (For Production):${NC}"
+    echo -e "1. Replace placeholders with valid certificates."
+    echo -e "2. Restart Nginx after replacement."
+    echo -e "${YELLOW}=================================================${NC}"
+fi
 
 if [ -n "$INPUT_IP" ]; then
     echo -e "\n${GREEN}Service Access URLs:${NC}"
@@ -243,20 +288,7 @@ if [ -n "$INPUT_IP" ]; then
     fi
 fi
 
-# --- Post-Deployment Checklist for Ops ---
-SSL_CERT_VAL=$(get_env_val "SSL_CERTIFICATE")
-if [ -n "$SSL_CERT_VAL" ]; then
-    echo -e "\n${YELLOW}=================================================${NC}"
-    echo -e "${YELLOW}           SSL CERTIFICATE CHECKLIST             ${NC}"
-    echo -e "${YELLOW}=================================================${NC}"
-    echo -e "The current configuration is using:"
-    echo -e "CRT: ${BLUE}${SSL_CERT_VAL}.crt${NC}"
-    echo -e "KEY: ${BLUE}${SSL_CERT_VAL}.key${NC}"
-    echo -e ""
-    echo -e "${YELLOW}ACTION REQUIRED:${NC}"
-    echo -e "1. If these are placeholder/expired certificates, please replace"
-    echo -e "   them with your valid production certificates."
-    echo -e "2. After replacement, restart Nginx service:"
-    echo -e "   ${BLUE}docker compose restart nginx${NC}"
-    echo -e "${YELLOW}=================================================${NC}"
-fi
+echo -e "\nTo start services:"
+echo -e "${BLUE}cd $TARGET_DIR${NC}"
+echo -e "${BLUE}docker compose up -d${NC}"
+echo -e "${BLUE}docker compose restart nginx${NC} (If SSL certs updated)"
