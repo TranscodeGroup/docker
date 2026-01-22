@@ -125,15 +125,18 @@ else
     # If not using HTTPS, we must ensure SSL_CERTIFICATE points to a valid file 
     # (the default placeholder) to prevent Docker Compose 'secret not found' errors.
     if [[ "$SELECTED_EXAMPLE" != *"https"* && "$SELECTED_EXAMPLE" != *"ssl"* ]]; then
-        DEFAULT_CERT_PATH="$REPO_DIR/nginx/ssl/placeholder"
-        CURRENT_SSL=$(get_env_val "SSL_CERTIFICATE")
-        
-        # If variable is empty OR the file it points to doesn't exist
-        if [[ -z "$CURRENT_SSL" ]] || [[ ! -f "${CURRENT_SSL}.crt" ]]; then
-             if [[ -f "${DEFAULT_CERT_PATH}.crt" ]]; then
-                 echo -e "${YELLOW}HTTP mode detected: Forcing SSL_CERTIFICATE to default placeholder to ensure container startup.${NC}"
-                 set_env_val "SSL_CERTIFICATE" "$DEFAULT_CERT_PATH" "Auto-set for HTTP mode"
-             fi
+        # Only proceed if SSL_CERTIFICATE is actually defined in the template .env
+        if grep -q "^SSL_CERTIFICATE=" "$TARGET_ENV"; then
+            DEFAULT_CERT_PATH="$REPO_DIR/nginx/ssl/placeholder"
+            CURRENT_SSL=$(get_env_val "SSL_CERTIFICATE")
+            
+            # If variable is empty OR the file it points to doesn't exist
+            if [[ -z "$CURRENT_SSL" ]] || [[ ! -f "${CURRENT_SSL}.crt" ]]; then
+                 if [[ -f "${DEFAULT_CERT_PATH}.crt" ]]; then
+                     echo -e "${YELLOW}HTTP mode detected: Forcing SSL_CERTIFICATE to default placeholder to ensure container startup.${NC}"
+                     set_env_val "SSL_CERTIFICATE" "$DEFAULT_CERT_PATH" "Auto-set for HTTP mode"
+                 fi
+            fi
         fi
     fi
 
