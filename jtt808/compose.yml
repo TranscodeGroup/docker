@@ -38,7 +38,7 @@ services:
       # 终端注册服务
       - gateway_device-register-url=${WEB_BASE_URL:-http://${MAINTAIN_HOST}:${MAINTAIN_PORT}}
       # 网关Http服务
-      - gateway_http_url=https://${TRACK_HOSTNAME}:${JTT808_PORT_HTTP}}/jtt808
+      - gateway_http_url=https://${TRACK_HOSTNAME}:${WEB_PORT_HTTPS}}/jtt808
 
       # MongoDB
       - spring_data_mongodb_host=${MONGODB_HOST:-mongodb}
