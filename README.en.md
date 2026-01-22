@@ -90,15 +90,3 @@ git add -A
 # Commit local warehouse
 git commit -m "Initial commit"
 ```
-
-## Precautions
-
-### Version management, while iterating the version, remember to synchronize the scripts under mysql
-
-```sh
-# bus frontend
-BUS_WEB_VERSION=xxx
-# bus backend
-BUS_GATEWAY_VERSION=xxx
-#...
-```

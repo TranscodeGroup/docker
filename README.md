@@ -90,15 +90,3 @@ git add -A
 # 提交本地仓库
 git commit -m "Initial commit(初始化仓库)"
 ```
-
-## 注意事项
-
-### 版本管理, 版本迭代同时, 记得同步mysql下面的脚本
-
-```sh
-# bus前端
-BUS_WEB_VERSION=xxx
-# bus的后端
-BUS_GATEWAY_VERSION=xxx
-#...
-```
