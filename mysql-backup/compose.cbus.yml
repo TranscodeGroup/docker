@@ -1,6 +1,8 @@
 services:
   mysql-cron-backup-cbus:
     image: fradelg/mysql-cron-backup
+    depends_on:
+      - mysql8
     volumes:
       - "${DATA_DIR:-/data}/mysql8/backup:/backup"
       - /etc/localtime:/etc/localtime:ro
