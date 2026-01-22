@@ -83,13 +83,17 @@ else
     set_env_val() {
         local key="$1"
         local val="$2"
-        # Escape slashes for sed
-        local escaped_val=$(echo "$val" | sed 's/[\/&]/\\&/g')
+        local comment="$3"
+        
+        local line="$key='$val'"
+        [ -n "$comment" ] && line="$line # $comment"
         
         if grep -q "^$key=" "$TARGET_ENV"; then
-            sed -i "s|^$key=.*|$key='$val'|" "$TARGET_ENV"
+            # Escape | for sed delimiter
+            local escaped_line=$(echo "$line" | sed 's/|/\\|/g')
+            sed -i "s|^$key=.*|$escaped_line|" "$TARGET_ENV"
         else
-            echo "$key='$val'" >> "$TARGET_ENV"
+            echo "$line" >> "$TARGET_ENV"
         fi
     }
 
@@ -101,32 +105,36 @@ else
     # --- 4.1 Configure IP/Hostname (Always prompt) ---
     echo -e "${BLUE}Server Information Configuration${NC}"
 
-    # Get current IP from .env
-    CURRENT_IP=$(get_env_val "SERVER_IP_PUBLIC")
+    # Ignore template values from .env, force auto-detect
+    CURRENT_IP="" 
     
     # Auto-detect IP
     DETECTED_IP=$(curl -s --max-time 3 ifconfig.me || echo "")
     
-    # Logic: If CURRENT_IP is empty or equals the known placeholder example, force use of DETECTED_IP
-    if [[ -z "$CURRENT_IP" || "$CURRENT_IP" == "200.155.137.26" ]]; then
-        IP_DEFAULT="$DETECTED_IP"
-    else
-        IP_DEFAULT="$CURRENT_IP"
-    fi
+    # Always suggest the detected IP (or empty if detection failed)
+    IP_DEFAULT="$DETECTED_IP"
     
     read -p "Enter Server Public IP [${IP_DEFAULT}]: " INPUT_IP
     INPUT_IP=${INPUT_IP:-$IP_DEFAULT}
-    set_env_val "SERVER_IP_PUBLIC" "$INPUT_IP"
-
-    # Get current Hostname from .env
-    CURRENT_HOST=$(get_env_val "SERVER_HOSTNAME")
     
-    # Logic: If empty, default to the IP address entered above 
+    COMMENT_IP="User-defined"
+    [ "$INPUT_IP" == "$DETECTED_IP" ] && COMMENT_IP="Auto-detected"
+    
+    set_env_val "SERVER_IP_PUBLIC" "$INPUT_IP" "$COMMENT_IP"
+
+    # Ignore template values from .env
+    CURRENT_HOST=""
+    
+    # Logic: Default to the IP address entered above 
     HOST_DEFAULT=${CURRENT_HOST:-$INPUT_IP}
     
-    read -p "Enter Server Hostname (Domain) [${HOST_DEFAULT}]: " INPUT_HOST
+    read -p "Enter Server Hostname (e.g., google.com) [${HOST_DEFAULT}]: " INPUT_HOST
     INPUT_HOST=${INPUT_HOST:-$HOST_DEFAULT}
-    set_env_val "SERVER_HOSTNAME" "$INPUT_HOST"
+    
+    COMMENT_HOST="User-defined"
+    [ "$INPUT_HOST" == "$INPUT_IP" ] && COMMENT_HOST="Default (Same as IP)"
+    
+    set_env_val "SERVER_HOSTNAME" "$INPUT_HOST" "$COMMENT_HOST"
 
     # --- 4.2 Generate Random Passwords ---
     generate_password() {
@@ -190,7 +198,7 @@ else
             # Check if variable exists in the file
             if grep -q "^$var=" "$TARGET_ENV"; then
                 NEW_PASS=$(generate_password)
-                set_env_val "$var" "$NEW_PASS"
+                set_env_val "$var" "$NEW_PASS" "Auto-generated random password"
                 echo "Updated $var with new random password."
             fi
         done
@@ -211,7 +219,7 @@ else
                      # Remove extension for the config
                      BASE_PATH="${CRT_FILE%.*}"
                      # Use absolute path
-                     set_env_val "SSL_CERTIFICATE" "$BASE_PATH"
+                     set_env_val "SSL_CERTIFICATE" "$BASE_PATH" "Auto-detected from ./ssl directory"
                      echo "SSL_CERTIFICATE updated to: $BASE_PATH"
                 fi
             fi
