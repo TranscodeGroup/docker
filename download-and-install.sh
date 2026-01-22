@@ -49,8 +49,20 @@ if [ -d "$INSTALL_DIR" ]; then
     if [ -d "$INSTALL_DIR/.git" ]; then
         echo -e "${BLUE}Updating existing repository at $INSTALL_DIR...${NC}"
         cd "$INSTALL_DIR"
+        
+        # Auto-detect branch if user didn't specify one
+        if [ "$BRANCH" == "master" ]; then
+            DETECTED_LOCAL_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "master")
+            if [ "$DETECTED_LOCAL_BRANCH" != "HEAD" ]; then
+                BRANCH=$DETECTED_LOCAL_BRANCH
+                echo -e "${BLUE}Auto-detected current branch: $BRANCH${NC}"
+            fi
+        fi
+
         git fetch origin
         git reset --hard "origin/$BRANCH"
+        git clean -fd
+        echo -e "${GREEN}Successfully reset to origin/$BRANCH and cleaned worktree.${NC}"
     else
         # Directory exists but is NOT a git repo (e.g. manual mkdir or unzip)
         if [ "$(ls -A $INSTALL_DIR)" ]; then
