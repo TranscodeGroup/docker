@@ -7,7 +7,9 @@ include:
   - ../docker/rabbitmq/compose.yml
   - ../docker/minio/compose.yml
   - ../docker/maintain/compose.yml
-  - ../docker/jtt808/compose.yml
+  - path:
+    - ../docker/jtt808/compose.yml
+    - ../docker/jtt808/compose.http.yml
   - path:
     - ../docker/video/compose.yml
     - ../docker/video/compose.storage.yml

@@ -1,0 +1,5 @@
+services:
+  jtt808:
+    environment:
+      # 网关Http服务
+      - gateway_http_url=http://${TRACK_HOSTNAME}:${JTT808_PORT_HTTP}/jtt808
