@@ -13,8 +13,12 @@ RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Configuration
-REPO_DIR="/home/docker"
-DEFAULT_TARGET_BASE="/home/docker-compose"
+# Automatically navigate to the script's directory to ensure relative paths work
+REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$REPO_DIR"
+echo -e "${BLUE}Working directory set to: $REPO_DIR${NC}"
+
+DEFAULT_TARGET_BASE="$(dirname "$REPO_DIR")/docker-compose"
 GLOBAL_TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 
 echo -e "${BLUE}=================================================${NC}"
