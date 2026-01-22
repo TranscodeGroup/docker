@@ -136,8 +136,56 @@ else
     PASS_VARS=("MYSQL_PASSWORD" "REDIS_PASSWORD" "RABBITMQ_PASSWORD" "MONGODB_PASSWORD" "MINIO_PASSWORD" "MAIL_PASSWORD")
     
     echo -e "${BLUE}Checking password configurations...${NC}"
-    read -p "Generate new random passwords for key services? (Y/n) " GEN_PASS
-    if [[ "$GEN_PASS" != "n" && "$GEN_PASS" != "N" ]]; then
+    
+    # Check if data directory exists and is not empty
+    DATA_DIR_VAL=$(get_env_val "DATA_DIR")
+    # Default data dir if not set is /data
+    CHECK_DIR="${DATA_DIR_VAL:-/data}"
+    
+    SHOULD_GENERATE_PASS="n"
+
+    if [ -d "$CHECK_DIR" ] && [ "$(ls -A $CHECK_DIR 2>/dev/null)" ]; then
+        echo -e "${RED}WARNING: Data directory '$CHECK_DIR' already exists and is not empty!${NC}"
+        echo -e "${YELLOW}Generating new passwords while keeping old database files will cause CONNECTION ERRORS.${NC}"
+        echo -e "Options:"
+        echo -e "  1) Keep existing passwords (Recommended if preserving data)"
+        echo -e "  2) Rename old data dir & Generate new passwords (WARNING: Hides old data)"
+        echo -e "  3) Abort deployment"
+        read -p "Select option [1]: " DATA_OPT
+        DATA_OPT=${DATA_OPT:-1}
+
+        case $DATA_OPT in
+            1)
+                echo "Keeping existing passwords."
+                SHOULD_GENERATE_PASS="n"
+                ;;
+            2)
+                TIMESTAMP=$(date +%Y%m%d_%H%M%S)
+                BACKUP_DIR="${CHECK_DIR}_backup_${TIMESTAMP}"
+                echo -e "${YELLOW}Renaming $CHECK_DIR to $BACKUP_DIR...${NC}"
+                mv "$CHECK_DIR" "$BACKUP_DIR"
+                if [ $? -eq 0 ]; then
+                    echo "Data directory renamed. Safe to generate new passwords."
+                    SHOULD_GENERATE_PASS="y"
+                else
+                    echo -e "${RED}Failed to rename directory. Check permissions. Aborting.${NC}"
+                    exit 1
+                fi
+                ;;
+            3|*)
+                echo "Aborting deployment."
+                exit 0
+                ;;
+        esac
+    else
+        # Data dir empty or doesn't exist, safe to prompt for generation
+        read -p "Generate new random passwords for key services? (Y/n) " GEN_PASS
+        if [[ "$GEN_PASS" != "n" && "$GEN_PASS" != "N" ]]; then
+            SHOULD_GENERATE_PASS="y"
+        fi
+    fi
+
+    if [[ "$SHOULD_GENERATE_PASS" == "y" ]]; then
         for var in "${PASS_VARS[@]}"; do
             # Check if variable exists in the file
             if grep -q "^$var=" "$TARGET_ENV"; then
@@ -183,6 +231,24 @@ if [ -n "$INPUT_IP" ]; then
     echo -e "  HTTP:  ${BLUE}http://${INPUT_IP}${NC}"
     if [[ -n "$INPUT_HOST" && "$INPUT_HOST" != "$INPUT_IP" ]]; then
         echo -e "  HTTP:  ${BLUE}http://${INPUT_HOST}${NC}"
-        echo -e "  HTTPS: ${BLUE}https://${INPUT_HOST}${NC} (Requires SSL config)"
+        echo -e "  HTTPS: ${BLUE}https://${INPUT_HOST}${NC}"
     fi
+fi
+
+# --- Post-Deployment Checklist for Ops ---
+SSL_CERT_VAL=$(get_env_val "SSL_CERTIFICATE")
+if [ -n "$SSL_CERT_VAL" ]; then
+    echo -e "\n${YELLOW}=================================================${NC}"
+    echo -e "${YELLOW}           SSL CERTIFICATE CHECKLIST             ${NC}"
+    echo -e "${YELLOW}=================================================${NC}"
+    echo -e "The current configuration is using:"
+    echo -e "CRT: ${BLUE}${SSL_CERT_VAL}.crt${NC}"
+    echo -e "KEY: ${BLUE}${SSL_CERT_VAL}.key${NC}"
+    echo -e ""
+    echo -e "${YELLOW}ACTION REQUIRED:${NC}"
+    echo -e "1. If these are placeholder/expired certificates, please replace"
+    echo -e "   them with your valid production certificates."
+    echo -e "2. After replacement, restart Nginx service:"
+    echo -e "   ${BLUE}docker compose restart nginx${NC}"
+    echo -e "${YELLOW}=================================================${NC}"
 fi
