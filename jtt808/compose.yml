@@ -35,7 +35,7 @@ services:
       - gateway_ftp_passive_ip=${JTT808_IP:?required}
       - gateway_ftp_passive_ports=${JTT808_PORT_FTP_PASSIVE}
 
-      # 终端注册服务
+      # 终端注册服务(默认使用别名maintain访问)
       - gateway_device-register-url=${WEB_BASE_URL:-http://${MAINTAIN_HOST}:${MAINTAIN_PORT}}
       # 网关Http服务
       - gateway_http_url=https://${TRACK_HOSTNAME}:${WEB_PORT_HTTPS}}/jtt808
