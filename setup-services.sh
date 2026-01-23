@@ -423,7 +423,45 @@ if [ -n "$INPUT_IP" ]; then
     fi
 fi
 
-echo -e "\nTo start services:"
-echo -e "${BLUE}cd $TARGET_DIR${NC}"
-echo -e "${BLUE}docker compose up -d${NC}"
-echo -e "${BLUE}docker compose restart nginx${NC} (If SSL certs updated)"
+# --- 6. Auto-start Services ---
+echo -e "\n${BLUE}Service Startup${NC}"
+
+START_SERVICES="n"
+
+if [ "$AUTO_YES" == "true" ]; then
+    START_SERVICES="y"
+    echo -e "${YELLOW}Auto-starting services in non-interactive mode.${NC}"
+else
+    read -p "Do you want to start the services now? (y/N) " START_SERVICES
+fi
+
+if [[ "$START_SERVICES" == "y" || "$START_SERVICES" == "Y" ]]; then
+    echo -e "${BLUE}Starting Docker services...${NC}"
+    cd "$TARGET_DIR" || { echo -e "${RED}Failed to change directory to $TARGET_DIR${NC}"; exit 1; }
+    
+    # Check if docker-compose command is available (v2 vs v1)
+    if docker compose version &> /dev/null; then
+        DOCKER_CMD="docker compose"
+    elif docker-compose version &> /dev/null; then
+        DOCKER_CMD="docker-compose"
+    else
+        echo -e "${RED}Error: Neither 'docker compose' nor 'docker-compose' found.${NC}"
+        exit 1
+    fi
+
+    echo -e "${BLUE}Executing: $DOCKER_CMD up -d${NC}"
+    $DOCKER_CMD up -d
+    
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Services started successfully!${NC}"
+        echo -e "${YELLOW}Note: Some services (like databases) may take a few moments to initialize completely.${NC}"
+    else
+        echo -e "${RED}Failed to start services.${NC}"
+        exit 1
+    fi
+else
+    echo -e "\nTo start services manually:"
+    echo -e "${BLUE}cd $TARGET_DIR${NC}"
+    echo -e "${BLUE}docker compose up -d${NC}"
+    echo -e "${BLUE}docker compose restart nginx${NC} (If SSL certs updated)"
+fi
