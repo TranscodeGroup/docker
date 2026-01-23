@@ -1,7 +1,7 @@
 services:
   srs:
     volumes:
-      - "${DOCKER_DIR:-/home/docker}/video/srs-storage/conf:/usr/local/srs/conf"
+      - "./srs-storage/conf:/usr/local/srs/conf"
       - "${DATA_DIR:-/data}/srs-storage/html:/usr/local/srs/objs/nginx/html"
   rtp:
     volumes:
