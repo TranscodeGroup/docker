@@ -141,8 +141,22 @@ if [ -f "$DEPLOY_SCRIPT" ]; then
     echo ""
     # Switch to directory before execution to ensure relative paths work
     cd "$INSTALL_DIR"
+
+    # If PROJECT env var is set, append it to arguments
+    if [ -n "$PROJECT" ]; then
+        echo -e "${BLUE}Project selection detected via env: PROJECT=$PROJECT${NC}"
+        set -- "$@" "--project" "$PROJECT"
+    fi
+
+    # If AUTO_YES env var is set, append it to arguments
+    if [ -n "$AUTO_YES" ]; then
+        echo -e "${BLUE}Auto-confirm detected via env: AUTO_YES=$AUTO_YES${NC}"
+        set -- "$@" "--yes"
+    fi
+
+    echo -e "${BLUE}Executing: ./setup-services.sh $@${NC}"
     # Ensure stdin is attached to terminal for interactive input
-    exec ./setup-services.sh < /dev/tty
+    exec ./setup-services.sh "$@" < /dev/tty
 else
     echo -e "${RED}Critical Error: setup-services.sh not found in downloaded repository!${NC}"
     exit 1

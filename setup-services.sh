@@ -50,6 +50,11 @@ while [[ $# -gt 0 ]]; do
             shift # past argument
             shift # past value
             ;;
+        -y|--yes)
+            AUTO_YES="true"
+            echo -e "${YELLOW}Non-interactive mode enabled (Auto-Yes).${NC}"
+            shift # past argument
+            ;;
         *)
             echo -e "${RED}Unknown option: $1${NC}"
             echo -e "Usage: ./setup-services.sh [-p|--project <name>]"
@@ -94,7 +99,12 @@ echo -e "${BLUE}Installing to $TARGET_DIR...${NC}"
 
 if [ -d "$TARGET_DIR" ]; then
     echo -e "${YELLOW}Directory $TARGET_DIR already exists.${NC}"
-    read -p "Backup and overwrite? (y/N) " confirm
+    if [ "$AUTO_YES" == "true" ]; then
+        confirm="y"
+        echo -e "${BLUE}Auto-confirming backup and overwrite.${NC}"
+    else
+        read -p "Backup and overwrite? (y/N) " confirm
+    fi
     if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
         echo "Aborting."
         exit 0
@@ -184,7 +194,11 @@ else
     # Always suggest the detected IP (or empty if detection failed)
     IP_DEFAULT="$DETECTED_IP"
     
-    read -p "Enter Server Public IP [${IP_DEFAULT}]: " INPUT_IP
+    if [ "$AUTO_YES" == "true" ]; then
+        INPUT_IP=$IP_DEFAULT
+    else
+        read -p "Enter Server Public IP [${IP_DEFAULT}]: " INPUT_IP
+    fi
     INPUT_IP=${INPUT_IP:-$IP_DEFAULT}
     
     COMMENT_IP="User-defined"
@@ -198,7 +212,11 @@ else
     # Logic: Default to the IP address entered above 
     HOST_DEFAULT=${CURRENT_HOST:-$INPUT_IP}
     
-    read -p "Enter Server Hostname (e.g., google.com) [${HOST_DEFAULT}]: " INPUT_HOST
+    if [ "$AUTO_YES" == "true" ]; then
+        INPUT_HOST=$HOST_DEFAULT
+    else
+        read -p "Enter Server Hostname (e.g., google.com) [${HOST_DEFAULT}]: " INPUT_HOST
+    fi
     INPUT_HOST=${INPUT_HOST:-$HOST_DEFAULT}
     
     COMMENT_HOST="User-defined"
@@ -229,7 +247,12 @@ else
         echo -e "  1) Keep existing passwords (Recommended if preserving data)"
         echo -e "  2) Rename old data dir & Generate new passwords (WARNING: Hides old data)"
         echo -e "  3) Abort deployment"
-        read -p "Select option [1]: " DATA_OPT
+        if [ "$AUTO_YES" == "true" ]; then
+            DATA_OPT=1
+            echo -e "${BLUE}Auto-selecting Option 1 (Keep existing passwords).${NC}"
+        else
+            read -p "Select option [1]: " DATA_OPT
+        fi
         DATA_OPT=${DATA_OPT:-1}
 
         case $DATA_OPT in
@@ -257,7 +280,12 @@ else
         esac
     else
         # Data dir empty or doesn't exist, safe to prompt for generation
-        read -p "Generate new random passwords for key services? (Y/n) " GEN_PASS
+        if [ "$AUTO_YES" == "true" ]; then
+            GEN_PASS="y"
+            echo -e "${BLUE}Auto-confirming password generation.${NC}"
+        else
+            read -p "Generate new random passwords for key services? (Y/n) " GEN_PASS
+        fi
         if [[ "$GEN_PASS" != "n" && "$GEN_PASS" != "N" ]]; then
             SHOULD_GENERATE_PASS="y"
         fi
@@ -281,7 +309,12 @@ else
         # Heuristic: if ssl folder exists, and current config is placeholder or empty, prompt to update
         if [[ "$SSL_VAL" == *"placeholder"* ]] || [ -z "$SSL_VAL" ]; then
             echo -e "${YELLOW}Local SSL certificates detected in ./ssl directory.${NC}"
-            read -p "Update SSL_CERTIFICATE path to local file? (Y/n) " UPD_SSL
+            if [ "$AUTO_YES" == "true" ]; then
+                UPD_SSL="y"
+                echo -e "${BLUE}Auto-confirming SSL path update.${NC}"
+            else
+                read -p "Update SSL_CERTIFICATE path to local file? (Y/n) " UPD_SSL
+            fi
             if [[ "$UPD_SSL" != "n" && "$UPD_SSL" != "N" ]]; then
                 # Find the crt file
                 CRT_FILE=$(find "$TARGET_DIR/ssl" -name "*.crt" | head -n 1)
