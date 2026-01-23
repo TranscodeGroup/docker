@@ -26,7 +26,6 @@ echo -e "${BLUE}       Docker Compose One-Click Deployment       ${NC}"
 echo -e "${BLUE}=================================================${NC}"
 
 # 1. Select Deployment Example
-echo -e "${GREEN}Select a deployment scenario:${NC}"
 # List directories in examples/ excluding 'docker'
 if [ -d "examples" ]; then
     OPTIONS=($(ls -d examples/*/ | grep -v "examples/docker/" | xargs -n 1 basename))
@@ -40,15 +39,51 @@ if [ ${#OPTIONS[@]} -eq 0 ]; then
     exit 1
 fi
 
-PS3="Enter choice number: "
-select OPT in "${OPTIONS[@]}"; do
-    if [ -n "$OPT" ]; then
-        SELECTED_EXAMPLE="$OPT"
-        break
-    else
-        echo "Invalid selection."
-    fi
+# Parse arguments manually since we are inside the script flow
+ARG_PROJECT=""
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+    case $key in
+        -p|--project)
+            ARG_PROJECT="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        *)
+            echo -e "${RED}Unknown option: $1${NC}"
+            echo -e "Usage: ./setup-services.sh [-p|--project <name>]"
+            exit 1
+            ;;
+    esac
 done
+
+# Logic to select example
+if [ -n "$ARG_PROJECT" ]; then
+    for opt in "${OPTIONS[@]}"; do
+        if [ "$opt" == "$ARG_PROJECT" ]; then
+            SELECTED_EXAMPLE="$opt"
+            echo -e "${GREEN}Project selected via argument: $SELECTED_EXAMPLE${NC}"
+            break
+        fi
+    done
+    if [ -z "$SELECTED_EXAMPLE" ]; then
+        echo -e "${RED}Invalid project: $ARG_PROJECT${NC}"
+        echo -e "Available options: ${OPTIONS[*]}"
+        exit 1
+    fi
+else
+    echo -e "${GREEN}Select a deployment project:${NC}"
+    PS3="Enter choice number: "
+    select OPT in "${OPTIONS[@]}"; do
+        if [ -n "$OPT" ]; then
+            SELECTED_EXAMPLE="$OPT"
+            break
+        else
+            echo "Invalid selection."
+        fi
+    done
+fi
 
 echo -e "${GREEN}Selected: $SELECTED_EXAMPLE${NC}"
 
