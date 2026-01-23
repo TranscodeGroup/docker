@@ -105,7 +105,8 @@ if [ -f "$DEPLOY_SCRIPT" ]; then
     echo ""
     # Switch to directory before execution to ensure relative paths work
     cd "$INSTALL_DIR"
-    exec ./setup-services.sh
+    # Ensure stdin is attached to terminal for interactive input
+    exec ./setup-services.sh < /dev/tty
 else
     echo -e "${RED}Critical Error: setup-services.sh not found in downloaded repository!${NC}"
     exit 1
