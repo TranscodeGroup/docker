@@ -97,14 +97,39 @@ else
 fi
 
 # 4. Docker Check & Install
+check_docker_status() {
+    if systemctl is-active --quiet docker; then
+        return 0
+    else
+        echo -e "${BLUE}Starting Docker service...${NC}"
+        systemctl start docker
+        if systemctl is-active --quiet docker; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
 if ! command -v docker &> /dev/null; then
     echo -e "${BLUE}Docker not found. Installing via official script...${NC}"
     curl -fsSL https://get.docker.com | bash
     systemctl enable docker
-    systemctl start docker
-    echo -e "${GREEN}Docker installed.${NC}"
+    
+    if check_docker_status; then
+        echo -e "${GREEN}Docker installed and started successfully.${NC}"
+    else
+        echo -e "${RED}Error: Docker installed but failed to start.${NC}"
+        echo -e "${YELLOW}Please check logs: journalctl -xeu docker.service${NC}"
+        echo -e "${YELLOW}You may need to install Docker manually.${NC}"
+        exit 1
+    fi
 else
     echo -e "${GREEN}Docker detected.${NC}"
+    if ! check_docker_status; then
+        echo -e "${RED}Error: Docker is installed but not running and failed to start.${NC}"
+        echo -e "${YELLOW}Please check logs: journalctl -xeu docker.service${NC}"
+        exit 1
+    fi
 fi
 
 # 5. Handover to setup-services.sh
