@@ -53,10 +53,7 @@ done
 echo -e "${GREEN}Selected: $SELECTED_EXAMPLE${NC}"
 
 # 2. Prepare Target Directory
-echo -e "${GREEN}Hint: Press Enter to accept the [default] value.${NC}"
-read -p "Enter installation directory [${DEFAULT_TARGET_BASE}]: " TARGET_BASE
-TARGET_BASE=${TARGET_BASE:-$DEFAULT_TARGET_BASE}
-TARGET_DIR="$TARGET_BASE"
+TARGET_DIR="$DEFAULT_TARGET_BASE"
 
 echo -e "${BLUE}Installing to $TARGET_DIR...${NC}"
 
