@@ -236,7 +236,7 @@ else
             # Check if variable exists in the file
             if grep -q "^$var=" "$TARGET_ENV"; then
                 NEW_PASS=$(generate_password)
-                set_env_val "$var" "$NEW_PASS" "Auto-generated random password"
+                set_env_val "$var" "$NEW_PASS" "Auto-generated. DO NOT CHANGE after startup or services will break."
                 echo "Updated $var with new random password."
             fi
         done
@@ -268,6 +268,12 @@ fi
 
 echo -e "${GREEN}Deployment setup complete!${NC}"
 echo -e "Configuration file: ${YELLOW}$TARGET_ENV${NC}"
+
+echo -e "\n${RED}!!! IMPORTANT CONFIGURATION WARNING !!!${NC}"
+echo -e "${YELLOW}Passwords have been auto-generated and synchronized.${NC}"
+echo -e "${YELLOW}DO NOT change them manually in the .env file after this point.${NC}"
+echo -e "${YELLOW}Changing them will break connections between services and databases.${NC}"
+echo -e "${RED}!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!${NC}"
 
 # --- SSL Certificate Checklist ---
 SSL_CERT_VAL=$(get_env_val "SSL_CERTIFICATE")
