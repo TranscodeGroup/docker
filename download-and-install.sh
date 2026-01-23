@@ -13,6 +13,7 @@ set -e
 # Colors
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
@@ -59,10 +60,20 @@ if [ -d "$INSTALL_DIR" ]; then
             fi
         fi
 
-        git fetch origin
-        git reset --hard "origin/$BRANCH"
-        git clean -fd
-        echo -e "${GREEN}Successfully reset to origin/$BRANCH and cleaned worktree.${NC}"
+        # Prompt for confirmation BEFORE any git operations
+        echo -e "${YELLOW}Existing repository detected at $INSTALL_DIR.${NC}"
+        echo -e "${YELLOW}Would you like to fetch and reset to latest origin/$BRANCH? (y/N)${NC}"
+        read -p "> " confirm < /dev/tty
+        
+        if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+            echo -e "${BLUE}Updating repository...${NC}"
+            git fetch origin
+            git reset --hard "origin/$BRANCH"
+            git clean -fd
+            echo -e "${GREEN}Successfully updated and cleaned worktree.${NC}"
+        else
+            echo -e "${BLUE}Skipping update. Using existing local code.${NC}"
+        fi
     else
         # Directory exists but is NOT a git repo (e.g. manual mkdir or unzip)
         if [ "$(ls -A $INSTALL_DIR)" ]; then
@@ -105,7 +116,8 @@ if [ -f "$DEPLOY_SCRIPT" ]; then
     echo ""
     # Switch to directory before execution to ensure relative paths work
     cd "$INSTALL_DIR"
-    exec ./setup-services.sh
+    # Ensure stdin is attached to terminal for interactive input
+    exec ./setup-services.sh < /dev/tty
 else
     echo -e "${RED}Critical Error: setup-services.sh not found in downloaded repository!${NC}"
     exit 1
