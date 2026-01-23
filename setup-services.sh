@@ -357,6 +357,63 @@ if [[ -n "$SSL_CERT_VAL" ]] && [[ "$SELECTED_EXAMPLE" == *"https"* || "$SELECTED
     echo -e "${YELLOW}=================================================${NC}"
 fi
 
+# --- 5. Install Optional Tools (FFmpeg & ifv2mp4) ---
+echo -e "\n${BLUE}Optional Tools Installation (FFmpeg & ifv2mp4)${NC}"
+echo -e "These tools are recommended for video processing services (e.g. jtt808)."
+
+if [ "$AUTO_YES" == "true" ]; then
+    INSTALL_TOOLS="n"
+    echo -e "${YELLOW}Skipping optional tools in non-interactive mode.${NC}"
+else
+    read -p "Install video processing tools (FFmpeg, ifv2mp4)? (y/N) " INSTALL_TOOLS
+fi
+
+if [[ "$INSTALL_TOOLS" == "y" || "$INSTALL_TOOLS" == "Y" ]]; then
+    OPT_DIR="$TARGET_DIR/opt"
+    mkdir -p "$OPT_DIR"
+    
+    # 1. FFmpeg
+    if [[ -f "$OPT_DIR/ffmpeg" && -f "$OPT_DIR/ffprobe" ]]; then
+        echo -e "${GREEN}FFmpeg already exists in $OPT_DIR. Skipping download.${NC}"
+    else
+        echo -e "${BLUE}Installing FFmpeg...${NC}"
+        curl -L -o "$OPT_DIR/ffmpeg.tar.xz" "https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz"
+        
+        if [ -f "$OPT_DIR/ffmpeg.tar.xz" ]; then
+            echo "Extracting FFmpeg..."
+            tar -xf "$OPT_DIR/ffmpeg.tar.xz" -C "$OPT_DIR"
+            
+            # Flatten structure: move binaries to $OPT_DIR
+            FFMPEG_SUBDIR=$(find "$OPT_DIR" -maxdepth 1 -type d -name "ffmpeg-*-static" | head -n 1)
+            if [ -n "$FFMPEG_SUBDIR" ]; then
+                cp "$FFMPEG_SUBDIR/ffmpeg" "$FFMPEG_SUBDIR/ffprobe" "$OPT_DIR/"
+                echo -e "${GREEN}FFmpeg installed to: $OPT_DIR${NC}"
+            fi
+            rm "$OPT_DIR/ffmpeg.tar.xz"
+        else
+            echo -e "${RED}Failed to download FFmpeg.${NC}"
+        fi
+    fi
+
+    # 2. ifv2mp4
+    IFV_DIR="$OPT_DIR/ifv2mp4"
+    if [[ -f "$IFV_DIR/release/tlgrectomp4" ]]; then
+        echo -e "${GREEN}ifv2mp4 already exists in $IFV_DIR. Skipping download.${NC}"
+    else
+        echo -e "${BLUE}Installing ifv2mp4...${NC}"
+        mkdir -p "$IFV_DIR"
+        curl -L -o "$IFV_DIR/tlg.tar.gz" "https://github.com/TranscodeGroup/docker/releases/download/v1.0.4/tlgrectomp4_linux1.0.0.4.tar.gz"
+        
+        if [ -f "$IFV_DIR/tlg.tar.gz" ]; then
+            echo "Extracting ifv2mp4..."
+            tar -xzf "$IFV_DIR/tlg.tar.gz" -C "$IFV_DIR"
+            echo -e "${GREEN}ifv2mp4 installed to: $IFV_DIR${NC}"
+        else
+            echo -e "${RED}Failed to download ifv2mp4.${NC}"
+        fi
+    fi
+fi
+
 if [ -n "$INPUT_IP" ]; then
     echo -e "\n${GREEN}Service Access URLs:${NC}"
     echo -e "  HTTP:  ${BLUE}http://${INPUT_IP}${NC}"
