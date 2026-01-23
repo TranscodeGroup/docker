@@ -60,24 +60,19 @@ if [ -d "$INSTALL_DIR" ]; then
             fi
         fi
 
-        git fetch origin
-        
-        # Prompt for confirmation before overwriting
-        echo -e "${YELLOW}Warning: The directory $INSTALL_DIR already contains a repository.${NC}"
-        echo -e "${YELLOW}Updating will perform a hard reset and discard all local changes.${NC}"
-        # Read from /dev/tty to handle pipe execution
-        if [ -t 0 ]; then
-             read -p "Do you want to update and reset the repository? (y/N) " confirm
-        else
-             read -p "Do you want to update and reset the repository? (y/N) " confirm < /dev/tty
-        fi
+        # Prompt for confirmation BEFORE any git operations
+        echo -e "${YELLOW}Existing repository detected at $INSTALL_DIR.${NC}"
+        echo -e "${YELLOW}Would you like to fetch and reset to latest origin/$BRANCH? (y/N)${NC}"
+        read -p "> " confirm < /dev/tty
         
         if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+            echo -e "${BLUE}Updating repository...${NC}"
+            git fetch origin
             git reset --hard "origin/$BRANCH"
             git clean -fd
-            echo -e "${GREEN}Successfully reset to origin/$BRANCH and cleaned worktree.${NC}"
+            echo -e "${GREEN}Successfully updated and cleaned worktree.${NC}"
         else
-            echo -e "${YELLOW}Skipping repository update. Using existing local code.${NC}"
+            echo -e "${BLUE}Skipping update. Using existing local code.${NC}"
         fi
     else
         # Directory exists but is NOT a git repo (e.g. manual mkdir or unzip)
