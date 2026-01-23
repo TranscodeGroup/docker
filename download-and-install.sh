@@ -13,6 +13,7 @@ set -e
 # Colors
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
 RED='\033[0;31m'
 NC='\033[0m'
 
@@ -60,9 +61,24 @@ if [ -d "$INSTALL_DIR" ]; then
         fi
 
         git fetch origin
-        git reset --hard "origin/$BRANCH"
-        git clean -fd
-        echo -e "${GREEN}Successfully reset to origin/$BRANCH and cleaned worktree.${NC}"
+        
+        # Prompt for confirmation before overwriting
+        echo -e "${YELLOW}Warning: The directory $INSTALL_DIR already contains a repository.${NC}"
+        echo -e "${YELLOW}Updating will perform a hard reset and discard all local changes.${NC}"
+        # Read from /dev/tty to handle pipe execution
+        if [ -t 0 ]; then
+             read -p "Do you want to update and reset the repository? (y/N) " confirm
+        else
+             read -p "Do you want to update and reset the repository? (y/N) " confirm < /dev/tty
+        fi
+        
+        if [[ "$confirm" == "y" || "$confirm" == "Y" ]]; then
+            git reset --hard "origin/$BRANCH"
+            git clean -fd
+            echo -e "${GREEN}Successfully reset to origin/$BRANCH and cleaned worktree.${NC}"
+        else
+            echo -e "${YELLOW}Skipping repository update. Using existing local code.${NC}"
+        fi
     else
         # Directory exists but is NOT a git repo (e.g. manual mkdir or unzip)
         if [ "$(ls -A $INSTALL_DIR)" ]; then
