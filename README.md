@@ -20,7 +20,7 @@ mkdir /data
 git clone https://github.com/TranscodeGroup/docker.git /home/docker
 ```
 
-### 2. 配置`compse.yaml`
+### 2. 配置`compose.yaml`
 
 创建`/home/docker-compose/compose.yaml`文件, 参考如下示例:
 
