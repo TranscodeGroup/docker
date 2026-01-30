@@ -35,9 +35,15 @@ fi
 
 # Unzip
 unzip "${TEAMCITY_BUILD_NAME}-${TEAMCITY_TAG}.zip"
-if [ -e "${NGINX_HTML_DIR_NAME}" ]; then
-    rm -rf "${NGINX_HTML_DIR_NAME}"
+
+# Clean up content inside the directory, but KEEP the directory itself
+# to avoid breaking Nginx Docker mounts/handles.
+if [ -d "${NGINX_HTML_DIR_NAME}" ]; then
+    rm -rf "${NGINX_HTML_DIR_NAME:?}"/*
+else
+    mkdir -p "${NGINX_HTML_DIR_NAME}"
 fi
+
 unzip "${TEAMCITY_BUILD_ZIP_NAME}" -d "${NGINX_HTML_DIR_NAME}"
 cp_override_files
 
