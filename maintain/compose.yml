@@ -66,9 +66,12 @@ services:
       - spring_mail_password=${MAIL_PASSWORD:?required}
       - spring_mail_protocol=smtp
       - spring_mail_default-encoding=UTF-8
-      - spring_mail_properties_mail_smtp_ssl.enable=true
-      - spring_mail_properties_mail_smtp_socketFactory_port=465
-      - spring_mail_properties_mail_smtp_socketFactory_class=javax.net.ssl.SSLSocketFactory
+      - spring_mail_properties_mail_smtp_ssl_enable=true
+      #- spring_mail_properties_mail_smtp_socketFactory_port=465
+      #- spring_mail_properties_mail_smtp_socketFactory_class=javax.net.ssl.SSLSocketFactory
+      - spring_mail_port=465
+      - spring_mail_properties_mail_smtp_auth=true
+      
     logging:
       driver: "json-file"
       options:
