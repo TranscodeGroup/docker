@@ -1,0 +1,23 @@
+services:
+  nominatim:
+    image: mediagis/nominatim:5.2
+    container_name: nominatim
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # 首次启动会自动导入 PBF 数据
+      PBF_PATH: /nominatim/pbf/china-251030.osm.pbf
+
+      # 必须设置数据库密码（任意）
+      NOMINATIM_PASSWORD: ${NOMINATIM_PASSWORD}
+
+      # 可选：关闭数据更新（纯离线运行）
+      REPLICATION_ENABLED: "false"
+
+    volumes:
+      - /home/nominatim/pbf:/nominatim/pbf
+      - /home/nominatim/data:/var/lib/postgresql/14/main
+      - /home/nominatim/cache:/var/lib/nominatim
+    shm_size: "2g"
+
