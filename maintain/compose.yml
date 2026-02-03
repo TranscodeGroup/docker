@@ -60,17 +60,8 @@ services:
       # 跨域 逗号分割
       - spring_my_cors_origin-patterns=*://${TRACK_HOSTNAME}:[*],*://${SERVER_IP_PUBLIC}:[*]
 
-      # Mail-预设了bus的邮箱
-      - spring_mail_host=${MAIL_HOST:-smtp.transcodegroup.com}
-      - spring_mail_username=${MAIL_USERNAME:-smtp.transcodegroup.com}
-      - spring_mail_password=${MAIL_PASSWORD:-ENC(cGctUV1OIXHjEcu6meYcPMDyqLW2Qcy93yzQ9w1MdLw=)}
-      - spring_mail_protocol=smtp
-      - spring_mail_default-encoding=UTF-8
-      - spring_mail_port=465
-      - spring_mail_properties_mail_smtp_ssl_enable=true
-      - spring_mail_properties_mail_smtp_socketFactory_port=465
-      - spring_mail_properties_mail_smtp_socketFactory_class=javax.net.ssl.SSLSocketFactory
-      
+      # 邮箱, 后端镜像已经内置了一个可用的邮箱服务器, 要使用自己的邮箱服务,
+      # 请参考文档进行配置: https://transcodegroup.yuque.com/zu9alr/rorom1/luxvlkvp2qukz8co
     logging:
       driver: "json-file"
       options:

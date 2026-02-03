@@ -229,7 +229,7 @@ else
         openssl rand -base64 16 | tr -dc 'a-zA-Z0-9' | head -c 16
     }
 
-    PASS_VARS=("MYSQL_PASSWORD" "REDIS_PASSWORD" "RABBITMQ_PASSWORD" "MONGODB_PASSWORD" "MINIO_PASSWORD" "MAIL_PASSWORD")
+    PASS_VARS=("MYSQL_PASSWORD" "REDIS_PASSWORD" "RABBITMQ_PASSWORD" "MONGODB_PASSWORD" "MINIO_PASSWORD")
     
     echo -e "${BLUE}Checking password configurations...${NC}"
     
