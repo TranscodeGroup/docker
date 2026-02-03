@@ -63,7 +63,7 @@ services:
       # Mail-预设了bus的邮箱
       - spring_mail_host=${MAIL_HOST:-smtp.transcodegroup.com}
       - spring_mail_username=${MAIL_USERNAME:-smtp.transcodegroup.com}
-      - spring_mail_password=${MAIL_PASSWORD:?required}
+      - spring_mail_password=${MAIL_PASSWORD:-ENC(cGctUV1OIXHjEcu6meYcPMDyqLW2Qcy93yzQ9w1MdLw=)}
       - spring_mail_protocol=smtp
       - spring_mail_default-encoding=UTF-8
       - spring_mail_port=465
