@@ -1998,6 +1998,28 @@ CREATE TABLE `organize_device_compose`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for organize_device_param
+-- ----------------------------
+DROP TABLE IF EXISTS `organize_device_param`;
+CREATE TABLE `organize_device_param`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '车辆上安装的设备列表',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '组织ID',
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '车辆ID',
+  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
+  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '' COMMENT '设备的唯一标识',
+  `param_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '参数类别(speed_limit / overspeed_duration)等',
+  `expect_value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '平台期望值',
+  `actual_value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '设备读取值',
+  `last_read_time` datetime NULL DEFAULT NULL COMMENT '最后读取时间',
+  `last_set_time` datetime NULL DEFAULT NULL COMMENT '最后下发时间',
+  `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'UNKNOWN' COMMENT 'CONSISTENT / DIFF / UNKNOWN',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_param_key`(`organize_id` ASC, `vehicle_id` ASC, `imei` ASC, `param_code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '设备参数表' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for organize_device_product
 -- ----------------------------
 DROP TABLE IF EXISTS `organize_device_product`;
