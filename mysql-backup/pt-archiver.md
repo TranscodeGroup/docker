@@ -1,8 +1,15 @@
+# pt-archiver 数据归档脚本
+
+该脚本用于将 MySQL 表中的历史数据从源数据库归档到目标数据库，基于 `percona-toolkit` 的 `pt-archiver` 工具，并以 Docker 方式运行。
+
+## 脚本内容
+
+```bash
 #!/bin/bash
 set -euo pipefail
 #set -x
 
-# ====== 基础配置 ======
+# ====== 源数据库 ======
 SRC_HOST=127.0.0.1
 SRC_PORT=3306
 SRC_USER=root
@@ -10,6 +17,7 @@ SRC_PASS=xxxx
 SRC_DB=maintain
 SRC_TABLE=jtt808_position
 
+# ====== 归档目标数据库 ======
 DST_HOST=127.0.0.1
 DST_PORT=3306
 DST_USER=root
@@ -17,19 +25,19 @@ DST_PASS=xxxx
 DST_DB=maintain
 DST_TABLE=jtt808_position_history
 
-# ====== 归档参数 ======
+# ====== 归档参数：开始ID，结束ID，每次批量归档数量 ======
 START_ID=0
 END_ID=100000
 BATCH_SIZE=30000
 
-LOG_DIR=/home/docker-compose/opt/pt-archiver
+LOG_DIR=/var/log/pt-archiver
 mkdir -p "$LOG_DIR"
 LOG_FILE="$LOG_DIR/archive_$(date +%F_%H%M%S).log"
 
 # ====== 构造 where 条件 ======
 WHERE="id > ${START_ID} AND id <= ${END_ID}"
 
-# ====== 执行 ======
+# ====== 执行归档 ======
 docker run --rm -t --network host \
   -e LANG=C.UTF-8 -e PERL_UNICODE=SDA \
   percona/percona-toolkit \
@@ -48,3 +56,4 @@ docker run --rm -t --network host \
   2>&1 | tee -a "$LOG_FILE"
 
 echo "Archive finished at $(date)" >> "$LOG_FILE"
+```
