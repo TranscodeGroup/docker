@@ -1945,7 +1945,6 @@ CREATE TABLE `organize_device`  (
   `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类型ID',
   `product_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类型名称',
   `category_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类别',
-  `category_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '类别名称',
   `device_model` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备型号',
   `time_zone` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '+08:00' COMMENT '设备台账时区',
   `character_set` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'GBK' COMMENT '字符集GBK或UTF-8',
@@ -1960,40 +1959,11 @@ CREATE TABLE `organize_device`  (
   `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
   `last_gps_time` datetime NULL DEFAULT NULL COMMENT '最后GPS时间',
   `last_gps_mileage` decimal(11, 3) NULL DEFAULT NULL COMMENT '最后GPS时间',
-  `register_producer_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '制造商ID',
-  `register_terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端型号',
-  `register_terminal_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端ID',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_imei`(`device_imei` ASC) USING BTREE,
-  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Table structure for organize_device_compose
--- ----------------------------
-DROP TABLE IF EXISTS `organize_device_compose`;
-CREATE TABLE `organize_device_compose`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '--20250-09-16---废弃, 使用OrganizeDeviceTerminal替代',
-  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
-  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备的唯一标识',
-  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
-  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆ID',
-  `register_producer_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-制造商ID',
-  `register_terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-终端型号',
-  `register_terminal_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-终端ID',
-  `first_connect_time` datetime NULL DEFAULT NULL COMMENT '第一次连接时间',
-  `last_connect_time` datetime NULL DEFAULT NULL COMMENT '最后连接时间',
-  `last_connect_protocol` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后连接使用的协议',
-  `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
-  `last_version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '读取出来的版本号',
-  `last_version_time` datetime NULL DEFAULT NULL COMMENT '最后读取版本时间',
-  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
-  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_device_key`(`imei` ASC, `device_key` ASC) USING BTREE,
   INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
