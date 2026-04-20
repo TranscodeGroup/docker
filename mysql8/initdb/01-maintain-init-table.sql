@@ -220,6 +220,8 @@ CREATE TABLE `device_product`  (
   `fix_zone` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '一些设备不能不支持使用本地时区, 容易引起台账错误, 所以网关按设备类型兼容',
   `terminal_models` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '一车多设备终端注册型号集合, 数据来源808终端注册，最大5',
   `order_id` int NOT NULL DEFAULT 0 COMMENT '排序字段',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '组织ID',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建用户',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -422,6 +424,7 @@ CREATE TABLE `jtt808_card`  (
   `lat` decimal(11, 6) NOT NULL DEFAULT 0.000000 COMMENT '纬度',
   `event_time` datetime NOT NULL COMMENT '事件时间',
   `card_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '刷卡的唯一标识',
+  `card_type` smallint NULL DEFAULT 0 COMMENT '卡类别 0驾驶员 10员工卡',
   `attendance_type` int NOT NULL DEFAULT 0 COMMENT '0刷卡 1上班 2下班 3签到 4签退 5例检',
   `attendance_origin` int NOT NULL DEFAULT 0 COMMENT '考勤方式 0=简易GPS 1员工卡考勤 2输工号考勤 自定义200=GPS附加, 210透传',
   `attendance_check_In` int NULL DEFAULT NULL COMMENT '泰国磁条卡 0签退 1签到',
@@ -640,16 +643,16 @@ CREATE TABLE `jtt808_health`  (
   `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
   `device_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 32',
   `exam_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '体检ID',
-  `emp_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '工号',
-  `emp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '姓名',
+  `emp_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '工号',
+  `emp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '姓名',
   `sex` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '性别',
   `birthday` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '出生日期',
   `age` int NULL DEFAULT NULL COMMENT '年龄',
   `record_no` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '岗前检测一体机记录ID，患者每个体检项目不同ID也不同，非纯数字',
   `device_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '固定值（PREJOB）',
   `project_code` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '组合项目代码（参考组合项目代码表）',
-  `event_time` datetime NULL DEFAULT NULL COMMENT '项目体检时间, 多个记录一起上报取最小值',
-  `has_abnormal` smallint NULL DEFAULT NULL COMMENT '是有有异常, 来源dataItem的abnormalIndicator',
+  `event_time` datetime NOT NULL COMMENT '项目体检时间, 多个记录一起上报取最小值',
+  `has_abnormal` smallint NOT NULL DEFAULT 0 COMMENT '是有有异常, 来源dataItem的abnormalIndicator',
   `data_item` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '体检数据',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -1279,6 +1282,26 @@ CREATE TABLE `log_login`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for log_login_session
+-- ----------------------------
+CREATE TABLE `maintain`.`log_login_session`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '操作日志id',
+  `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登陆成功uid',
+  `session_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '登陆成功令牌,同账号登录会话ID不一致',
+  `start_time` datetime NOT NULL COMMENT '会话开始时间',
+  `end_time` datetime NOT NULL COMMENT '最后会话时间',
+  `duration` int NOT NULL COMMENT '持续时长(秒)',
+  `work_date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户访问时区对应的日期',
+  `time_zone` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '时区',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_session`(`session_id` ASC, `start_time` ASC) USING BTREE,
+  INDEX `idx_time`(`user_id` ASC, `start_time` ASC) USING BTREE,
+  INDEX `idx_date`(`user_id` ASC, `work_date` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '登录日志' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for log_mail
 -- ----------------------------
 DROP TABLE IF EXISTS `log_mail`;
@@ -1482,13 +1505,6 @@ CREATE TABLE `order_master`  (
   `expected_date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '预约日期',
   `expected_time` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '预约时间段',
   `time_zone` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '+08:00' COMMENT '时区',
-  `manufacturer_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '厂家自编码',
-  `manufacturer_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备产品名称',
-  `category_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '产品类别ID',
-  `category_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '产品类别名称',
-  `attachment_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '安装产品ID或者维修故障ID',
-  `attachment_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '安装产品名称或者维修故障名称，可能附加厂家名称',
-  `attachment_imgs` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '附件图片,最多三张',
   `order_create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '订单创建时间',
   `order_distribute_info` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '派单账号 系统派单@ 客户派单账号ID',
   `order_distribute_time` datetime NULL DEFAULT NULL COMMENT '派单时间',
@@ -1568,11 +1584,9 @@ CREATE TABLE `order_optional_info`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `order_no` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '订单编号 唯一值，供客户查询',
   `parent_order_no` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '订单编号 唯一值，供客户查询',
-  `attachment_imgs` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发单要求图片',
-  `optional_info` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片模板可选信息',
-  `attached_info` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '其他可选信息',
-  `attachment_list` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '故障数组对象描述',
-  `device_info` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '安装产品',
+  `attached_info` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '其他可选信息(省得老加字段)',
+  `photo_requirements` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片模板可选信息',
+  `device_items` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '安装产品',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -1607,32 +1621,6 @@ CREATE TABLE `order_quoted_price`  (
   INDEX `idx_order`(`order_no` ASC) USING BTREE,
   INDEX `idx_user`(`user_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '工单报价单' ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Table structure for order_record_install
--- ----------------------------
-DROP TABLE IF EXISTS `order_record_install`;
-CREATE TABLE `order_record_install`  (
-  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
-  `order_no` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '订单号',
-  `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌号码 License Plate Number',
-  `vin` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆识别代码',
-  `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '安装产品ID',
-  `product_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '安装产品名称',
-  `manufacturer_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '生产厂家',
-  `manufacturer_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '生产厂家',
-  `device_model` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '设备型号',
-  `local_number` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '本机自编号',
-  `sim_number` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'SIM卡唯一码',
-  `device_imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备序列号',
-  `driving_license_imgs` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '行驶证正反面',
-  `installation_imgs` varchar(1280) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '施工图',
-  `construction_content` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '施工内容',
-  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
-  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_order_no`(`order_no` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '安装单记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for order_record_install_item
@@ -1945,7 +1933,6 @@ CREATE TABLE `organize_device`  (
   `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类型ID',
   `product_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类型名称',
   `category_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类别',
-  `category_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '类别名称',
   `device_model` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备型号',
   `time_zone` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '+08:00' COMMENT '设备台账时区',
   `character_set` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'GBK' COMMENT '字符集GBK或UTF-8',
@@ -1960,9 +1947,6 @@ CREATE TABLE `organize_device`  (
   `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
   `last_gps_time` datetime NULL DEFAULT NULL COMMENT '最后GPS时间',
   `last_gps_mileage` decimal(11, 3) NULL DEFAULT NULL COMMENT '最后GPS时间',
-  `register_producer_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '制造商ID',
-  `register_terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端型号',
-  `register_terminal_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端ID',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -1972,30 +1956,26 @@ CREATE TABLE `organize_device`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for organize_device_compose
+-- Table structure for organize_device_param
 -- ----------------------------
-DROP TABLE IF EXISTS `organize_device_compose`;
-CREATE TABLE `organize_device_compose`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT '--20250-09-16---废弃, 使用OrganizeDeviceTerminal替代',
-  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
-  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备的唯一标识',
+DROP TABLE IF EXISTS `organize_device_param`;
+CREATE TABLE `organize_device_param`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '车辆上安装的设备列表',
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
   `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆ID',
-  `register_producer_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-制造商ID',
-  `register_terminal_model` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-终端型号',
-  `register_terminal_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '终端注册-终端ID',
-  `first_connect_time` datetime NULL DEFAULT NULL COMMENT '第一次连接时间',
-  `last_connect_time` datetime NULL DEFAULT NULL COMMENT '最后连接时间',
-  `last_connect_protocol` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后连接使用的协议',
-  `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
-  `last_version` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '读取出来的版本号',
-  `last_version_time` datetime NULL DEFAULT NULL COMMENT '最后读取版本时间',
+  `imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
+  `device_key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备的唯一标识',
+  `param_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '参数类别(speed_limit / overspeed_duration)等',
+  `expect_value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '平台期望值',
+  `actual_value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '设备读取值',
+  `last_read_time` datetime NULL DEFAULT NULL COMMENT '最后读取时间',
+  `last_set_time` datetime NULL DEFAULT NULL COMMENT '最后下发时间',
+  `status` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'UNKNOWN' COMMENT 'CONSISTENT / DIFF / UNKNOWN',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_device_key`(`imei` ASC, `device_key` ASC) USING BTREE,
-  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车上安装设备表' ROW_FORMAT = DYNAMIC;
+  UNIQUE INDEX `uk_param_key`(`organize_id` ASC, `vehicle_id` ASC, `imei` ASC, `param_code` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备参数表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for organize_device_product
@@ -2261,7 +2241,7 @@ CREATE TABLE `organize_fleet`  (
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `idx_fleet`(`organize_id` ASC, `fleet_id` ASC) USING BTREE
+  UNIQUE INDEX `idx_fleet_id`(`organize_id` ASC, `fleet_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车队管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2361,13 +2341,11 @@ CREATE TABLE `organize_order_optional`  (
   `optional_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '自定义选项主键',
   `optional_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '自定义选项描述',
   `optional_info` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '自定义数组信息',
+  `is_template` smallint NOT NULL DEFAULT 0 COMMENT '是否模板,用于自动复制',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人员',
   `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人员',
-  `is_template` smallint NOT NULL DEFAULT 0 COMMENT '是否模板,用于自动复制',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
-  `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人员, 废弃',
-  `user_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '操作人员, 废弃',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_optional`(`optional_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '企业可选工单' ROW_FORMAT = DYNAMIC;
