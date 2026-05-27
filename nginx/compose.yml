@@ -1,6 +1,6 @@
 services:
   nginx:
-    image: nginx:1.27.4
+    image: nginx:1.30.2
     restart: always
     ports:
       - ${WEB_PORT_HTTPS:-443}:443
