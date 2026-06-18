@@ -90,6 +90,17 @@ External access is exposed through `nginx` (ports 80/443 by default) and, for de
 
 Frontend artifacts are not built here. They are downloaded from CI artifacts using `scripts/teamcity-download-artifact.sh` or deployed from tagged GitHub releases using `scripts/distar-beta-deploy.sh`. See `scripts/README.md` and `jtt808/README.md` for exact commands.
 
+## Review Rules
+
+When a pull request changes the following version variables in `default.env` / `default.en.env`, the reviewer must confirm that the corresponding MySQL initialization scripts under `mysql8/initdb/` are still consistent with the new application version:
+
+- `BUS_WEB_VERSION` — check `mysql8/initdb/03-cbus-init-table.sql` and `mysql8/initdb/04-cbus-init-data.sql`.
+- `TRACK_MAINTAIN_VERSION` — check `mysql8/initdb/01-maintain-init-table.sql` and `mysql8/initdb/02-maintain-init-data.sql`.
+
+If the SQL init files are modified, run `node scripts/check-init-sql.js` to catch column/value mismatches. Any compose change must pass `docker compose config`.
+
+These rules are also encoded in `.github/copilot-instructions.md` and `.github/pull_request_template.md`.
+
 ## Important Notes
 
 - Most compose fragments rely on environment variables marked `{?required}` in their image tags or env vars. Always run `docker compose config` before `up` to catch missing values.
