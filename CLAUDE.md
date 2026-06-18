@@ -99,7 +99,7 @@ When a pull request changes the following version variables in `default.env` / `
 
 If the SQL init files are modified, run `node scripts/check-init-sql.js` to catch column/value mismatches. Any compose change must pass `docker compose config`.
 
-These rules are also encoded in `.github/copilot-instructions.md` and `.github/pull_request_template.md`.
+These rules are also encoded in `.github/pull_request_template.md`.
 
 ## Important Notes
 
