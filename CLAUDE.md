@@ -94,7 +94,7 @@ Frontend artifacts are not built here. They are downloaded from CI artifacts usi
 
 When a pull request changes the following version variables in `default.env` / `default.en.env`, the reviewer must confirm that the corresponding MySQL initialization scripts under `mysql8/initdb/` are still consistent with the new application version:
 
-- `BUS_WEB_VERSION` — check `mysql8/initdb/03-cbus-init-table.sql` and `mysql8/initdb/04-cbus-init-data.sql`.
+- `BUS_GATEWAY_VERSION` — check `mysql8/initdb/03-cbus-init-table.sql` and `mysql8/initdb/04-cbus-init-data.sql`.
 - `TRACK_MAINTAIN_VERSION` — check `mysql8/initdb/01-maintain-init-table.sql` and `mysql8/initdb/02-maintain-init-data.sql`.
 
 If the SQL init files are modified, run `node scripts/check-init-sql.js` to catch column/value mismatches. Any compose change must pass `docker compose config`.
