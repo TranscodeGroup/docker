@@ -6,7 +6,7 @@ mkdir -p /home/docker-compose/opt
 # Enter directory
 cd /home/docker-compose/opt
 # Download
-wget https://github.com/BtbN/FFmpeg-Builds/releases/download/autobuild-2026-06-14-13-33/ffmpeg-n8.1.1-117-g7aecd49777-linux64-gpl-8.1.tar.xz
+wget https://github.com/TranscodeGroup/docker/releases/download/v1.0.7/ffmpeg-n8.1.1-117-g7aecd49777-linux64-gpl-8.1.tar.xz
 # Decompress
 tar -xvf ffmpeg-n8.1.1-117-g7aecd49777-linux64-gpl-8.1.tar.xz
 # Copy bin files
