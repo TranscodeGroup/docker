@@ -218,7 +218,7 @@ INSERT INTO `maintain`.`device_manufacturer` VALUES (1, '43a610ca929d45dea574b11
 -- Records of device_product
 -- ----------------------------
 
-INSERT INTO `maintain`.`device_product` VALUES (1, '7de049b26def4364a9f3dc3bc60cf029', 'TCG-MDVR', 'TCG-MDVR', '1d3b089c74ca496b8c17cfa77e13a65a', '[\"808-2011\",\"808-2013\",\"808-2016\",\"808-2019\",\"1078-2016\",\"safety-jiangsu\",\"tl\"]', '', 2, 4095, '43a610ca929d45dea574b1122e313e2b', 'TGC', NULL, '', 0, NULL, NULL, 0, '', '[\"TCG-MDVR\"]', 0, '', '', '2026-01-21 07:15:23', '2026-01-21 07:16:39');
+INSERT INTO `maintain`.`device_product` VALUES (1, '7de049b26def4364a9f3dc3bc60cf029', 'TCG-MDVR', 'TCG-MDVR', '1d3b089c74ca496b8c17cfa77e13a65a', '[\"808-2011\",\"808-2013\",\"808-2016\",\"808-2019\",\"1078-2016\",\"safety-jiangsu\",\"tl\"]', '', 2, 4095, '43a610ca929d45dea574b1122e313e2b', 'TGC', NULL, '', 0, NULL, '{\"text\":{},\"target_msg_id\":36612}', 0, '', '[\"TCG-MDVR\"]', 0, '', '', '2026-01-21 07:15:23', '2026-06-23 07:52:37');
 INSERT INTO `maintain`.`device_product` VALUES (2, 'bf56842a3d80445c96d705e91320a92a', 'GPS Tracker', 'GPS Tracker', 'ed4d3d9b5eda4dfe9a6cdb1327ec1690', '[\"808-2011\",\"808-2013\",\"808-2019\",\"tg\"]', '', 0, 288, '43a610ca929d45dea574b1122e313e2b', 'TGC', NULL, '', 0, NULL, NULL, 0, '', NULL, 0, '', '', '2026-01-21 08:02:53', '2026-01-21 08:02:53');
 
 -- ----------------------------
