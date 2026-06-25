@@ -1110,7 +1110,7 @@ CREATE TABLE `ledger_employee_attendance`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`, `swipe_time`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `swipe_time` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '时间点的行程分析' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '员工刷卡考勤记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_parking
@@ -2785,21 +2785,21 @@ CREATE TABLE `organize_safety_config`  (
 DROP TABLE IF EXISTS `organize_service_route`;
 CREATE TABLE `organize_service_route`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
-  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '组织ID',
-  `service_route_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '服务线路ID',
-  `service_route_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '线路名称',
-  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '描述',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织ID',
+  `service_route_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服务线路ID',
+  `service_route_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '线路名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
   `plan_time` datetime NULL DEFAULT NULL COMMENT '规划时间',
-  `points` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL COMMENT '路径点坐标，JSON数组 [{lat,lng},...]',
-  `waypoints` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '途径点信息，JSON数组 [{lat,lng,fence_id,fleet_id,name},...]',
-  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建用户ID',
-  `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建用户名称',
+  `points` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '路径点坐标，JSON数组 [{lat,lng},...]',
+  `waypoints` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '途径点信息，JSON数组 [{lat,lng,fence_id,fleet_id,name},...]',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建用户ID',
+  `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户名称',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_organize_id`(`organize_id` ASC) USING BTREE,
   INDEX `idx_service_route_id`(`service_route_id` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '客户服务线路规划' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '客户服务线路规划' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for organize_sim
@@ -2870,7 +2870,7 @@ CREATE TABLE `organize_vehicle`  (
   `io_config` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '车辆io状态对应关系配置',
   `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `dlt` int NOT NULL DEFAULT 0 COMMENT 'DLT，0代表非DLT，1表是DLT',
-  `active` int NOT NULL DEFAULT 0 COMMENT '0表活动，1表等待(3 个月)，1表等待(6 个月),  3表过期，4表过期， 5表取消，6表暂停',
+  `active` int NOT NULL DEFAULT 0 COMMENT '0表活动，1表等待(3 个月)，2表等待(6 个月),  3表过期，4表过期， 5表取消，6表暂停',
   `purchase_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '购买方式设置',
   `auto_create_fence` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '围栏自动创建配置',
   `reminder_info` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '到期或离线回访记录',
