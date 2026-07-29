@@ -64,6 +64,9 @@ services:
         max-size: "100m"
     ulimits:
       nproc: 65535
+      core:
+        soft: 0
+        hard: 0
       nofile:
         soft: 20000
         hard: 40000

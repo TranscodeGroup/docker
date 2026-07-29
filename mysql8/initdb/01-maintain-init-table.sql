@@ -1082,6 +1082,37 @@ CREATE TABLE `ledger_daily_mileage`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆每日里程' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
+-- Table structure for ledger_employee_attendance
+-- ----------------------------
+DROP TABLE IF EXISTS `ledger_employee_attendance`;
+CREATE TABLE `ledger_employee_attendance`  (
+  `id` int NOT NULL AUTO_INCREMENT COMMENT '序列号',
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '企业ID',
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆ID',
+  `vehicle_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆名称',
+  `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌',
+  `imei` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '终端唯一码',
+  `swipe_time` datetime NOT NULL COMMENT '事件时间',
+  `card_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '刷卡的唯一标识',
+  `emp_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '工号',
+  `emp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '姓名',
+  `lng` decimal(11, 6) NOT NULL DEFAULT 0.000000 COMMENT '经度',
+  `lat` decimal(11, 6) NOT NULL DEFAULT 0.000000 COMMENT '纬度',
+  `fence_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '围栏ID',
+  `fence_name` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '围栏名称',
+  `fence_status` smallint NULL DEFAULT NULL COMMENT '1 围栏内 2围栏外 100定位无效',
+  `distance_meters` decimal(10, 0) NULL DEFAULT NULL COMMENT '最近围栏多少米',
+  `previous_record_id` int NULL DEFAULT NULL COMMENT '上一条关联记录ID',
+  `previous_swipe_time` datetime NULL DEFAULT NULL COMMENT '7天内上一次刷卡时间',
+  `boarding_type` smallint NOT NULL DEFAULT 1 COMMENT '1 上车 2下车 100重复刷卡',
+  `abnormal_type` smallint NOT NULL DEFAULT 0 COMMENT '是否重复记录',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`, `swipe_time`) USING BTREE,
+  INDEX `idx_time`(`organize_id` ASC, `swipe_time` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '员工刷卡考勤记录' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
 -- Table structure for ledger_parking
 -- ----------------------------
 DROP TABLE IF EXISTS `ledger_parking`;
@@ -1158,17 +1189,23 @@ CREATE TABLE `ledger_trip_index`  (
   `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌',
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '企业ID',
   `cursor_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '行程分析时间点游标',
-  `first_acc_on_id` bigint NOT NULL DEFAULT 0 COMMENT '行程开始坐标ID, 0行驶中',
-  `last_acc_on_id` bigint NOT NULL DEFAULT 0 COMMENT '行程之后一个acc on的ID',
-  `last_acc_on_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '最后一个ACC ON的时间',
-  `last_position_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '最后一个坐标包的时间',
-  `last_position_id` bigint NOT NULL DEFAULT 0 COMMENT '最后一个坐标包的ID',
-  `last_trip_end_id` bigint NOT NULL DEFAULT 0 COMMENT '最后行程的结束点, 也就是停车的开始点',
-  `last_trip_end_oil` decimal(11, 1) NOT NULL DEFAULT 0.0 COMMENT '上一个行程结束时候的剩余油量L',
+  `last_position_id` bigint NOT NULL DEFAULT 0 COMMENT '最后解析的坐标包ID',
+  `last_position_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '最后解析的坐标包时间',
+  `vehicle_status` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '当前车辆状态(行程|停车)',
+  `first_acc_on_id` bigint NOT NULL DEFAULT 0 COMMENT '行程中 | 开始坐标ID',
+  `first_acc_on_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '行程中 | 开始时间',
+  `last_acc_on_id` bigint NOT NULL DEFAULT 0 COMMENT '行程中 | 持续更新坐标ID',
+  `last_acc_on_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '行程中 | 持续更新坐标时间',
+  `last_trip_end_id` bigint NOT NULL DEFAULT 0 COMMENT '停车中 | 行程结束ID=停车开始ID',
+  `last_trip_end_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '停车中 | 行程结束时间=停车开始时间',
+  `last_trip_end_oil` decimal(11, 1) NOT NULL DEFAULT 0.0 COMMENT '停车中 | 行程结束油耗=停车开始油耗',
+  `last_park_end_id` bigint NOT NULL DEFAULT 0 COMMENT '连续停车超过24小时分段, 最后一次ID',
+  `last_park_end_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '连续停车超过24小时分段, 最后一次时间',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `uk_imei`(`imei` ASC) USING BTREE
+  UNIQUE INDEX `uk_imei`(`imei` ASC) USING BTREE,
+  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '时间点的行程分析' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1407,6 +1444,13 @@ CREATE TABLE `order_contact_address`  (
   `to_organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接单组织ID',
   `form_organize_city_code` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '发单组织城市编码',
   `to_organize_city_code` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接单组织城市编码',
+  `departure_time` datetime NULL DEFAULT NULL COMMENT '出发签到时间',
+  `departure_lat` decimal(11, 6) NULL DEFAULT NULL COMMENT '出发签到经纬度',
+  `departure_lng` decimal(11, 6) NULL DEFAULT NULL COMMENT '出发签到经纬度',
+  `arrival_time` datetime NULL DEFAULT NULL COMMENT '到达客户现场签到时间',
+  `arrival_lat` decimal(11, 6) NULL DEFAULT NULL COMMENT '到达客户现场经纬度',
+  `arrival_lng` decimal(11, 6) NULL DEFAULT NULL COMMENT '到达客户现场经纬度',
+  `travel_distance_km` double(11, 1) NULL DEFAULT NULL COMMENT '驾驶员行程距离km',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -1499,9 +1543,12 @@ CREATE TABLE `order_master`  (
   `order_category` smallint UNSIGNED NOT NULL DEFAULT 0 COMMENT '0默认 10内部单 20外部指定服务商 30外部议价单',
   `order_status` smallint NOT NULL DEFAULT 0 COMMENT '订单状态',
   `order_describe` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '安装或者维修信息',
-  `lpn` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌号',
+  `lpn` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车牌号',
   `vin` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT 'VIN',
+  `vehicle_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '车辆表ID',
   `vehicle_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '车辆类型',
+  `company_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '客户公司ID',
+  `company_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '客户公司名称',
   `expected_date` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '预约日期',
   `expected_time` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '预约时间段',
   `time_zone` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '+08:00' COMMENT '时区',
@@ -1514,8 +1561,9 @@ CREATE TABLE `order_master`  (
   `distribute_user_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接单用户名称',
   `distribute_phone` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接单用户名称',
   `engineer_confirm_time` datetime NULL DEFAULT NULL COMMENT '工程师确认时间',
-  `working_start_time` datetime NULL DEFAULT NULL COMMENT '开始工作时间',
-  `working_finish_time` datetime NULL DEFAULT NULL COMMENT '结束工作时间',
+  `working_start_time` datetime NULL DEFAULT NULL COMMENT '工程师出发签到时间',
+  `working_arrival_time` datetime NULL DEFAULT NULL COMMENT '工程师抵达客户现场签到时间',
+  `working_finish_time` datetime NULL DEFAULT NULL COMMENT '工程师交单时间',
   `order_acceptance_time` datetime NULL DEFAULT NULL COMMENT '签单时间',
   `order_cancel_time` datetime NULL DEFAULT NULL COMMENT '取消时间',
   `warning_state` smallint NOT NULL DEFAULT 0 COMMENT '工单预警状态 0正常 1派单超时 2接单超时 3交单超时 4签单超时',
@@ -1587,6 +1635,7 @@ CREATE TABLE `order_optional_info`  (
   `attached_info` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '其他可选信息(省得老加字段)',
   `photo_requirements` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片模板可选信息',
   `device_items` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '安装产品',
+  `attachment_imgs` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '附件图片',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -1928,7 +1977,7 @@ CREATE TABLE `organize_device`  (
   `id` int NOT NULL AUTO_INCREMENT COMMENT '车辆上安装的设备列表',
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
   `organize_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织全名',
-  `device_imei` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
+  `device_imei` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 过渡32, 实际很多表都还是16',
   `device_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备唯一码, 32',
   `product_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类型ID',
   `product_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '设备类型名称',
@@ -1947,6 +1996,8 @@ CREATE TABLE `organize_device`  (
   `last_disconnect_time` datetime NULL DEFAULT NULL COMMENT '最后断开时间',
   `last_gps_time` datetime NULL DEFAULT NULL COMMENT '最后GPS时间',
   `last_gps_mileage` decimal(11, 3) NULL DEFAULT NULL COMMENT '最后GPS时间',
+  `last_bind_time` datetime NULL DEFAULT NULL COMMENT '第一次绑定车辆时间',
+  `company_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '账号归属公司',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建者ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
@@ -2095,7 +2146,7 @@ CREATE TABLE `organize_fence`  (
   `center_lng` decimal(10, 6) NOT NULL COMMENT '中心点经纬度',
   `icon` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图标索引',
   `img_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '图片',
-  `fence_points` varchar(4096) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路径点 [{lat1,lng1,r1},{lat2,lng2, r2}]',
+  `fence_points` varchar(10240) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '路径点 [{lat1,lng1,r1},{lat2,lng2, r2}]',
   `fence_option` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '自定义样式，json字符串',
   `is_share` tinyint NOT NULL DEFAULT 0 COMMENT '企业内共享 0私有 1公用',
   `geocoding_ignore` smallint(6) UNSIGNED ZEROFILL NULL DEFAULT NULL COMMENT '忽略地址解析 0可用 1忽略',
@@ -2236,12 +2287,32 @@ CREATE TABLE `organize_fleet`  (
   `category` int NOT NULL DEFAULT 0 COMMENT '0 默认 1总公司 2分公司 3车队 4调度站 100调度中心 200其他',
   `sort_id` int NULL DEFAULT 100,
   `remark` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `attributes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '附加属性JSON',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建用户ID',
   `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建用户ID',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `idx_fleet_id`(`organize_id` ASC, `fleet_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车队管理' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for organize_fleet_fence
+-- ----------------------------
+DROP TABLE IF EXISTS `organize_fleet_fence`;
+CREATE TABLE `organize_fleet_fence`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '组织ID',
+  `fleet_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '公司或者车队ID',
+  `fence_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '围栏ID',
+  `parking_num` int UNSIGNED NULL DEFAULT NULL COMMENT '停车数量; 若为空, 则依据车队下面的车辆结构, 自动计算一个数量',
+  `parking_categorize` smallint NULL DEFAULT 0 COMMENT '0=停车场+办公场所 1=停车场 2=办公场所 100废弃',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建用户ID',
+  `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '创建用户名称',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `uk_fleet_fence`(`organize_id` ASC, `fleet_id` ASC, `fence_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车队管理' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -2697,6 +2768,7 @@ DROP TABLE IF EXISTS `organize_safety_config`;
 CREATE TABLE `organize_safety_config`  (
   `id` int UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主动安全报警',
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '企业ID',
+  `company_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '公司ID, 公司配置优先, 找不到读取组织的配置',
   `alarm_type` int NOT NULL DEFAULT 0 COMMENT '报警/事件类型',
   `platform_alarm_id` int NULL DEFAULT 0 COMMENT '平台统一报警id',
   `reduce_score1` decimal(11, 1) NOT NULL DEFAULT 0.0 COMMENT '一级违规扣分多少',
@@ -2706,6 +2778,28 @@ CREATE TABLE `organize_safety_config`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_organize_id`(`organize_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '主动安全配置' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for organize_service_route
+-- ----------------------------
+DROP TABLE IF EXISTS `organize_service_route`;
+CREATE TABLE `organize_service_route`  (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织ID',
+  `service_route_id` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '服务线路ID',
+  `service_route_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '线路名称',
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '描述',
+  `plan_time` datetime NULL DEFAULT NULL COMMENT '规划时间',
+  `points` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT '路径点坐标，JSON数组 [{lat,lng},...]',
+  `waypoints` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '途径点信息，JSON数组 [{lat,lng,fence_id,fleet_id,name},...]',
+  `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建用户ID',
+  `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '创建用户名称',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `idx_organize_id`(`organize_id` ASC) USING BTREE,
+  INDEX `idx_service_route_id`(`service_route_id` ASC) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '客户服务线路规划' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for organize_sim
@@ -2776,7 +2870,7 @@ CREATE TABLE `organize_vehicle`  (
   `io_config` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '车辆io状态对应关系配置',
   `remark` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
   `dlt` int NOT NULL DEFAULT 0 COMMENT 'DLT，0代表非DLT，1表是DLT',
-  `active` int NOT NULL DEFAULT 0 COMMENT '0表活动，1表等待(3 个月)，1表等待(6 个月),  3表过期，4表过期， 5表取消',
+  `active` int NOT NULL DEFAULT 0 COMMENT '0表活动，1表等待(3 个月)，2表等待(6 个月),  3表过期，4表过期， 5表取消，6表暂停',
   `purchase_method` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '购买方式设置',
   `auto_create_fence` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '围栏自动创建配置',
   `reminder_info` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '到期或离线回访记录',
@@ -2789,7 +2883,7 @@ CREATE TABLE `organize_vehicle`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `uk_lpn`(`organize_id` ASC, `lpn` ASC) USING BTREE,
-  INDEX `idx_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
+  UNIQUE INDEX `uk_vehicle`(`organize_id` ASC, `vehicle_id` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '车辆档案' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -3186,11 +3280,12 @@ CREATE TABLE `system_open_platform`  (
   `white_list` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'API请求白名单, | 分割',
   `minute_request_frequency` int NULL DEFAULT 60 COMMENT '每分钟允许请求次数',
   `third_organize_code` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '第三方组织ID，方便回调',
+  `last_ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后IP',
+  `last_time` datetime NULL DEFAULT NULL COMMENT '最后时间',
+  `all_organize` smallint NULL DEFAULT 0 COMMENT '作用域: 0=当前组织  1=所有组织',
   `remark` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注',
   `creator_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者(发单者)',
   `creator_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT '' COMMENT '创建者(发单者)',
-  `last_ip` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '最后IP',
-  `last_time` datetime NULL DEFAULT NULL COMMENT '最后时间',
   `created_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
   `updated_unix` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
@@ -3741,16 +3836,18 @@ CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_engineer` 
 -- ----------------------------
 DROP VIEW IF EXISTS `view_organize_member`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_member` AS select `user_organize`.`id` AS `id`,`user_organize`.`organize_id` AS `organize_id`,`user_info`.`user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_organize`.`nick_name` AS `nick_name`,`user_organize`.`permission_actions` AS `permission_actions`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`role_id` AS `role_id`,`user_info`.`is_engineer` AS `is_engineer`,`user_info`.`is_admin` AS `is_admin`,`user_organize`.`company_id` AS `company_id` from (`user_organize` join `user_info`) where ((`user_info`.`user_id` = `user_organize`.`user_id`) and (`user_info`.`is_deleted` = 0)) order by `user_info`.`account`;
+
 -- ----------------------------
 -- View structure for view_organize_user
 -- ----------------------------
 DROP VIEW IF EXISTS `view_organize_user`;
 CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_organize_user` AS select `view_organize_user`.`id` AS `id`,`view_organize_user`.`organize_id` AS `organize_id`,`view_organize_user`.`user_id` AS `user_id`,`view_organize_user`.`user_name` AS `user_name`,`view_organize_user`.`nick_name` AS `nick_name`,`view_organize_user`.`account` AS `account`,`view_organize_user`.`custom_avatar` AS `custom_avatar`,`view_organize_user`.`full_name` AS `full_name`,`view_organize_user`.`creator_id` AS `creator_id`,`view_organize_user`.`expire_time` AS `expire_time`,`view_organize_user`.`member_role` AS `member_role`,`view_organize_user`.`member_role_value` AS `member_role_value`,`view_organize_user`.`role_id` AS `role_id`,`view_organize_user`.`role_name` AS `role_name`,`view_organize_user`.`tree_model` AS `tree_model`,`view_organize_user`.`company_id` AS `company_id`,`view_organize_user`.`last_time` AS `last_time`,`view_organize_user`.`choose` AS `choose` from (select `user_organize`.`id` AS `id`,`user_organize`.`organize_id` AS `organize_id`,`user_info`.`user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_organize`.`nick_name` AS `nick_name`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_info`.`creator_id` AS `creator_id`,`user_organize`.`expire_time` AS `expire_time`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`member_role_value` AS `member_role_value`,`user_organize`.`role_id` AS `role_id`,`organize_role`.`role_name` AS `role_name`,`user_organize`.`tree_model` AS `tree_model`,`user_organize`.`company_id` AS `company_id`,`user_organize`.`last_time` AS `last_time`,1 AS `choose` from ((`user_organize` join `user_info`) left join `organize_role` on(((`user_organize`.`organize_id` = `organize_role`.`organize_id`) and (`user_organize`.`role_id` = `organize_role`.`role_id`)))) where ((`user_info`.`user_id` = `user_organize`.`user_id`) and (`user_info`.`is_deleted` = 0)) union all select -(`user_organize_invite`.`id`) AS `id`,`user_organize_invite`.`organize_id` AS `organize_id`,`user_organize_invite`.`invite_user_id` AS `user_id`,`user_info`.`user_name` AS `user_name`,`user_info`.`user_name` AS `nick_name`,`user_info`.`account` AS `account`,`user_info`.`custom_avatar` AS `custom_avatar`,`user_info`.`full_name` AS `full_name`,`user_info`.`creator_id` AS `creator_id`,NULL AS `expire_time`,`user_organize_invite`.`member_role` AS `member_role`,0 AS `member_role_value`,'' AS `role_id`,'' AS `role_name`,0 AS `tree_model`,'' AS `company_id`,NULL AS `last_time`,`user_organize_invite`.`invite_user_choose` AS `choose` from (`user_organize_invite` join `user_info`) where ((`user_organize_invite`.`invite_user_choose` = 0) and (`user_info`.`user_id` = `user_organize_invite`.`invite_user_id`) and (`user_info`.`is_deleted` = 0))) `view_organize_user` order by `view_organize_user`.`account`;
+
 -- ----------------------------
 -- View structure for view_user_organize
 -- ----------------------------
 DROP VIEW IF EXISTS `view_user_organize`;
-CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user_organize` AS select `user_organize`.`id` AS `id`,`user_organize`.`user_id` AS `user_id`,`user_organize`.`role_id` AS `role_id`,`organize_role`.`role_name` AS `role_name`,`user_organize`.`expire_time` AS `expire_time`,`organize_info`.`organize_id` AS `organize_id`,`organize_info`.`organize_name` AS `organize_name`,`organize_info`.`domain_name` AS `domain_name`,`organize_info`.`short_name` AS `short_name`,`organize_info`.`custom_avatar` AS `custom_avatar`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`permission_actions` AS `permission_actions`,`organize_info`.`follow_organize_id` AS `follow_organize_id`,`organize_info`.`follow_organize_name` AS `follow_organize_name` from ((`user_organize` join `organize_info`) left join `organize_role` on(((`user_organize`.`organize_id` = `organize_role`.`organize_id`) and (`user_organize`.`role_id` = `organize_role`.`role_id`)))) where (`organize_info`.`organize_id` = `user_organize`.`organize_id`) order by `user_organize`.`id`;
+CREATE ALGORITHM = UNDEFINED SQL SECURITY DEFINER VIEW `view_user_organize` AS select `user_organize`.`id` AS `id`,`user_organize`.`user_id` AS `user_id`,`user_organize`.`role_id` AS `role_id`,`organize_role`.`role_name` AS `role_name`,`user_organize`.`expire_time` AS `expire_time`,`organize_info`.`organize_id` AS `organize_id`,`organize_info`.`organize_name` AS `organize_name`,`organize_info`.`domain_name` AS `domain_name`,`organize_info`.`short_name` AS `short_name`,`organize_info`.`custom_avatar` AS `custom_avatar`,`user_organize`.`member_role` AS `member_role`,`user_organize`.`permission_actions` AS `permission_actions`,`organize_info`.`follow_organize_id` AS `follow_organize_id`,`organize_info`.`follow_organize_name` AS `follow_organize_name`,`user_organize`.`company_id` AS `company_id`,`organize_fleet`.`fleet_name` AS `company_name` from (((`user_organize` join `organize_info`) left join `organize_role` on(((`user_organize`.`organize_id` = `organize_role`.`organize_id`) and (`user_organize`.`role_id` = `organize_role`.`role_id`)))) left join `organize_fleet` on(((`user_organize`.`organize_id` = `organize_fleet`.`organize_id`) and (`user_organize`.`company_id` = `organize_fleet`.`fleet_id`)))) where (`organize_info`.`organize_id` = `user_organize`.`organize_id`) order by `user_organize`.`id`;
 
 -- ----------------------------
 -- Procedure structure for CleanupBatchData
