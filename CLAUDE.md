@@ -97,6 +97,8 @@ When a pull request changes the following version variables in `default.env` / `
 - `BUS_GATEWAY_VERSION` — check `mysql8/initdb/03-cbus-init-table.sql` and `mysql8/initdb/04-cbus-init-data.sql`.
 - `TRACK_MAINTAIN_VERSION` — check `mysql8/initdb/01-maintain-init-table.sql` and `mysql8/initdb/02-maintain-init-data.sql`.
 
+When either `default.env` or `default.en.env` is modified, the reviewer must check that the other file is updated in sync. The two files are Chinese and English templates for the same environment variables; version bumps, port changes, and new variables must be mirrored in both.
+
 If the SQL init files are modified, run `node scripts/check-init-sql.js` to catch column/value mismatches. Any compose change must pass `docker compose config`.
 
 These rules are also encoded in `.github/pull_request_template.md`.
