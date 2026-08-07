@@ -6,6 +6,7 @@ services:
       - ${DATA_DIR:-/data}/files:/data/files
       - ${DATA_DIR:-/data}/logs/gateway_808_2019:/logs
     environment:
+      - TZ=Asia/Shanghai
       - gateway_ip=${JTT808_IP:?required}
       - gateway_port=${JTT808_PORT}
       - gateway_type=bus-gps
@@ -61,6 +62,7 @@ services:
       # 内部端口, 不暴露
       # - 8899:8899
     environment:
+      - TZ=Asia/Shanghai
       - DYNAMIC_TABLE=TRUE
       - STORAGE_ACTIVE=TRUE
       - SPRING_SERVLET_MULTIPART_MAX-FILE-SIZE=100MB
@@ -113,6 +115,7 @@ services:
       - redis
       - rabbitmq
     environment:
+      - TZ=Asia/Shanghai
       - DYNAMIC_TABLE=TRUE
       # DB
       - SPRING_DATASOURCE_URL=jdbc:mysql://${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}/cbus?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
@@ -157,6 +160,7 @@ services:
       - "${DATA_DIR:-/data}/logs/jsatl12:/logs"
       - "${DATA_DIR:-/data}/files/alarm:/data/files/alarm"
     environment:
+      - TZ=Asia/Shanghai
       - gateway_expire_days=16
       - gateway_port=${JTT808_PORT_FILE}
       # REDIS
