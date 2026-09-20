@@ -432,11 +432,13 @@ CREATE TABLE `jtt808_card`  (
   `magnetic_card` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '泰国磁条卡唯一ID',
   `emp_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '员工工号',
   `emp_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '员工姓名',
+  `additional` json NULL COMMENT '签到签退区间轨迹统计',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`, `event_time`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `event_time` ASC) USING BTREE,
-  INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE
+  INDEX `idx_car_time`(`organize_id` ASC, `vehicle_id` ASC, `event_time` ASC) USING BTREE,
+  INDEX `idx_card_match`(`organize_id` ASC, `vehicle_id` ASC, `card_id` ASC, `event_time` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备刷卡记录' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
@@ -1165,7 +1167,7 @@ CREATE TABLE `ledger_timeline`  (
   `time_zone` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '开始时间对应的时区',
   `start_time` datetime NOT NULL COMMENT '开始时间',
   `end_time` datetime NOT NULL COMMENT '结束时间',
-  `flag` smallint NOT NULL DEFAULT 0 COMMENT '标识 1上线 2下线 10=补传11=轨迹不连续 12=漂移',
+  `flag` smallint NOT NULL DEFAULT 0 COMMENT '标识 1上线 2下线 10=补传 11=轨迹不连续 12=漂移 13=加油',
   `duration_second` int NOT NULL DEFAULT 0 COMMENT '时长',
   `num` int NULL DEFAULT 0 COMMENT '定位包数量',
   `additional` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '附加数据',
@@ -1174,8 +1176,34 @@ CREATE TABLE `ledger_timeline`  (
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `idx_time`(`organize_id` ASC, `vehicle_id` ASC, `start_time` ASC) USING BTREE,
-  INDEX `idx_date`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC) USING BTREE
+  INDEX `idx_date`(`organize_id` ASC, `work_date` ASC, `vehicle_id` ASC) USING BTREE,
+  INDEX `idx_flag_time`(`organize_id` ASC, `vehicle_id` ASC, `flag` ASC, `start_time` ASC) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '设备时间线' ROW_FORMAT = DYNAMIC;
+
+-- ----------------------------
+-- Table structure for ledger_trip_driver_segment
+-- ----------------------------
+DROP TABLE IF EXISTS `ledger_trip_driver_segment`;
+CREATE TABLE `ledger_trip_driver_segment` (
+  `id` bigint NOT NULL AUTO_INCREMENT COMMENT '序列号',
+  `organize_id` varchar(32) NOT NULL DEFAULT '' COMMENT '企业ID',
+  `vehicle_id` varchar(32) NOT NULL DEFAULT '' COMMENT '车辆ID',
+  `trip_id` bigint NOT NULL COMMENT '车辆行程ID',
+  `segment_no` int NOT NULL COMMENT '行程内区段序号',
+  `emp_id` varchar(32) NOT NULL COMMENT '驾驶员工号',
+  `driver_name` varchar(64) NOT NULL DEFAULT '' COMMENT '驾驶员姓名快照',
+  `start_time` datetime NOT NULL COMMENT '驾驶开始时间',
+  `end_time` datetime NOT NULL COMMENT '驾驶结束时间',
+  `driving_seconds` int NOT NULL DEFAULT 0 COMMENT '驾驶时长秒',
+  `trip_mileage` decimal(11,3) NOT NULL DEFAULT 0 COMMENT '驾驶里程Km',
+  `over_speed` int NOT NULL DEFAULT 0 COMMENT '区段内超速次数',
+  `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_trip_segment` (`organize_id`,`trip_id`,`segment_no`),
+  KEY `idx_org_time_driver` (`organize_id`,`start_time`,`emp_id`),
+  KEY `idx_vehicle_time` (`organize_id`,`vehicle_id`,`start_time`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='驾驶员行程区段';
 
 -- ----------------------------
 -- Table structure for ledger_trip_index
@@ -3626,22 +3654,26 @@ CREATE TABLE `user_issue`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户意见反馈' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Table structure for user_line_config
+-- Table structure for user_third_notify_config
 -- ----------------------------
-DROP TABLE IF EXISTS `user_line_config`;
-CREATE TABLE `user_line_config`  (
+DROP TABLE IF EXISTS `user_third_notify_config`;
+CREATE TABLE `user_third_notify_config` (
   `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '自增长ID',
+  `notify_config_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT '通知配置唯一ID',
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
-  `line_token` varchar(43) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'linenotify发送消息的token',
-  `token_name` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'token的名称，用来标识区分用途等',
-  `target_type` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'linenotify接收方种类：USER个人或GROUP群组',
-  `target` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'linenotify接收方的名称: 个人昵称或群组名称',
-  `is_active` int NOT NULL DEFAULT 0 COMMENT '有效标识 0 无效 1 有效',
+  `notify_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '第三方通知类型：LINE、TELEGRAM',
+  `token` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL COMMENT 'Provider完整Token',
+  `remark` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '备注',
+  `target_type` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接收目标类型：USER、GROUP',
+  `target_id` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT 'Provider接收目标ID',
+  `target_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '接收目标名称',
+  `is_active` int NOT NULL DEFAULT 0 COMMENT '有效标识 0无效/待绑定 1有效',
   `created_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间戳',
   `updated_unix` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `user_line_config_user_id_IDX`(`user_id` ASC, `line_token` ASC) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户LINE平台Token配置' ROW_FORMAT = DYNAMIC;
+  UNIQUE KEY `uk_notify_config_id` (`notify_config_id`) USING BTREE,
+  UNIQUE KEY `uk_user_notify_type_token` (`user_id`, `notify_type`, `token`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户第三方通知凭据配置';
 
 -- ----------------------------
 -- Table structure for user_notification
@@ -3746,7 +3778,7 @@ CREATE TABLE `user_subscribe_config`  (
   `organize_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '组织ID',
   `user_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
   `channel_key` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '订阅的频道：平台到期PLATFORM_EXPIRATION 保养到期MAINTAIN_EXPIRATION',
-  `notify_pipe` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '订阅通知渠道： EMAIL、PLATFORM、LINE',
+  `notify_pipe` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '订阅通知渠道： EMAIL、PLATFORM、THIRD',
   `notify_config` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '通知渠道可选配置json对象，方便扩展',
   `is_enabled` int NOT NULL DEFAULT 0 COMMENT '启用标识 0 禁用 1 启用',
   `lang` varchar(16) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'zh-CN' COMMENT '模板多言',
