@@ -1226,6 +1226,7 @@ CREATE TABLE `ledger_trip_index`  (
   `last_acc_on_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '行程中 | 持续更新坐标时间',
   `last_trip_end_id` bigint NOT NULL DEFAULT 0 COMMENT '停车中 | 行程结束ID=停车开始ID',
   `last_trip_end_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '停车中 | 行程结束时间=停车开始时间',
+  `last_trip_end_mileage` decimal(11, 3) NULL DEFAULT NULL COMMENT '停车中 | 上一笔行程结束里程Km',
   `last_trip_end_oil` decimal(11, 1) NOT NULL DEFAULT 0.0 COMMENT '停车中 | 行程结束油耗=停车开始油耗',
   `last_park_end_id` bigint NOT NULL DEFAULT 0 COMMENT '连续停车超过24小时分段, 最后一次ID',
   `last_park_end_time` datetime NOT NULL DEFAULT '1970-01-01 00:00:00' COMMENT '连续停车超过24小时分段, 最后一次时间',
