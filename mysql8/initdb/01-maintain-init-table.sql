@@ -1203,7 +1203,7 @@ CREATE TABLE `ledger_trip_driver_segment` (
   UNIQUE KEY `uk_trip_segment` (`organize_id`,`trip_id`,`segment_no`),
   KEY `idx_org_time_driver` (`organize_id`,`start_time`,`emp_id`),
   KEY `idx_vehicle_time` (`organize_id`,`vehicle_id`,`start_time`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='驾驶员行程区段';
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '驾驶员行程区段' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Table structure for ledger_trip_index
