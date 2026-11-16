@@ -244,6 +244,14 @@ INSERT INTO `maintain`.`system_msg_template` VALUES (16,'ORDER_NEW_BATCH', 30, '
 INSERT INTO `maintain`.`system_msg_template` VALUES (17,'APPLY_JOIN_GROUP', 30, '申请加入组织', 'Apply to join the organization', 'Apply to join the organization', 'Daftar untuk bergabung dengan organisasi', NULL, NULL, '{0} 申请加入组织 {1}, 请您关注并及时处理。', '{0} applied to join the organization {1}, please pay attention and process it in time.', '{0} applied to join the organization {1}, please pay attention and process it in time.', '{0} mengajukan permohonan untuk bergabung dengan organisasi {1}, mohon diperhatikan dan diproses tepat waktu.', NULL, NULL, NULL, NULL, NULL, '极光', 'organize', '组织要求成员加入自己组织', 0, 0, '2022-11-14 08:13:57', '2025-04-07 02:58:13');
 INSERT INTO `maintain`.`system_msg_template` VALUES (18,'INVITE_JOIN_GROUP', 30, '组织邀请', 'Organization invitation', 'Organization invitation', 'Undangan organisasi', NULL, NULL, '{0} 邀请您加入组织 {1}, 请您关注并及时处理。', '{0} invites you to join the organization {1}, please pay attention and handle it in time.', '{0} invites you to join the organization {1}, please pay attention and handle it in time.', '{0} mengundang Anda untuk bergabung dengan organisasi {1}, mohon perhatikan dan tangani tepat waktu.', NULL, NULL, NULL, NULL, NULL, '极光', 'organize', '组织要求成员加入自己组织', 0, 0, '2022-11-14 08:40:10', '2025-04-07 02:58:13');
 
+-- ----------------------------
+-- Records of system_repo
+-- ----------------------------
 
+INSERT INTO maintain.system_repo VALUES (1, 'agreement', '协议', '用户协议', 'agreement', 0, 0, 0, 0, '2022-11-04 05:52:22', '2022-11-15 08:27:39');
+INSERT INTO maintain.system_repo VALUES (2, 'guide', '引导', '引导', 'guide', 0, 0, 0, 0, '2022-11-15 08:27:25', '2022-11-15 08:31:40');
+INSERT INTO maintain.system_repo VALUES (3, 'help', '帮助', '常见问题意见与建议', 'help', 0, 0, 1, 0, '2022-08-10 05:50:08', '2023-02-11 05:40:25');
+INSERT INTO maintain.system_repo VALUES (4, 'manual', '说明书', '厂家设备安装维护说明书', 'manual', 0, 0, 1, 0, '2022-08-10 05:50:08', '2022-11-15 08:55:04');
+INSERT INTO maintain.system_repo VALUES (5, 'learning', '学习培训', '学习培训资料', 'learning', 0, 0, 1, 0, '2022-08-10 05:50:08', '2022-11-15 08:55:04');
 
 SET FOREIGN_KEY_CHECKS = 1;
