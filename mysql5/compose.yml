@@ -1,0 +1,20 @@
+services:
+  mysql5:
+    image: transcodegroup/mysql
+    restart: always
+    ports:
+      # mysql5数据库仅用于测试对老数据库的兼容性, 故暴露的端口写死成3305, 不使用环境变量
+      - 3305:3306
+    volumes:
+      - ${DATA_DIR:-/data}/mysql5/data:/var/lib/mysql
+      - ${DATA_DIR:-/data}/mysql5/logs:/var/log/mysql
+      - ${DATA_DIR:-/data}/mysql5/backup/database:/mysql/backup/database
+      - ${DATA_DIR:-/data}/mysql5/backup/log:/mysql/backup/log
+    environment:
+      # 设置密码
+      - MYSQL_ROOT_PASSWORD=${MYSQL_PASSWORD:?required}
+    logging: 
+      driver: "json-file"
+      options:
+        # 限制日志文件大小
+        max-size: "100m"
